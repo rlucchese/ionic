@@ -138,10 +138,7 @@ dist
 
 # Ignorar todas as pastas chamadas ngmodules em qualquer nível
 **/node_modules/
-**/android/
 **/.angular*/
-**/ios/
-**/ios*/
 **/src.*/
 **/src_*/
 **/src /

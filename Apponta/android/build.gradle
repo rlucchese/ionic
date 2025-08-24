@@ -1,0 +1,90 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+task printJvmTargets {
+    group = "verification"
+    description = "Lista JVM Target de todas as tasks Kotlin e Java em cada módulo"
+
+    doLast {
+        println("Módulo\t\tKotlin jvmTarget\tJava Release")
+        println("------------------------------------------------------")
+        subprojects.each { proj ->
+            def kotlinTargets = proj.tasks.withType(KotlinCompile).collect { it.kotlinOptions.jvmTarget }.unique()
+            def javaTargets = []
+            if (proj.plugins.hasPlugin("com.android.library") || proj.plugins.hasPlugin("com.android.application")) {
+                def androidExt = proj.extensions.findByName("android")
+                if (androidExt != null) {
+                    javaTargets << androidExt.compileOptions.sourceCompatibility
+                }
+            }
+            println("${proj.name}\t\t${kotlinTargets.join(", ")}\t${javaTargets.join(", ")}")
+        }
+    }
+}
+
+
+
+
+
+// build.gradle (raiz)
+allprojects {
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+        kotlinOptions {
+            jvmTarget = "17"
+        }
+    }
+
+    plugins.withId("com.android.library") {
+        android {
+            compileOptions {
+                sourceCompatibility JavaVersion.VERSION_17
+                targetCompatibility JavaVersion.VERSION_17
+            }
+        }
+    }
+
+    plugins.withId("com.android.application") {
+        android {
+            compileOptions {
+                sourceCompatibility JavaVersion.VERSION_17
+                targetCompatibility JavaVersion.VERSION_17
+            }
+        }
+    }
+}
+
+buildscript {
+    
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    ext.kotlin_version =  '2.0.10'
+
+    dependencies {
+        classpath 'com.google.gms:google-services:4.3.10'
+        classpath 'com.android.tools.build:gradle:8.12.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.10"
+
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+
+}
+
+apply from: "variables.gradle"
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+
+    }
+
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

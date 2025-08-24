@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Grape Factory</string>
+    <string name="title_activity_main">Grape Factory</string>
+    <string name="package_name">br.app.grape</string>
+    <string name="custom_url_scheme">br.app.grape</string>
+</resources>
