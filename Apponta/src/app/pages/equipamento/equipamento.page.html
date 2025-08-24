@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title color="primary">Equipamentos</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancela()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="arrow-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="carrega()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="refresh-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-item class="itemSemBorda">
+  <ion-searchbar
+  style="border-top: 5px"
+  placeholder="Buscar equipamento"
+  (ionChange)="busca($event)"
+></ion-searchbar>
+<ion-badge *ngIf="this.centrosCusto" slot="end">
+  {{this.centrosCusto.length}}
+</ion-badge>
+</ion-item>
+
+</ion-header>
+
+<ion-content>
+  <ion-item *ngIf="this.centrosCusto?.length == 0 ">Nenhum item encontrado</ion-item>
+
+  <ion-list *ngFor="let centro of centrosCusto">
+    <ion-list-header color="primary">{{ centro.descricao }}</ion-list-header>
+    <ion-item class="itemSelecao" *ngFor="let equ of centro.equipamentos" (click)="seleciona(equ)">
+      <ion-label class="ion-text-wrap">{{equ.descricao}}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!--<ion-list>
+    <ion-card *ngFor="let centro of centros" >
+      <ion-list-header>
+        <ion-title class="ion-text-wrap">{{centro.descricao}}</ion-title>
+      </ion-list-header>
+      <ion-item class="itemCard" *ngFor="let equ of centro.equipamentos" (click)="seleciona(equ)">
+          <ion-title class="titulo"> {{equ.descricao}}</ion-title>
+        <ion-badge slot="end">{{equ.qtdOperacoes}}</ion-badge>  
+           <ion-button slot="end" fill='clear'>
+             <ion-icon slot="icon-only" name="add"></ion-icon>
+           </ion-button>  
+      </ion-item>
+    </ion-card>
+  </ion-list>-->
+</ion-content>

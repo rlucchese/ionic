@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Configurações</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goLogin()">
+        <ion-icon name="log-in"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <form #form="ngForm" (ngSubmit)="salva(form)">
+    <ion-input placeholder="Servidor" [(ngModel)]="_SERVER" name="_SERVER"></ion-input>
+    <ion-button type="submit" expand="block">Salvar</ion-button>
+  </form>
+
+</ion-content>

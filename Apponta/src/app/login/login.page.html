@@ -1,0 +1,100 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      <ion-img
+      [src]="db.urlLogo"
+      style="margin: auto; max-width: 250px"></ion-img>
+      </ion-title>
+    <ion-buttons slot="end">
+      <ion-button id="setup" (click)="setup()">
+        <ion-icon name="settings" color="primary"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<!--  <ion-grid>
+    <ion-row>   
+      <ion-col style='margin-top: 50px'>
+        <ion-img
+          [src]="db.urlLogo"
+          style="margin: auto; max-width: 250px"></ion-img>
+      </ion-col>
+    </ion-row>
+  </ion-grid>-->
+  <form *ngIf="!resetSenha" #form="ngForm" (ngSubmit)="login(form)">
+    <ion-grid>
+      <ion-row justify-content-center>
+        <ion-col align-self-center>
+          <ion-item class="itemSemBorda" style="margin-top: 30px">
+            <div>
+              <ion-input [(ngModel)]='email'
+                style="margin: auto"
+                name="email"
+                type="email"
+                placeholder="E-mail ou Usuário"
+                ngModel
+                required></ion-input>
+            </div>
+          </ion-item>
+          <ion-item class="itemSemBorda" style="margin-bottom: 30px">
+            <div style="width: 50%; margin: auto">
+              <ion-input
+                name="password"
+                type="password"
+                placeholder="Senha"
+                ngModel
+                required></ion-input>
+            </div>
+          </ion-item>
+          <ion-button class="btnEntrar"
+            size="large"
+            color="primary"
+            type="submit"
+            [disabled]="form.invalid"
+            expand="block">Entrar
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col style='font-size: x-small'>
+          v 2.5.36
+        </ion-col>
+        <ion-col style='text-align: right'>
+          <ion-label class='esqueciSenha' (click)="resetSenha = true">Esqueci minha senha</ion-label>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+  <form *ngIf="resetSenha" #form="ngForm" (ngSubmit)="esqueciSenha(form)">
+    <ion-grid>
+      <ion-row justify-content-center>
+        <ion-col align-self-center>
+          <ion-item class="itemSemBorda" style="margin-top: 30px">
+            <div>
+              <ion-input [(ngModel)]='email'
+                style="margin: auto"
+                name="email"
+                type="email"
+                placeholder="E-mail ou Usuário"
+                ngModel
+                required></ion-input>
+            </div>
+          </ion-item>
+          <ion-button class="btnResetaSenha"
+            size="large"
+            color="primary"
+            type="submit"
+            [disabled]="form.invalid"
+            expand="block">Recuperar senha
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col style='text-align: right'>
+          <ion-label class='esqueciSenha' (click)="resetSenha = false">Voltar</ion-label>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

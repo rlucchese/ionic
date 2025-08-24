@@ -1,0 +1,28 @@
+<form #form="ngForm">
+  <ion-item>
+    <ion-select [(ngModel)]="Form.itemFiltro" name="itemFiltro" interface="popover">
+      <ion-select-option *ngFor="let h of filtrosDef?.filters" [value]="h.id">{{h.label}}</ion-select-option>
+    </ion-select>
+
+    <ion-input width="50px" type="text" placeholder="Digite aqui seu filtro" [(ngModel)]="filterContent"
+      name="filterContent"></ion-input>
+
+    <ion-buttons slot="end">
+<!--      <ion-button (click)="addFilter()" shape="round">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>-->
+      <ion-chip *ngFor="let f of gridFilters">{{ f.label }}: {{ f.content }} <ion-icon name="close"
+          (click)="removeFiltro(gridFilters.indexOf(f))"> </ion-icon>
+      </ion-chip>
+      <ion-chip *ngIf="gridFilters.length > 1">
+        <ion-label>Limpar filtros</ion-label>
+        <ion-icon name="close" (click)="removeFiltro(-1)"></ion-icon>
+      </ion-chip>
+      <ion-button (click)="filtra(gridFilters)" shape="round">
+        <ion-icon name="search-outline"></ion-icon>
+      </ion-button>
+      <ion-badge *ngIf="this.quantidade > 0" slot="end" color="primary" mode="ios">{{this.quantidade}}</ion-badge>
+    </ion-buttons>
+
+  </ion-item>
+</form>

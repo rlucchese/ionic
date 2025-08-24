@@ -1,0 +1,158 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title color="primary">Agrupar</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancela()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="arrow-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="carrega()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="refresh-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <form [formGroup]="frmRepet">
+      <ion-grid>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <div class="itDados">
+              <ion-label>Repetições</ion-label>
+              <ion-input
+                type="number"
+                [(ngModel)]="qtdRepeticoes"
+                [ngModelOptions]="{standalone: true}"
+                min="0" [max]="this.qtdRepeticoes"
+                (change)="alteraQtdRepeticoes($event)"
+                autocomplete="nop"
+              ></ion-input>
+            </div>
+          </ion-col>
+          <ion-col>
+            <div class="itDados">
+              <ion-label>Descrição</ion-label>
+              <ion-input
+                type="text"
+                [(ngModel)]="descricao"
+                [ngModelOptions]="{standalone: true}"
+                autocomplete="nop"
+                required
+              ></ion-input>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </ion-toolbar>
+  <ion-button
+    class="btnEntrar"
+    size="large"
+    color="primary"
+    type="submit"
+    expand="block"
+    (click)="agrupar()"
+    >Agrupar
+  </ion-button>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="frmAgrupa">
+    <ion-list *ngIf="this.operacoes && this.operacoes.length > 0">
+      <ion-item *ngFor="let op of this.operacoes" class="itDados">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-label>Número da Ordem</ion-label>
+              <div>{{op.numeroOrdem}}</div>
+            </ion-col>
+            <ion-col>
+              <ion-label *ngIf="+op.quantidadeOrdem != +op.quantidade"
+                >Qtd Ordem</ion-label
+              >
+              <div *ngIf="+op.quantidadeOrdem != +op.quantidade">
+                {{op.quantidadeOrdem}}
+              </div>
+            </ion-col>
+            <ion-col>
+              <ion-label>Qtd Fabricar</ion-label>
+              <div>{{op.quantidade}}</div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col> </ion-col>
+            <ion-col>
+              <ion-label>Qtd por Rept</ion-label>
+              <ion-input
+                [disabled]="this.semProducao"
+                style="margin: auto"
+                type="number"
+                [(ngModel)]="op.quantidadeNaoConorme"
+                [ngModelOptions]="{standalone: true}"
+                (change)="alteraQteRepeticao(op,$event)"
+                min="0"
+                [max]="op.quantidade"
+                autocomplete="nop"
+              ></ion-input>
+            </ion-col>
+            <ion-col>
+              <ion-label>Qtd Agrupar</ion-label>
+              <ion-input
+                [disabled]="this.semProducao"
+                style="margin: auto"
+                type="number"
+                [(ngModel)]="op.quantidadeFabricada"
+                [ngModelOptions]="{standalone: true}"
+                (change)="alteraQtdFabricada(op,$event)"
+                min="0"
+                [max]="op.quantidade"
+                autocomplete="nop"
+              ></ion-input>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-label>Pedido</ion-label>
+              <div>{{op.numeroPedido}}</div>
+            </ion-col>
+            <ion-col>
+              <ion-label>Entrega</ion-label>
+              <div>{{op.entregaPedido | date: "dd/MM/yyyy"}}</div>
+            </ion-col>
+            <ion-col>
+              <ion-label>Cliente</ion-label>
+              <div>{{op.cliente}}</div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+
+    <!--    <ion-card *ngFor="let oper of operacoes">
+      <ion-grid class="ion-text-center">
+        <ion-label color="primary">OF - {{oper.numeroOrdem}}</ion-label><br />
+        <ion-label>{{oper.quantidadeOrdem}}</ion-label>
+        <ion-label>quantidade</ion-label>
+        <ion-input
+          style="margin: auto"
+          name="oper.quantidadeFabricada"
+          type="text"
+          (ngModel)="oper.quantidadeFabricada"
+          [value]="oper.quantidade"
+          placeholder="Qtd. Fab"
+          ngModel
+          required
+        ></ion-input>
+      </ion-grid>
+    </ion-card> -->
+  </form>
+</ion-content>

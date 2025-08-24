@@ -1,0 +1,23 @@
+<div (click)="seleciona(h)" *ngFor="let h of grapeItem">
+  <ion-card >
+    <ion-item >
+    
+      <ion-checkbox>
+        
+      </ion-checkbox>
+    <ion-title >{{h.title}} - {{h.subTitle}}</ion-title>
+<ion-buttons slot="end">
+  <ion-button (click)="objetoCadastro('_get',h.id)" size="small" fill="clear">
+    <ion-icon name="create-outline"></ion-icon>
+    
+  </ion-button>
+</ion-buttons>
+  </ion-item>
+  <div *ngIf="mostraDetalhe">
+  <ion-label > Dados da Cidade</ion-label>
+
+  <ion-label > textos diversos</ion-label>
+  </div>
+  </ion-card>
+
+</div>

@@ -1,0 +1,51 @@
+<ion-header>
+<ion-toolbar color="primary">
+  <ion-buttons slot="start">
+    <ion-menu-button></ion-menu-button>
+  </ion-buttons>
+  <ion-title *ngIf="this.tipo == 'altera'">Alterar Senha</ion-title>
+  <ion-title *ngIf="this.tipo == 'exclui'">Excluir Usuario </ion-title>
+
+  <ion-title size="small" slot="end"> {{ this.db.getUsuario() }}</ion-title>
+</ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="this.tipo == 'altera'"  padding>
+  <form #form="ngForm" (ngSubmit)="alteraSenha(form)">
+    <ion-grid>
+      <ion-row justify-content-center>
+        <ion-col align-self-center>
+
+          <ion-item class="itemSemBorda">
+            <div style="width: 50%; margin: auto">
+              <ion-input
+                name="password"
+                type="password"
+                placeholder="Nova Senha"
+                ngModel
+                required></ion-input>
+            </div>
+          </ion-item>
+          <ion-item class="itemSemBorda" style="margin-bottom: 30px">
+            <div style="width: 50%; margin: auto">
+              <ion-input
+                name="passwordConf"
+                type="password"
+                placeholder="Confirmação de Senha"
+                ngModel
+                required></ion-input>
+            </div>
+          </ion-item>
+          <ion-button class="btnEntrar"
+            size="large"
+            color="primary"
+            type="submit"
+            [disabled]="form.invalid"
+            expand="block">Trocar Senha
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+  
+</ion-content>

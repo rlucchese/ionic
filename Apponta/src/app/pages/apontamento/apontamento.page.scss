@@ -1,0 +1,56 @@
+@import 'material-icons/iconfont/material-icons.css';
+
+.btnSetup, .btnProducao, .btnParada, .btnFinalizar {
+    min-height: 140px;
+}
+
+.btnFinalizar {
+    background: #90A4AE;
+    color: black;
+}
+
+
+.itDados {
+    ion-label {
+        color: var(--ion-color-primary);
+        text-align: center;
+    }
+    div {
+        font-weight: bold;
+        text-align: center;
+    }
+}
+
+.botoes {
+    .btn {
+        width: 80%;
+        max-width: 600px;
+        min-width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    ion-icon {
+        --ionicon-stroke-width: 16px;
+        font-size: 1024px;
+    }
+}
+
+ion-chip {
+    color: white;
+    --background: var(--ion-color-primary)
+}
+
+.qtdAndamento {
+    color: var(--ion-color-primary);
+    --background: white;
+}
+
+.dtaApontados {
+    color: white;
+}
+
+ion-badge {
+    background-color:  var(--ion-color-danger);
+}

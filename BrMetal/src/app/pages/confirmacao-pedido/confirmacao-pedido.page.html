@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>confirmacaoPedido</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="floating">Condição Pagamento</ion-label>
+    <ion-input required [(ngModel)]="this.ped.dadosAuxiliares.condicaoPagamento" type="text" clear-on-edit=true
+      clearInput=true>
+    </ion-input>
+
+
+  </ion-item>
+  <ion-item>
+    <ion-label>Entrega Imediata</ion-label>
+    <ion-checkbox checked="true" color="primary" checked slot="start"
+      [(ngModel)]="this.ped.dadosAuxiliares.entregaImediata"></ion-checkbox>
+  </ion-item>
+  <ion-item *ngIf="!this.ped.dadosAuxiliares.entregaImediata">
+    <ion-label position="floating">Data de Entrega</ion-label>
+    <ion-input #data (ionBlur)="valida(this.ped.dadosAuxiliares.dataEntrega,$event)" debounce=5
+      [(ngModel)]="this.ped.dadosAuxiliares.dataEntrega" type="date" max="2100-12-31" clear-on-edit=true
+      clearInput=true></ion-input>
+
+  </ion-item>
+  <p *ngIf="erroData">Data Invalida</p>
+  <ion-item >
+    <ion-label>Frete </ion-label>
+    <ion-select [value]="2" (ngModelChange)="validaTransportadora()" [(ngModel)]="this.ped.dadosAuxiliares.tipoFrete">
+      <ion-select-option  value="1">CIF </ion-select-option>
+      <ion-select-option  value="2">FOB </ion-select-option>
+     
+    </ion-select>
+  </ion-item>
+  <ion-item *ngIf="this.ped.dadosAuxiliares.tipoFrete == '2'" >
+    <ion-label position="floating">Transportadora</ion-label>
+    <ion-input [(ngModel)]="this.ped.dadosAuxiliares.transportadora" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Observação</ion-label>
+    <ion-input [(ngModel)]="this.ped.dadosAuxiliares.observacao" type="text"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="this.ped.tipo.toUpperCase() == 'ORCAMENTO'">
+    <ion-label *ngIf="this.ped.tipo.toUpperCase() == 'PEDIDO'">Envia pedido por email</ion-label>
+    <ion-label *ngIf="this.ped.tipo.toUpperCase() == 'ORCAMENTO'">Envia orçamento por email</ion-label>
+
+    <ion-checkbox checked="true" color="primary" checked slot="start" [(ngModel)]="this.ped.dadosAuxiliares.enviaEmail">
+    </ion-checkbox>
+  </ion-item>
+
+  <div *ngIf="this.ped.tipo.toUpperCase() == 'ORCAMENTO' && this.ped.update == true">
+    <ion-item>
+      <ion-label>Não Aprovado</ion-label>
+      <ion-checkbox checked="true" color="primary" checked slot="start" [(ngModel)]="this.ped.dadosAuxiliares.naoAprovado">
+      </ion-checkbox>
+    </ion-item>
+
+
+    <ion-item *ngIf="this.ped.dadosAuxiliares.naoAprovado" >
+      <ion-label>Motivo Baixa </ion-label>
+      <ion-select clearInput=true [(ngModel)]="this.ped.dadosAuxiliares.motivoBaixa">
+        <ion-select-option value="1">Preço </ion-select-option>
+        <ion-select-option value="2">Prazo de Entrega </ion-select-option>
+        <ion-select-option value="3">Condições de Pagamento </ion-select-option>
+        <ion-select-option value="4">Outros</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item *ngIf="this.ped.dadosAuxiliares.naoAprovado" >
+      <ion-label position="floating">Observação Baixa</ion-label>
+      <ion-input [(ngModel)]="this.ped.dadosAuxiliares.observacaoBaixa" type="text"></ion-input>
+    </ion-item>
+
+
+  </div>
+
+  <ion-grid>
+    <ion-row justify-content-center>
+      <ion-col align-self-center>
+        <ion-button
+          (click)="this.ped.tipo.toUpperCase() == 'ORCAMENTO'?this.ped.incluiOrcamento():this.ped.incluiPedido()"
+          size="large" color="primary">
+          Enviar
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div>
+    <ion-label  class="ion-text-center" style="color: red">{{this.ped.error}} </ion-label>
+  </div>
+</ion-content>

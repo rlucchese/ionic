@@ -1,0 +1,181 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title color="primary">Operações liberadas</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancela()">
+        <ion-icon color="primary" slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="carrega()">
+        <ion-icon color="primary" slot="icon-only" name="refresh-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar class='idDados'>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-label>Agrupamento</ion-label>
+          <ion-input [(ngModel)]="this.db.filtroAgrupamento"></ion-input>
+        </ion-col>
+        <ion-col>
+          <ion-label>Número da Ordem</ion-label>
+          <ion-input type="number" [(ngModel)]="this.db.filtroOrdem"></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-label>Pedido</ion-label>
+          <ion-input type="number" [(ngModel)]="this.db.filtroPedido"></ion-input>
+        </ion-col>
+        <ion-col>
+          <ion-label>Peça</ion-label>
+          <ion-input [(ngModel)]="this.db.filtroPeca"></ion-input>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-buttons slot="end">
+      <ion-button (click)='filtra(true)'>
+        <ion-icon name="search-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-item class="itemSemBorda" *ngIf="this.operacoesIni?.length > 0">
+    <ion-searchbar style="border-top: 5px" placeholder="Buscar operação" inputmode="numeric"
+      (ionChange)="busca($event)">
+    </ion-searchbar>
+    <ion-badge *ngIf="this.operacoes" slot="end">
+      {{this.operacoes.length}}
+    </ion-badge>
+  </ion-item>
+</ion-header>
+
+<ion-content>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <!--
+    <ion-fab-button
+    color="warning"
+    *ngIf="this.opsAgrupadas?.length > 0"
+    (click)="desagrupa()"
+  >
+    <ion-icon name="git-merge-outline"></ion-icon>
+    <ion-badge class="badgeDesagr">{{this.opsAgrupadas?.length}}</ion-badge>
+  </ion-fab-button>
+  <ion-fab-button
+    color="primary"
+    *ngIf="this.opsSelecionadas?.length > 0"
+    (click)="agrupa()"
+  >
+    <ion-icon name="git-branch-outline"></ion-icon>
+    <ion-badge class="badgeAgr">{{this.opsSelecionadas?.length}}</ion-badge>
+  </ion-fab-button>
+-->
+    <ion-fab-button color="success" *ngIf="this.permiteApontar && 
+          (
+            this.opsSelecionadas?.length > 0 || this.opsAgrupadas?.length == 1
+          )" (click)="aponta()">
+      <ion-icon name="play-outline"></ion-icon>
+      <ion-badge class="badgeApt">{{this.opsSelecionadas?.length + this.opsAgrupadas?.length}}</ion-badge>
+    </ion-fab-button>
+  </ion-fab>
+  <div *ngIf="this.operacoesIni?.length == 0 && statusOFIndividual == 1">
+    <ion-button
+    class="btnEntrar"
+    size="large"
+    color="primary"
+    type="submit"
+    expand="block"
+    (click)="adicionaOperacaoExtra()"
+    >Adicionar operação extra
+  </ion-button>
+  </div>
+  <div *ngIf="this.operacoesIni?.length > 0">
+
+    <ion-item *ngIf="this.operacoes?.length == 0 ">Nenhum item encontrado</ion-item>
+
+    <ion-list *ngIf="this.operacoesIni?.length > 0">
+      <div *ngFor="let op of operacoes">
+        <ion-item class="itemSelecao" (click)="check(op,$event)">
+          <ion-checkbox [checked]="op?.isChecked"></ion-checkbox>
+          <ion-grid>
+            <ion-row class="operacao" *ngIf="op.operacao">
+              <ion-col>
+                <ion-label class="ion-text-wrap">{{op.operacao}}</ion-label>
+              </ion-col>
+              <ion-col class="ion-text-right" >
+                <ion-label color="error">{{op.tipoOperacao}}</ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="op.agrupamento">
+              <ion-col>
+                <ion-title class="ion-text-wrap">{{op.agrupamento}}</ion-title>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="op.complemento">
+              <ion-col>
+                <ion-label class="ion-text-wrap">{{op.complemento}}</ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="op.complemento2 !== ''">
+              <ion-col>
+                <ion-label class="ion-text-wrap">{{op.complemento2}}</ion-label>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </div>
+    </ion-list>
+  </div>
+
+</ion-content>
+
+<!--
+  
+  <app-header [nomePagina]="this.nomeEquipamento">
+
+</app-header>
+<ion-content>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="aponta()">
+      <ion-icon name="arrow-forward-circle"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button (click)="aponta()">
+      <ion-icon name="layers-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-list>
+    <ion-card *ngFor="let oper of operacoes">
+<ion-grid class="ion-text-center" *ngIf="oper.tipo == 1" (click)="aponta(oper.idsProgramacao)">
+  <ion-label color="primary" ><strong>{{oper.agrupamento}}</strong></ion-label>
+  <p>{{oper.complemento}}</p>
+</ion-grid>
+      
+      
+      <ion-grid fixed *ngIf="oper.tipo == 2">
+        <ion-row>
+          <ion-col size="2" color="primary" class="ion-align-items-center">
+            <ion-item class="itemCard">
+              <ion-checkbox slot="start" [(ngModel)]="oper.isChecked"></ion-checkbox>
+            </ion-item>
+          </ion-col>
+
+          <ion-col size="10">
+            <ion-label class="ion-text-wrap">{{oper.complemento}} </ion-label>
+
+
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </ion-card>
+    <ion-item *ngIf="this.oper?.length == 0 ">Nenhum item encontrado</ion-item>
+  </ion-list>
+
+
+</ion-content>
+
+-->

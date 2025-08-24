@@ -1,0 +1,13 @@
+{
+  "appId": "br.com.brmetal",
+  "appName": "BrMetal",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 3000
+    }
+  },
+   "cordova": {}
+
+}

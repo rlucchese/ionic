@@ -1,0 +1,20 @@
+ion-chip {
+    height: auto;
+    max-width: 70%;
+    ion-textarea {
+        height: auto;
+        width: auto;
+    }
+    .dataHora {
+        color: gray;
+        font-size: 90%;
+    }
+    .usuario {
+        color: green;
+    }
+}
+
+ion-item {
+    --inner-border-width: 0px;
+}
+

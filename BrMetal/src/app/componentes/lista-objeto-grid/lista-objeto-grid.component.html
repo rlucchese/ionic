@@ -1,0 +1,26 @@
+<ion-grid></ion-grid>
+
+<ion-grid fixed *ngIf="obj">
+  <ion-row>
+    <ion-col class="ion-align-items-center" size=3 *ngFor="let item of this.atributosObj">
+      {{item}}
+    </ion-col>
+  </ion-row>
+  <ion-row *ngFor="let item of obj">
+
+    <ion-col size=3 *ngFor="let cmp of getListaArray(item)">
+      {{cmp}} {{item.name}}
+    </ion-col>
+  </ion-row>
+
+  <ion-header (click)="_listHeader()"></ion-header>
+  <ion-list>
+
+  </ion-list>
+
+  <ion-row class="ion-align-items-center" *ngFor="let item of obj">
+    <ion-col *ngFor="let cmp of this.atributosObj">{{item[cmp]}}</ion-col>
+    <app-lista-objeto-grid [objeto]="item.header"></app-lista-objeto-grid>
+
+  </ion-row>
+</ion-grid>

@@ -1,0 +1,15 @@
+ion-item{
+    ion-chip{
+      --background: var(--ion-color-primary);
+      font-size: smaller;
+      color: white;
+      ion-icon {
+        color: white;
+      }
+    }
+    ion-button {
+      --background: var(--ion-color-primary);
+      color: white;
+    }
+}
+

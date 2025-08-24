@@ -1,0 +1,248 @@
+<!--   <ion-item>
+    <ion-label>Filtros</ion-label>
+    <ion-select (ionChange)="filter($event)" interface="popover" >
+      <ion-select-option  *ngFor="let h of gridDef?.filters"  [value]="h.id">{{h.label}}</ion-select-option>
+    </ion-select>
+    <ion-input (ionBlur)="addFilter()"  type="text" placeholder="Digite aqui seu filtro" [(ngModel)]="filterContent" name="filterContent"></ion-input>
+    <ion-icon (click)="addFilter()"  name="add"></ion-icon>
+    <ion-chip *ngFor="let f of gridFilters">{{ f.label }}: {{ f.content }} <ion-icon name="close" (click)="removeFiltro(gridFilters.indexOf(f))"> </ion-icon></ion-chip>
+    <ion-chip *ngIf="gridFilters.length > 1">Limpar filtros <ion-icon name="close" (click)="removeFiltro(-1)" > </ion-icon></ion-chip>
+    <ion-icon (click)="listaGrid()" slot="end" name="search-outline"></ion-icon>
+
+  </ion-item>
+ -->
+
+<ion-header>
+
+  <form #form="ngForm">
+    <ion-item *ngIf="gridList?.grids.length > 1">
+      <ion-select [(ngModel)]="Form.idGrid" name="idGrid" interface="popover" (ionChange)="this.getGridDef()">
+        <ion-select-option *ngFor="let h of gridList?.grids" [value]="h.id">{{h.label}}</ion-select-option>
+      </ion-select>
+      <ion-buttons slot="end">
+        <ion-button *ngIf="this.update" (click)="abreCadastro('_insert',0,true)">
+          <ion-icon color="primary" slot="icon-only" name="add"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+
+  </form>
+  <app-filter-bar [filtros]="this.gridDef" [callbackFunction]="listaGrid.bind(this)"
+    [quantidade]="this.gridData?.length"></app-filter-bar>
+</ion-header>
+
+<ion-content>
+
+  <!--   <table width="100%">
+    <cdk-virtual-scroll-viewport itemSize="30" class="example-viewport">
+    <thead>
+    <tr >
+      <th [class]="(h.type=='number'&&h.decimals=='2')?h.hidden?'naoMostra col_right':'mostra col_right':h.hidden?'naoMostra col_center':'mostra col_center'" [width]="(h.size*100/this.tamanhoCampos) + '%'" (click)="ordena(h.id)"
+        *ngFor="let h of gridDef?.columns">{{h.label}}
+        <ion-icon *ngIf="colOrdId == h.id && colOrdAD == 'D'" name="caret-down-outline"></ion-icon>
+        <ion-icon *ngIf="colOrdId == h.id && colOrdAD == 'A'" name="caret-up-outline"></ion-icon>
+      </th>
+      <th  >
+        <ion-buttons >
+          <ion-button  size="small"
+            fill="clear">
+            <ion-icon ></ion-icon>
+
+          </ion-button>
+        </ion-buttons>
+
+      
+      </th> 
+    </tr>
+  </thead>
+
+
+<tbody >
+
+    <tr (click)="objetoCadastro('_get',item.codigo,i)" [class]="i % 2 == 0?'rowdif':'row'"
+        [style]="item.Ativo==2?'color: red; text-decoration: line-through':'color: blue'"
+        *cdkVirtualFor="let item of gridData; let i = index">
+    
+
+          <td *ngFor="let cmp of this.gridDef?.columns"    [width]="(cmp.size*100/this.tamanhoCampos) + '%'"
+          [class]="(cmp.type=='number'&&cmp.decimals=='2')?cmp.hidden?'naoMostra col_right':'mostra col_right':cmp.hidden?'naoMostra col_left':'mostra col_left'" >{{this.gen.formataCampoSaida(item[cmp.id], cmp.type, cmp.decimals)}} </td>
+       
+ 
+        <td >
+          <ion-buttons *ngIf="this.update">
+            <ion-button (click)="objetoCadastro('_get',item.codigo,i)" size="small" fill="clear">
+              <ion-icon name="create-outline"></ion-icon>
+
+            </ion-button>
+            <ion-button (click)="objetoCadastro(item.Ativo==1?'_inactivate':'_activate',item.codigo)" size="small"
+              fill="clear">
+              <ion-icon [name]="item.Ativo==1?'close':'refresh-outline'"></ion-icon>
+
+            </ion-button>
+          </ion-buttons>
+
+        </td>
+      </tr>
+
+    </tbody>
+  </cdk-virtual-scroll-viewport>
+
+    </table> -->
+
+  <table width="100%">
+    <tr>
+      <th
+        [class]="(h.type=='number'&&h.decimals=='2')?h.hidden?'naoMostra col_right':'mostra col_right':h.hidden?'naoMostra col_center':'mostra col_center'"
+        [width]="(h.size*100/this.tamanhoCampos) + '%'" (click)="ordena(h.id)" *ngFor="let h of gridDef?.columns">
+        {{h.label}}
+        <ion-icon *ngIf="colOrdId == h.id && colOrdAD == 'D'" name="caret-down-outline"></ion-icon>
+        <ion-icon *ngIf="colOrdId == h.id && colOrdAD == 'A'" name="caret-up-outline"></ion-icon>
+      </th>
+      <th>
+        <ion-buttons>
+          <ion-button size="small" fill="clear">
+            <ion-icon></ion-icon>
+
+          </ion-button>
+        </ion-buttons>
+
+
+      </th>
+    </tr>
+
+    <tr (click)="(!noAction(item._noAction,'_update'))?objetoCadastro('_getJSON',item.codigo,i):''"
+      [class]="i % 2 == 0?'rowdif':'row'"
+      [style]="item.Ativo==2?'color: red; text-decoration: line-through':'color: blue'"
+      *ngFor="let item of gridData; let i = index">
+
+
+      <td *ngFor="let cmp of this.gridDef?.columns" [width]="(cmp.size*100/this.tamanhoCampos) + '%'"
+        [class]="(cmp.type=='number'&&cmp.decimals=='2')?cmp.hidden?'naoMostra col_right':'mostra col_right':cmp.hidden?'naoMostra col_left':'mostra col_left'">
+        {{this.gen.formataCampoSaida(item[cmp.id], cmp.type, cmp.decimals)}} </td>
+
+
+      <td>
+        <ion-buttons *ngIf="this.update" slot="end">
+          <ion-button (click)="objetoCadastro('_get',item.codigo,i)" size="small" fill="clear">
+            <ion-icon name="create-outline"></ion-icon>
+
+          </ion-button>
+          <ion-button (click)="objetoCadastro(item.Ativo==1?'_inactivate':'_activate',item.codigo)" size="small"
+            fill="clear">
+            <ion-icon [name]="item.Ativo==1?'close':'refresh-outline'"></ion-icon>
+
+          </ion-button>
+        </ion-buttons>
+        <ion-buttons>
+          <ion-button *ngIf="this.geraPedido[0] && (!noAction(item._noAction,'_geraPedido'))"
+            (click)="objetoCadastro('_geraPedido',item.codigo,i,false, $event)" size="small" fill="clear">
+            <ion-icon name="checkmark"></ion-icon>
+
+          </ion-button>
+          <ion-button *ngIf="this.geraPedido[0] && (noAction(item._noAction,'_geraPedido'))" size="small" fill="clear">
+            <ion-icon></ion-icon>
+
+          </ion-button>
+          <ion-button *ngIf="this.geraOrcamento[0] && (!noAction(item._noAction,'_geraOrcamento'))"
+          (click)="objetoCadastro('_geraOrcamento',item.codigo,i,false, $event)" size="small" fill="clear">
+          <ion-icon name="copy-outline"></ion-icon>
+
+        </ion-button>
+        <ion-button *ngIf="this.geraOrcamento[0] && (noAction(item._noAction,'_geraOrcamento'))" size="small" fill="clear">
+          <ion-icon></ion-icon>
+
+        </ion-button>
+          <ion-button *ngIf="this.mail[0] && (!noAction(item._noAction,'_email'))"
+            (click)="objetoCadastro('_email',item.codigo,i,false, $event)" size="small" fill="clear">
+            <ion-icon name="mail">
+            </ion-icon>
+          </ion-button>
+          <ion-button *ngIf="this.mail[0] && (noAction(item._noAction,'_email'))"
+            (click)="objetoCadastro('_email',item.codigo,i,false, $event)" size="small" fill="clear">
+            <ion-icon>
+            </ion-icon>
+          </ion-button>
+          <ion-button *ngIf="this.view[0] && (!noAction(item._noAction,'_view'))"
+            (click)="objetoCadastro('_view',item.codigo,i,false, $event)" size="small" fill="clear">
+            <ion-icon name="eye"></ion-icon>
+            <ion-label></ion-label>
+          </ion-button>
+          <ion-button *ngIf="this.view[0] && (noAction(item._noAction,'_view'))"
+            (click)="objetoCadastro('_view',item.codigo,i,false, $event)" size="small" fill="clear">
+            <ion-icon></ion-icon>
+            <ion-label></ion-label>
+          </ion-button>
+          <ion-button *ngIf="this.inactivate[0] && (!noAction(item._noAction,'_inactivate'))"
+            (click)="objetoCadastro('_inactivate',item.codigo,i,false, $event)" size="small" fill="clear">
+            <ion-icon name="close"></ion-icon>
+            <ion-label></ion-label>
+          </ion-button>
+          <ion-button *ngIf="this.inactivate[0] && (noAction(item._noAction,'_inactivate'))"
+            (click)="objetoCadastro('_inactivate',item.codigo,i,false, $event)" size="small" fill="clear">
+            <ion-icon></ion-icon>
+            <ion-label></ion-label>
+          </ion-button>
+        </ion-buttons>
+
+      </td>
+    </tr>
+
+
+  </table>
+
+
+
+
+
+
+
+  <!-- 
+      <ion-grid class="titulo">
+        <ion-row >
+           <ion-col [class]="(h.type=='number'&&h.decimals=='2')?h.hidden?'naoMostra col_right':'mostra col_right':h.hidden?'naoMostra col_center':'mostra col_center'" [size]="(h.size*100/this.tamanhoCampos) + '%'" (click)="ordena(h.id)"
+             *ngFor="let h of gridDef?.columns">{{h.label}}
+             <ion-icon *ngIf="colOrdId == h.id && colOrdAD == 'D'" name="caret-down-outline"></ion-icon>
+             <ion-icon *ngIf="colOrdId == h.id && colOrdAD == 'A'" name="caret-up-outline"></ion-icon>
+           </ion-col>
+           <ion-col  >
+             <ion-buttons >
+               <ion-button  size="small"
+                 fill="clear">
+                 <ion-icon ></ion-icon>
+     
+               </ion-button>
+             </ion-buttons>
+     
+           
+           </ion-col> 
+         </ion-row>
+     
+         <ion-row (click)="objetoCadastro('_get',item.codigo,i)" [class]="i % 2 == 0?'rowdif':'row'"
+             [style]="item.Ativo==2?'color: red; text-decoration: line-through':'color: blue'"
+             *ngFor="let item of gridData; let i = index">
+         
+     
+               <ion-col *ngFor="let cmp of this.gridDef?.columns"    [size]="(cmp.size*100/this.tamanhoCampos) + '%'"
+               [class]="(cmp.type=='number'&&cmp.decimals=='2')?cmp.hidden?'naoMostra col_right':'mostra col_right':cmp.hidden?'naoMostra col_left':'mostra col_left'" >{{this.gen.formataCampoSaida(item[cmp.id], cmp.type, cmp.decimals)}} </ion-col>
+            
+      
+             <ion-col >
+               <ion-buttons *ngIf="this.update">
+                 <ion-button (click)="objetoCadastro('_get',item.codigo,i)" size="small" fill="clear">
+                   <ion-icon name="create-outline"></ion-icon>
+     
+                 </ion-button>
+                 <ion-button (click)="objetoCadastro(item.Ativo==1?'_inactivate':'_activate',item.codigo)" size="small"
+                   fill="clear">
+                   <ion-icon [name]="item.Ativo==1?'close':'refresh-outline'"></ion-icon>
+     
+                 </ion-button>
+               </ion-buttons>
+     
+             </ion-col>
+           </ion-row>
+     
+     
+         </ion-grid> -->
+</ion-content>

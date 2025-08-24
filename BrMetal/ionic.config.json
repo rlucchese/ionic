@@ -1,0 +1,7 @@
+{
+  "name": "grp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,26 @@
+table{
+    table-layout: fixed;
+    font-family: var(--ion-font-family, inherit);
+   // border: solid 1px gray;
+    td {
+     //  border-left: solid 1px gray;
+      // border-right: solid 1px gray;
+        padding: 2px 0px 0px 10px;;
+    }
+
+  
+    font-size: x-small;
+}
+tr:hover {background-color: lightblue
+}
+ion-label{
+    font-size: x-small;
+}
+.row{
+    //  border: solid 1px  black;
+   background: white;
+  }
+  .rowdif{
+     //  border: solid 1px  black;
+      background:lightsteelblue
+  }

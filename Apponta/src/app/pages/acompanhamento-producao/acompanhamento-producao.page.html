@@ -1,0 +1,255 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="secondary">
+      <ion-chip>
+        <ion-select class="selStatus" [(ngModel)]="idAcompanhamento" okText="Ok" cancelText="Cancelar"
+          (ionChange)="carrega()">
+          <ion-select-option value="1">Serra Circular</ion-select-option>
+          <ion-select-option value="3">Serras Mercado Externo</ion-select-option>
+          <ion-select-option value="4">Repastilhamento</ion-select-option>
+          <ion-select-option value="2">Corte Laser</ion-select-option>
+        </ion-select>
+      </ion-chip>
+      <ion-chip>
+        <ion-select class="selStatus" [(ngModel)]="idStatus" okText="Ok" cancelText="Cancelar" (ionChange)="busca()">
+          <ion-select-option value="pedidosEmProducao">Pedidos em produção</ion-select-option>
+          <ion-select-option value="pedidosFinalizados">Pedidos finalizados</ion-select-option>
+          <ion-select-option value="emProducao">OFs em produção</ion-select-option>
+          <ion-select-option value="finalizadas">OFs finalizadas</ion-select-option>
+          <ion-select-option value="todas">Todas</ion-select-option>
+        </ion-select>
+      </ion-chip>
+      <ion-button (click)="atualiza(true)">
+        <ion-icon slot="icon-only" name="time-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="atualiza(false)">
+        <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Acompanhamento de Produção ({{geradoEm | date: 'H:mm dd/MM'}})</ion-title>
+  </ion-toolbar>
+  <ion-item class="itemSemBorda">
+    <ion-searchbar style="border-top: 5px" placeholder="Buscar ordem" [(ngModel)]="strBusca" (ionChange)="busca()">
+    </ion-searchbar>
+    <ion-badge *ngIf="this.ordens" slot="end">
+      {{this.ordens.length}}
+    </ion-badge>
+  </ion-item>
+  <!--  <ion-label>
+    selBaixar: {{ selBaixar.length }} <br>
+    selReverter: {{ selReverter.length }} <br>
+    obsAlterada: {{ obsAlterada.length }}
+  </ion-label>
+-->
+</ion-header>
+
+<ion-content scroll-x>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="success"
+      *ngIf="this.selBaixar?.length > 0 || this.selReverter?.length || this.obsAlterada.length > 0" (click)="salvar()">
+      <ion-icon name="checkmark-outline"
+        *ngIf="this.selBaixar?.length + this.selReverter?.length + this.obsAlterada.length == 1"></ion-icon>
+      <ion-icon name="checkmark-done-outline"
+        *ngIf="this.selBaixar?.length + this.selReverter?.length + this.obsAlterada.length > 1"></ion-icon>
+      <ion-badge class="badgeFab" color="success">{{this.selBaixar?.length + this.selReverter?.length +
+        this.obsAlterada.length}}</ion-badge>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-item *ngIf="!this.ordens || this.ordens.length == 0">
+    <ion-label>Nenhum item encontrado</ion-label>
+  </ion-item>
+  <div class="divTable" *ngIf="this.ordens && this.ordens.length > 0">
+    <table class="tblAcompOF">
+      <thead>
+        <tr class='titulo'>
+          <th class="colClienteTit">Cliente</th>
+          <th>
+            <div class="colGen2">Nota</div>
+          </th>
+          <th>
+            <div class="colGen2">Pedido</div>
+          </th>
+          <th>
+            <div class="colGen2">OF</div>
+          </th>
+          <th>
+            <div class="colGen2">Tipo</div>
+          </th>
+          <th>
+            <div class="colGen2">OF Org</div>
+          </th>
+          <th>
+            <div class="colGen2">Data</div>
+          </th>
+          <th>
+            <div class="colGen2">Dias Emiss</div>
+          </th>
+          <th>
+            <div class="colGen2">Dias Entrega</div>
+          </th>
+          <th>
+            <div class="colGen2">Entrega</div>
+          </th>
+          <th>
+            <div class="colGen2">Quant.</div>
+          </th>
+          <th *ngFor="let proc of processos; let i = index">
+            <div [class]="'tituloProcesso tituloProcesso_' + (i % 2)">{{ proc.descricao }}</div>
+          </th>
+          <th class="tituloProcesso">Cor</th>
+          <th>
+            <div class="tituloProcesso">Revisar<br>Estrutura</div>
+          </th>
+          <th class="tituloObservacao">
+            Observação
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ord of ordens" class='linhaOrdem' [ngClass]="{'linhaOrdemFinalizada': ord.finalizada}"
+          [style.background-color]="ord.cor">
+          <td style='vertical-align: middle;'>
+            <div class="colCliente">{{ord.cliente}}</div>
+          </td>
+          <td>
+            <div class="colGen2">{{ord.nota}}</div>
+          </td>
+          <td>
+            <div class="colGen2">{{ord.pedido}}</div>
+          </td>
+          <td>
+            <div class="colGen2">{{ord.numero}}</div>
+          </td>
+          <td>
+            <div class="colGen2">{{ord.descricaoTipoOF}}</div>
+          </td>
+          <td>
+            <!--            <div class="colGen2">{{ ord?.ordemOrigem }}</div>  -->
+            <ion-input class="colGen2" *ngIf="ord.tipo==3" [(ngModel)]="ord.ordemOrigem"
+              (ionChange)="alteraOF(ord,false)"></ion-input>
+            <div class="colGen2" *ngIf="ord.tipo!==3"></div>
+          </td>
+          <td>
+            <div class="colGen2">{{ord.data | date: 'dd/MM'}}</div>
+          </td>
+          <td>
+            <div class="colGen2">{{ord.duData}}
+            </div>
+          </td>
+          <td>
+            <div class="colGen2">{{ord.duEntregaPedido}}
+            </div>
+          </td>
+          <td [ngClass]="{'atrasado':atrasado(ord)}">
+            <div class="colGen2">{{ord.entregaPedido | date: 'EEE':'':'pt'}}<br />{{ord.entregaPedido | date: 'dd/MM'}}
+            </div>
+          </td>
+          <td>
+            <div class="colGen2">{{ord.quantidade}}</div>
+          </td>
+          <td *ngFor="let proc of processos" class="colProcesso">
+            <div *ngIf="ord.processos[proc.id] && ord.processos[proc.id]?.quantidade > 0"
+              (click)="toogleBaixar(ord,proc.id)" class="op opEmAberto">
+              <ion-checkbox [checked]="ord.processos[proc.id]?.checked"></ion-checkbox>
+            </div>
+            <div *ngIf="ord.processos[proc.id] && ord.processos[proc.id]?.quantidade <= 0"
+              (click)="toogleBaixar(ord,proc.id)" class="op opBaixada">
+              <ion-checkbox [checked]="ord.processos[proc.id]?.checked"></ion-checkbox>
+            </div>
+            <div class="op opInexistente" *ngIf="!ord.processos[proc.id]">&nbsp;</div>
+          </td>
+          <td class="colProcesso">
+            <div class="op">
+              <ion-select class="custom-options" interface="popover" [value]="ord.color"
+                (ionChange)="alteraCor($event,ord)">
+                <ion-select-option value="">Sem cor</ion-select-option>
+                <ion-select-option value="#d50000">Tomate</ion-select-option>
+                <ion-select-option value="#e67c73">Flamingo</ion-select-option>
+                <ion-select-option value="#f4511e">Tangerina</ion-select-option>
+                <ion-select-option value="#f6bf26">Banana</ion-select-option>
+                <ion-select-option value="#33b679">Sálvia</ion-select-option>
+                <ion-select-option value="#0b8043">Manjericão</ion-select-option>
+                <ion-select-option value="#039be5">Pavão</ion-select-option>
+                <ion-select-option value="#3f51b5">Mirtilo</ion-select-option>
+                <ion-select-option value="#7986cb">Lavanda</ion-select-option>
+                <ion-select-option value="#8e24aa">Uva</ion-select-option>
+                <ion-select-option value="#616161">Grafite</ion-select-option>
+              </ion-select>
+            </div>
+          </td>
+          <td class="colProcesso">
+            <div class="op" (click)="alteraOF(ord,true)">
+              <ion-checkbox [checked]="ord.revisarEstrutura"></ion-checkbox>
+              <!--(ionChange)="alteraOF(ord)"-->
+            </div>
+          </td>
+          <td class="colObs">
+            <ion-textarea class="inputObs" [(ngModel)]="ord.observacao" (ionChange)="alteraOF(ord,false)">
+            </ion-textarea>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- <div>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Tanggal</th>
+        <th>Judul Pekerjaan</th>
+        <th>Deskripsi</th>
+      </tr>
+    </thead>
+  
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>1 May 2017</td>
+        <td>Satu</td>
+        <td>Satu</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>2 May 2017</td>
+        <td>Dua</td>
+        <td>Dua</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>3 May 2017</td>
+        <td>Tiga</td>
+        <td>Tiga</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>3 May 2017</td>
+        <td>Tiga</td>
+        <td>Tiga</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>2 May 2017</td>
+        <td>Dua</td>
+        <td>Dua</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>3 May 2017</td>
+        <td>Tiga</td>
+        <td>Tiga</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>3 May 2017</td>
+        <td>Tiga</td>
+        <td>Tiga</td>
+      </tr>
+    </tbody>
+  </table>
+ </div> -->
+</ion-content>

@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title color="primary">Operadores</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancela()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="arrow-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="carrega()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="refresh-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-item class="itemSemBorda">
+  <ion-searchbar
+  style="border-top: 5px"
+  placeholder="Buscar operador"
+  (ionChange)="busca($event)"
+></ion-searchbar>
+<ion-badge *ngIf="this.operadores" slot="end">
+  {{this.operadores.length}}
+</ion-badge>
+</ion-item>
+
+</ion-header>
+<ion-content >
+          <ion-list>
+            <ion-item *ngIf="this.operadores?.length == 0">Nenhum item encontrado</ion-item>
+            <ion-item class="itemSelecao" *ngFor="let oper of operadores" (click)="seleciona(oper)">
+              <ion-label class="ion-text-wrap">{{oper.usuario}}</ion-label>
+            </ion-item>
+          </ion-list>
+ </ion-content>
+
+        

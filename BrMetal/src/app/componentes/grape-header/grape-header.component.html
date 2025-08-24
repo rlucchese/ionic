@@ -1,0 +1,21 @@
+  <div *ngFor="let h of grape">
+    <ion-item>
+      <ion-buttons>
+        <ion-button slot="start" size="small" fill="clear" (click)="mostra(h)">
+          <ion-icon name="add"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-label >{{h.content}} - {{h.qty}}{{h.title}}</ion-label>
+<!--       (click)="carregaObjeto(h.id, grape.indexOf(h))
+ -->    </ion-item>
+    <div class="filhos">
+      <div *ngIf="h.mostrandoFilhos">
+        <app-grape-header [class]="h.mostra?'visivel':'naoVisivel'"  [objeto]="this.obj" [header]="this.header" [keyHeader]="h.keysHeaders" [headerFilter]="filtro"></app-grape-header> 
+      </div>
+    </div>
+    <div>
+      <div *ngIf="h.mostrandoFilhos ">
+        <app-grape-item  [class]="h.mostra?'visivel':'naoVisivel'" [objeto]="this.obj" [header]="this.header" [keyHeader]="h.keysHeaders" [indice]="this.grape.indexOf(h)"> </app-grape-item>
+      </div>
+    </div>
+ 

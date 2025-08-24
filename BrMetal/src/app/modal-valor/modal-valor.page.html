@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{titulo}}:  {{this.gen.formataCampoSaida(this.disponivel?this.disponivel:' ','number',0)}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-align-items-center">
+<ion-input #input  size='large' type="number" [placeholder]="this.valorOrig" [(ngModel)]="valor" ></ion-input>
+
+</ion-content>
+<ion-footer>
+  <span *ngIf="this.valor>this.disponivel" style="color: red">Quantidade acima do Estoque Disponivel</span>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button size="large" color="primary"(click)="this.mc.dismiss()">
+        Cancelar
+     </ion-button>
+      <ion-button id="submit" size="large" color="primary" (click)="okClick()">
+         OK
+      </ion-button>
+    </ion-buttons>
+      </ion-toolbar>
+</ion-footer>

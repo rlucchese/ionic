@@ -1,0 +1,210 @@
+/* Estilo para inputs de medida dentro do range */
+.medida-verde {
+  --background: #e6ffe6 !important;
+  background-color: #e6ffe6 !important;
+  border: 2px solid #2ecc40 !important;
+  color: #222;
+}
+
+/* Estilo para inputs de medida fora do range */
+.medida-vermelha {
+  --background: #ffe6e6 !important;
+  background-color: #ffe6e6 !important;
+  border: 2px solid #ff4136 !important;
+  color: #222;
+}
+
+.custom-input ion-label.disabled,
+.custom-input ion-label {
+  transform: translateY(15px) translateX(5px) translateZ(0) scale(0.85);
+  color: black; 
+  z-index: 2;
+}
+.custom-input ion-input {
+  font-size: 12px;
+  color: black; 
+  text-align: center;
+  padding-right: 0px !important;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+  --background: #f0f0f0; 
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: -20px; /* Ajuste para alinhar o texto com o topo do input */
+}
+.read{
+  background-color: lightgrey;
+}
+.custom-input ion-input.ng-valid+ion-label,
+.custom-input ion-input.ng-touched+ion-label {
+  transform: translateY(-24px) scale(0.85);
+  font-size: 12px;
+}
+.custom-input ion-item.item-native {
+  padding: 2px 2px;
+}
+.completo{
+  background-color: green;
+  border: 1px solid black
+}
+.atencao{
+  background-color: yellow;
+  border: 1px solid black
+}
+.cuidado{
+  background-color: red;
+  border: 1px solid black   
+}
+.custom-input2  {
+  position: relative;
+}
+.custom-input2 ion-label.floating-label {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  background-color: transparent;
+  border-radius: 5px;
+  z-index: 5;
+  transform:  scale(0.8);
+  font-size: 12px;
+  color: green;
+}
+.custom-input2 ion-icon.floating-icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: transparent;
+  border-radius: 5px;
+  z-index: 5;
+  font-size: 24px;
+  cursor: pointer;
+}
+.custom-input2 ion-icon.floating-icon2 {
+  position: absolute;
+  top: 15px;
+  left:10px;
+  background-color: transparent;
+  border-radius: 5px;
+  z-index: 5;
+  font-size: 24px;
+  cursor: pointer;
+}
+.borda{
+  border: solid black 1px;
+  margin-top: 5px;
+  padding-top: 2px;
+}
+.custom-input2 p {
+  --background: white;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  --padding-bottom: 5px !important;
+  border: solid black 1px;
+}
+.cabecalho ion-input{
+  background-color: var(--ion-color-secondary);
+}
+.corpo ion-input{
+  background-color: lightgrey;
+}
+ion-content{
+  font-size: small;
+  font-weight: 300;
+}
+ion-col{
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+.fundo{
+  background-color: white;
+}
+.texto {
+  padding-left: 30px !important
+}
+ion-input {
+  position: relative;
+  z-index: 0 ;
+  ion-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    z-index: 2;
+    margin: 0;
+    --padding-start: 8px;
+    --padding-end: 8px;
+  }
+}
+.input-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.input-icon-btn {
+  position: absolute;
+  left: 8px;
+  z-index: 2;
+  background: transparent;
+  border: none;
+  padding: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.input-icon-btn ion-icon {
+  font-size: 20px;
+  color: var(--ion-color-medium);
+}
+.input-icon-wrapper ion-input {
+  flex: 1;
+  --padding-start: 36px;
+}
+  .select-item {
+    --padding-start: 0;
+    --inner-padding-end: 0;
+    justify-content: center;
+    text-align: center;
+  }
+  .select {
+    width: 100%;
+    text-align: center;
+    --placeholder-color: #3880ff;
+    --placeholder-opacity: 1;
+    --background: #f4f5f8;
+    --color: #222;
+    --border-radius: 8px;
+    --padding-start: 12px;
+    --padding-end: 12px;
+  }
+ .select-text {
+    display: block;
+    width: 100%;
+    text-align: center;
+      font-size: 1.1em;
+  white-space: normal;
+  word-break: break-word;
+  }
+
+.maior {
+  font-weight: bold;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+ion-alert .alert-wrapper {
+  min-width: 500px !important;
+  max-width: 95vw !important;
+  width: 95vw !important;
+}
+
+ion-alert .alert-radio-label, ion-alert .alert-checkbox-label {
+  white-space: normal !important;
+  font-size: 1.1em !important;
+  word-break: break-word !important;
+}
+
+

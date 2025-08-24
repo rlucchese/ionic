@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{this.db.contato}}</ion-title>
+    <ion-buttons class="alturamenor" slot="end">
+      <ion-button class="alturamenor" (click)="this.db.Abre('apontamento')">
+        <ion-icon slot="icon-only" name="play"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <!--   <ion-item class="itemSemBorda">
+    <ion-searchbar style="border-top: 5px" placeholder="Buscar " (ionChange)="busca($event)"></ion-searchbar>
+    <ion-badge slot="end">
+      {{333}}
+    </ion-badge>
+  </ion-item> -->
+  <ion-item>
+    <ion-label slot="start">Mensagem</ion-label>
+    <ion-textarea rows=5 [(ngModel)]="mensagem" name="mensagem" type="text"></ion-textarea>
+    <ion-buttons slot="end">
+      <ion-button (click)="EnviaMsg()" color="primary">
+        <ion-icon slot="icon-only" name="send"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
+</ion-header>
+
+<ion-content>
+  <ion-item no-lines *ngFor="let m of msg">
+    <ion-chip [color]="m.usuarioPostagem !== '1'?'':'primary'" [slot]="m.usuarioPostagem !== '1'?'start':'end'">
+      <ion-grid>
+        <ion-row class="usuario">
+          <ion-label *ngIf="m.idUsuario" [ngStyle]="{'color':usuarios[m.idUsuario].cor}">
+            {{usuarios[m.idUsuario].usuario}}
+          </ion-label>
+          <ion-label *ngIf="!m.idUsuario" [ngStyle]="{'color':usuarios[0].cor}">
+            {{usuarios[0].usuario}}
+          </ion-label>
+        </ion-row>
+        <ion-row>
+          <ion-col class="mensagem" [innerHTML]='m.mensagem'> 
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="ion-text-right dataHora">
+            {{m.dataHoraStr}}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-chip>
+  </ion-item>
+
+  <ion-infinite-scroll threshold="10%" (ionInfinite)="carregaMais($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Buscando mais mensagens...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

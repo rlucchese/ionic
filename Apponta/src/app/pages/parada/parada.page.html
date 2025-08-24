@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title color="primary">Parada</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="close(false)">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="arrow-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-item class="itemSemBorda">
+    <ion-toolbar class="alturamenor" (click)="selecionaEvento()">
+      <ion-title *ngIf="!this.evento">Selecione a motivo de parada</ion-title>
+      <ion-title *ngIf="this.evento"
+        >{{ this.evento.id }} {{ this.evento.descricao }}</ion-title
+      >
+      <ion-buttons slot="end">
+        <ion-button>
+          <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-item>
+</ion-header>
+
+<ion-content>
+  <form  #form="ngForm" (ngSubmit)="parada()">
+    <ion-grid>
+      <ion-row justify-content-center>
+        <ion-col align-self-center>
+          <ion-item
+            class="itemSemBorda"
+            style="margin-top: 30px; width: 50%; margin: auto;"
+          >
+            <ion-textarea
+              type="text"
+              placeholder="Complemento"
+              rows='15'
+              [required]="evento?.complementoObrigatorio"
+              [(ngModel)]="complemento"
+              name="complemento"
+            >
+            </ion-textarea>   
+          </ion-item>
+          <ion-button
+            class="btnEntrar"
+            size="large"
+            color="primary"
+            type="submit"
+            expand="block"
+            >Apontar Parada
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

@@ -1,0 +1,27 @@
+.itemSemBorda {
+    display: flex;
+
+    ion-input { 
+        margin: auto;
+    }
+}
+
+div {
+   width: 50%; 
+   margin: auto;
+   min-width: 250px;
+}
+
+ion-button {
+    min-width: 250px;
+}
+
+#setup {
+    min-width: 30px;
+}
+
+.esqueciSenha {
+    color: var(--ion-color-primary);
+    cursor: pointer; 
+    font-size: smaller;
+}

@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Nova Mensagem</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancela()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="arrow-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="EnviaMsg()" #form="ngForm">
+    <ion-item>
+      <ion-label position="floating">Equipamento</ion-label>
+<!--       <ionic-selectable
+    #selecEquip
+    [(ngModel)]="equipamento"
+    name="equipamento"
+    itemValueField="id"
+    itemTextField="descricao"
+    [items]="this.db.centrosCusto[0].equipamentos"
+    [canSearch]="true"
+
+    searchPlaceholder="Localizar Equipamentos"
+    >
+    <ng-template ionicSelectableSearchFailTemplate>
+      <ion-item>Nenhum item encontrado</ion-item>
+    </ng-template>
+    <ng-template ionicSelectableHeaderTemplate>
+      <ion-toolbar>
+        <ion-title color="primary">Equipamentos</ion-title>
+      </ion-toolbar>
+    </ng-template>
+
+    <ng-template ionicSelectableFooterTemplate>
+      <ion-toolbar>
+        <ion-buttons slot="end">
+          <ion-button
+            color="primary"
+            slot="end"
+            (click)="selecEquip.close()"
+          >
+            Cancelar
+          </ion-button>
+          <ion-button
+            color="primary"
+            slot="end"
+            (click)="selecEquip.confirm();selecEquip.close();"
+          >
+            Ok
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ng-template>
+  </ionic-selectable> -->
+
+     
+     
+<!--       <ion-input required [(ngModel)]="idEquipamento" name="idEquipamento" type="text"></ion-input>
+ -->  
+  </ion-item>
+   
+    <ion-item>
+      <ion-label position="floating">Mensagem</ion-label>
+      <ion-textarea rows=15 [(ngModel)]="mensagem" name="mensagem" type="text"></ion-textarea>
+    </ion-item>
+    <ion-grid>
+      <ion-row justify-content-center>
+        <ion-col align-self-center>
+          <ion-button
+            class="btnEntrar"
+            size="large"
+            color="primary"
+            type="submit"
+            [disabled]="form.invalid"
+            expand="block"
+            >Envia Mensagem
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
+
+
+
+
+
+
+
+
+

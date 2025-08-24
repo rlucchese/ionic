@@ -1,0 +1,36 @@
+
+<ion-header>
+  <ion-toolbar class="alturamenor">
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="voltar()">
+        <ion-icon
+          slot="icon-only"
+          name="arrow-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons  class="alturamenor" slot="start">
+      <ion-menu-button class="alturamenor"></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons class="alturamenor" slot="end">
+      <ion-button class="alturamenor" >
+        <ion-icon slot="icon-only" name="chatbubble-ellipses-outline">
+        </ion-icon>
+        <ion-badge  top color="danger">0</ion-badge>
+
+        <!-- <ion-badge *ngIf="this.db.qtdNotificacoes > 0" top color="danger">{{ this.db.qtdNotificacoes }}</ion-badge> -->
+      </ion-button>
+      <ion-button class="alturamenor" >
+        <ion-icon slot="icon-only" name="construct-outline"></ion-icon>   
+
+        <!-- <ion-badge *ngIf="this.db.qtdNotificacoes > 0" top color="danger">{{ this.db.qtdNotificacoes }}</ion-badge> -->
+      </ion-button>
+    </ion-buttons>
+    <!--    <ion-buttons slot='start'>
+        <img [src]="logo" class="logo" />
+    </ion-buttons>-->
+    <ion-title>{{nomePagina}}</ion-title>
+<!--    <ion-title size="small">Logidados Informática Ltda</ion-title>  -->
+  </ion-toolbar>
+ 
+</ion-header>

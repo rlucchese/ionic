@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Revisar Quantidade de Itens</ion-title>
+    <ion-buttons slot="end">
+      <ion-button  size="large" color="primary"(click)="this.mc.dismiss()">
+        <ion-icon class="white" slot="end"  name="close-outline"></ion-icon>
+
+     </ion-button>
+     </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-grid fixed >
+
+  <ion-row>
+    <ion-col size="8">Descrição</ion-col>
+    <ion-col size="1">Qtd Disp.</ion-col>
+    <ion-col size="1">Qtd Orç.</ion-col>
+    <ion-col size="1">Qtd Ajust.</ion-col>
+
+
+  </ion-row>
+
+  <ion-row       [style]="'font-size: small ;background:' + item.cor" *ngFor="let item of itens, let i = index" >
+    <ion-col size="8"><b> {{item.referencia}}</b> - {{item.descricao}}</ion-col>
+    <ion-col size="1">{{item.maximoDisponivel}}</ion-col>
+    <ion-col size="1">{{item.qtdOrc}}</ion-col>
+    <ion-col size="1"><span style="font-weight:700;">{{item.qtdAjustada}}</span></ion-col>
+    <ion-col size="1">
+      <ion-button fill="clear" (click)="(item.qtdAjustada > 0)?ajustaQtdItem(item):retornaQtdItem(item)">
+      <ion-icon *ngIf="item.qtdAjustada > 0" slot="icon-only"  name="close-outline"></ion-icon>
+      <ion-icon *ngIf="item.qtdAjustadaAnt > 0" slot="icon-only"  name="arrow-undo-outline"></ion-icon>
+    </ion-button>
+
+  </ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-button (click)="ajustaItem()" expand="block" color="primary" shape="round">
+  Ajustar Itens
+</ion-button>
+</ion-content>

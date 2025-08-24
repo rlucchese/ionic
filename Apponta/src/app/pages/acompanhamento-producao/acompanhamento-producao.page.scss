@@ -1,0 +1,204 @@
+:root {
+    --pcp-color-finalizada: #C8E6C9;
+}
+
+.divTable {
+    height: 98%;
+    width: 98%;
+}
+table {
+    height: 100%;
+}
+/*
+table thead tr {
+    display: block;
+    background-color: navy;
+    color: white;
+    height: 9em;
+//    vertical-align: middle;
+    text-align: center;
+
+
+}
+table th, table td {
+//    width: 80px;
+}
+
+table tbody {
+    display: block;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
+
+th {
+    text-align: center;
+}
+td {
+    text-align: center;
+    white-space: pre;
+}
+*/
+//td {
+//    border: 1px solid lightgray;
+//    width: 100%;
+//    padding: 2px;
+//    width: 80px;
+//}
+
+table tbody {
+    display: block;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
+
+td {
+    border: 1px solid lightgray;
+};
+
+.colClienteTit {
+    width: 300px;
+    display: table-cell;
+}
+.colCliente {
+    display: block;
+    width: 300px;
+    //background-color: yellow;
+    height: 40px;
+    overflow-y: hidden;
+    word-wrap: break-word;
+    align-items: center;
+    line-height: 40px;
+}
+
+
+.colGen {
+    width: 80px;
+    padding: 2px;
+    display: table-cell;
+}
+
+.colGen2 {
+    width: 80px;
+    padding: 2px;
+    display: block;
+}
+
+.colObs {
+    display: block;
+    padding: 2px;
+    width: 300px;
+//    height: 40px;
+}
+
+.titulo {
+    display: block;
+    background-color: var(--ion-color-primary);
+    color: white;
+    height: 9em;
+//    vertical-align: middle;
+    text-align: center;
+//    div {
+//        height: 100%;
+//    }
+    th {
+        border: 1px solid white;
+        text-align: center;
+        height: 9em;
+    }
+}
+
+
+
+.linhaOrdem {
+    height: 40px;
+}
+
+.linhaOrdemFinalizada {
+    background-color:#C8E6C9;
+//    td {
+//        border: 1px solid black;
+//    }
+}
+
+.colProcesso {
+    padding: 0px;
+    vertical-align: center;
+    width: 80px;
+    height: 100%;
+}
+
+
+.op {
+    height: 100%;
+    padding: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 42px;
+    width: 80px;
+    border-radius: 24px;
+}
+
+.opEmAberto {
+    cursor: pointer;
+    //background-color: white;
+}
+
+.opBaixada {
+    cursor: pointer;
+    background-color: #C8E6C9;
+//    background-color: var(--ion-color-success);
+    ion-checkbox {
+        --background-checked: white;
+        --checkmark-color: black;
+        --border-color-checked: var(--ion-color-success);
+    }
+}
+
+.atrasado {
+    background-color: var(--ion-color-danger);
+}
+
+
+.tituloProcesso div {
+    position: absolute;
+}
+.tituloProcesso {
+    transform: rotate(-90deg);
+    font-size: 80%;
+//    width: 500px;
+//    padding-bottom: 20px;
+    width: 80px;
+    word-wrap: normal;
+}
+
+.tituloObservacao {
+    transform: rotate(-90deg);
+    font-size: 80%;
+//    width: 500px;
+//    padding-bottom: 20px;
+    width: 300px;
+    word-wrap: normal;
+}
+
+
+
+
+.tblAcompOF {
+    height: 100%; 
+    border: 1px solid black;
+    text-align: center;
+//    margin-top: 10px;
+    width: 100%;
+}
+
+.custom-options .brown-option {
+        --color: #5e3e2c;
+        --color-hover: #362419;
+}
+.custom-options .black-option {
+        --color: black;
+        --color-hover: grey;
+}

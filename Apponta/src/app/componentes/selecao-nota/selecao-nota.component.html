@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title color="primary">NOTAS</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancela()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="arrow-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="carrega()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="refresh-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-item class="itemSemBorda">
+    <ion-searchbar
+      style="border-top: 5px"
+      placeholder="Buscar Documento"
+      (ionChange)="busca($event)"
+    ></ion-searchbar>
+    <ion-badge *ngIf="this.documentos" slot="end">
+      {{this.documentos.length}}
+    </ion-badge>
+  </ion-item>
+</ion-header>
+
+<ion-content>
+  <ion-item *ngIf="this.documentos?.length == 0 ">Nenhum item encontrado</ion-item>
+
+  <ion-list>
+    <div *ngFor="let doc of documentos">
+   
+      <ion-item
+        class="itemSelecao itemCard"
+        (click)="seleciona(doc)"
+      >
+      <ion-grid>
+        <ion-row>
+          <ion-col  sizeMd="3" sizeXs="3">
+            <ion-label class="texto ion-text-wrap">NF:{{doc.numero}}</ion-label>
+          </ion-col>
+          <ion-col  sizeMd="3" sizeXs="3">
+            <ion-label class="texto ion-text-wrap">{{doc.emissao | date:'shortDate'}}</ion-label>
+          </ion-col>
+         
+          <ion-col  sizeMd="6" sizeXs="6">
+            <ion-label class="texto ion-text-wrap">{{doc.naturezaOperacao}}</ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col  sizeMd="4" sizeXs="12">
+            <ion-label  class="texto ion-text-wrap">{{doc.cnpj}}</ion-label>
+          </ion-col>
+          <ion-col  sizeMd="8" sizeXs="12">
+            <ion-label class="texto ion-text-wrap">{{doc.fornecedor}}</ion-label>
+          </ion-col>
+        </ion-row> 
+        </ion-grid>   
+      </ion-item>
+    </div>
+  </ion-list>
+</ion-content>

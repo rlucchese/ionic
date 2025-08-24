@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title color="primary">Plantas</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancela()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="arrow-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="carrega()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="refresh-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-item class="itemSemBorda">
+  <ion-searchbar
+  style="border-top: 5px"
+  placeholder="Buscar planta"
+  (ionChange)="busca($event)"
+></ion-searchbar>
+<ion-badge *ngIf="this.plantas" slot="end">
+  {{this.plantas.length}}
+</ion-badge>
+</ion-item>
+
+</ion-header>
+<ion-content >
+          <ion-list>
+            <ion-item *ngIf="this.plantas?.length == 0">Nenhum item encontrado</ion-item>
+            <ion-item class="itemSelecao" *ngFor="let plt of plantas" (click)="seleciona(plt)">
+              <ion-label class="ion-text-wrap">{{plt.descricao}}</ion-label>
+            </ion-item>
+          </ion-list>
+ </ion-content>
+
+        

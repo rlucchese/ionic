@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title color="primary">PRODUTOS</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancela()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="arrow-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="carrega()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="refresh-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-item class="itemSemBorda">
+    <ion-searchbar
+      style="border-top: 5px"
+      placeholder="Buscar Produto"
+      (ionChange)="carrega(filtro)"
+      [debounce]="1000"
+      [(ngModel)]="filtro"
+    ></ion-searchbar>
+    <ion-badge *ngIf="this.produtos" slot="end">
+      {{this.produtos?.length}}
+    </ion-badge>
+  </ion-item>
+</ion-header>
+
+<ion-content>
+  <ion-item *ngIf="this.produtos?.length == 0 ">Nenhum item encontrado</ion-item>
+
+  <ion-list>
+    <div *ngFor="let prod of this.produtos">
+   
+      <ion-item
+        class="itemSelecao itemCard"
+        (click)="seleciona(prod)"
+      >
+      <ion-grid>
+        <ion-row>
+          <ion-col class="ion-no-padding" size=12>
+            <ion-label class="ion-text-wrap">{{prod.referencia}} - {{prod.descricao}} - {{prod.unidade}}</ion-label>
+          </ion-col>
+
+        </ion-row> 
+        </ion-grid>   
+      </ion-item>
+    </div>
+  </ion-list>
+</ion-content>

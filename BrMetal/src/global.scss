@@ -1,0 +1,134 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+ion-menu-button{
+
+  color: white
+}
+ion-button {
+    ion-badge {
+      position: absolute;
+      right: 0;
+      top: 0;
+      background-color: var(--ion-color-tertiary);
+      font-size: 60%;
+
+    }
+  }
+
+  @supports not (-webkit-touch-callout: none) {
+    /* CSS for other than iOS devices */
+    .alturamenor {
+      height: 40px;
+      --min-height: 40px!important;
+    }
+ }
+
+ion-card {
+  background-color: #f0e6d9;
+  margin: 10px;
+  width: 100%;
+  border-radius: 15px;
+}
+
+ion-card-title {
+  font-size: large;
+}
+
+ion-loading {
+  color: var(--ion-color-tertiary);
+}
+
+.itemCard {
+  --background: #f0e6d9;
+  margin: 2px;
+  width: 100%;
+  border-radius: 15px;
+}
+
+.itemCard .titulo {
+  font: large;
+  font-weight: 700;
+  text-overflow: unset;
+  overflow: visible;
+  white-space: unset;
+  color: var(--ion-color-primary);
+}
+
+.itemCard ion-label {
+  text-overflow: unset;
+  overflow: visible;
+  white-space: unset;
+}
+
+.itemSelecao {
+  cursor: pointer;
+}
+
+ion-fab-button {
+  margin-top: 3px;
+}
+
+.tituloLista {
+  font-size: 120%;
+  font-weight: bold;
+}
+
+ion-header {
+  ion-toolbar {
+    --background: var(--ion-color-primary);
+    color: white;
+  }
+}
+
+.modalValorClass {
+  --width: 300px  ;
+  --height: 300px ;
+  }
+
+
+@media only screen and (min-width: 768px) and (min-height: 600px)  {
+  .modal-css {
+   --width: 90%  ;
+   --height: 90% ;
+  }
+//    td{
+//      background-color: red;
+//    }
+.modalValorClass {
+  --width: 300px  ;
+  --height: 200px ;
+  }
+
+.modalValidaClass{
+
+    --width: 90%  ;
+    --height: 90%;
+
+
+}
+}
+

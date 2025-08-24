@@ -1,0 +1,144 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{obj?.label}}</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancela()">
+        <ion-icon
+          slot="icon-only"
+          name="arrow-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+<!-- <form #form="ngForm" (ngSubmit)="acao()">
+<ion-item *ngFor="let cmp of obj?.fields">
+  <ion-label position="floating">{{cmp.label}}</ion-label>
+  <ion-input [required]="cmp.obrigatorio" [[(ngModel)]]="grape2[0][cmp.campo]"[name]="grape2[0][cmp.campo]" [size]="cmp.tamanho" [type]="cmp.type">{{grape2[0][cmp.campo]}}</ion-input>
+</ion-item>
+<button type="submit" >
+  Save
+</button>
+</form> -->
+
+<div *ngFor="let grp of grape2">
+  <form  #form="ngForm" (ngSubmit)="this.btnLabel == 'Incluir'?acao(form,'_insert'):acao(form,'_update')" > 
+    <ion-list no-lines>
+      <div *ngFor="let cmp of obj?.fields">
+     
+        <ion-button *ngIf="cmp.type == 'relation_1toN'" (click)="abreListaCadastro(cmp.otherGrape, cmp.otherField, grp[cmp.campo])">
+          <ion-label>{{cmp.label}}</ion-label>
+        </ion-button>
+        <!-- <app-grape-grid *ngIf="cmp.type == 'relation_1toN'" [objeto]="cmp.otherGrape" [callbackFunction]="seleciona.bind(this)"  [filterDefault]="filtroPadrao">
+        </app-grape-grid>
+         -->
+         <ion-item no-lines *ngIf="!cmp.hidden">
+          <ion-label  position="floating" class="ion-text-wrap">
+            <ion-icon
+              *ngIf="cmp.obrigatorio"
+              name="star"
+              class="iconeObrig"
+            ></ion-icon>
+            {{cmp.label}} <!-- - {{grape2[0][cmp.campo]}} - {{cmp.campo}} -->
+          </ion-label>
+
+          <ion-input [readonly]="!this.update"
+          *ngIf="!cmp.items && !(cmp.type == 'relation_1to1')"
+            [required]="cmp.obrigatorio"
+            [attr.maxLength]="cmp.tamanho"
+            [type]="cmp.type"
+            [(ngModel)]="grp[cmp.campo]"
+            [name]="cmp.campo"
+            [placeholder]="cmp.title"
+          ></ion-input>
+       <!--    <ion-button fill="clear" (click)="selecionaObjeto(cmp.otherGrape ,grp.codigo ,cmp.campo)" *ngIf="cmp.type == 'relation_1to1'" slot="start">
+            <ion-label>{{ getConteudo1to1(cmp.otherGrape,grp[cmp.campo]) }}</ion-label>
+            <ion-icon slot="icon-only" [name]="obj.icon"></ion-icon>             (click)="selecionaObjeto(cmp.otherGrape ,grp.codigo ,cmp.campo)"
+
+          </ion-button> -->
+            <app-relation1to1 
+            [codigo]="grp[cmp.campo]" 
+            [otherGrape]="cmp.otherGrape" 
+            [grapeCadastro]="this.grapeCadastro"
+            [icon]="obj.icon" 
+            *ngIf="cmp.type == 'relation_1to1'" 
+            (click)="this.update?selecionaObjeto(cmp.otherGrape ,grp.codigo ,cmp.campo):''"
+            slot="start"></app-relation1to1>
+  
+
+            
+          <ionic-selectable
+          disabled="!this.update"
+              #itOpcoes
+              item-content
+              *ngIf="cmp.items"
+              [(ngModel)]="grape2[0][cmp.campo]"
+              [name]="cmp.campo"
+              [items]="getConteudo(cmp.items)"
+              [canSearch]="cmp.items.length > 5"
+              [searchPlaceholder]="'Localizar ' + cmp.label"
+              [required]="cmp.obrigatorio"
+              itemValueField="codigo" 
+              itemTextField="name"
+              (onChange)="conteudo(cmp.campo, $event)">
+              >
+              <ng-template ionicSelectableSearchFailTemplate>
+                <ion-item>Nenhum item encontrado</ion-item>
+              </ng-template>
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-title color="primary">{{cmp.label}}</ion-title>
+                </ion-toolbar>
+              </ng-template>
+  
+              <ng-template ionicSelectableFooterTemplate>
+                <ion-toolbar>
+                  <ion-buttons slot="end">
+                    <ion-button 
+                      color="primary"
+                      slot="end"
+                      (click)="itOpcoes.close()"
+                    >
+                      Cancelar
+                    </ion-button>
+                    <ion-button
+                      color="primary"
+                      slot="end"
+                      (click)="itOpcoes.confirm();itOpcoes.close()"
+                    >
+                      Ok
+                    </ion-button>
+                  </ion-buttons>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          </ion-item>
+          </div>
+    </ion-list>
+    <ion-grid >
+      <ion-row justify-content-center>
+        <ion-col align-self-center>
+          <ion-button
+          *ngIf="this.update"
+            class="btnEntrar"
+            size="large"
+            color="primary"
+            type="submit"
+            [disabled]="form.invalid"
+            expand="block"
+            >{{this.btnLabel}}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</div>
+
+      <ion-fab-button color="light" *ngFor="let cmp of obj?.relations">
+        <ion-icon [name]="cmp.icon"></ion-icon>
+      </ion-fab-button>
+
+</ion-content>

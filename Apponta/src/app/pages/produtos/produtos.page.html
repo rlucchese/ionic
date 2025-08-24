@@ -1,0 +1,62 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-title color="primary">Produtos</ion-title>
+		<ion-buttons *ngIf="!this.referencia" slot="start">
+			<ion-menu-button></ion-menu-button>
+		  </ion-buttons>
+
+		  <ion-buttons *ngIf="this.referencia" slot="start">
+			<ion-button (click)="cancela()">
+			  <ion-icon
+				color="primary"
+				slot="icon-only"
+				name="arrow-back-outline"
+			  ></ion-icon>
+			</ion-button>
+		  </ion-buttons>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-grid class="campos" fixed>
+		<ion-row>
+			<ion-col size-sm="6" size="12">
+				<ion-input
+					type="text"
+					name="descr"
+					placeholder="Referencia"
+					[(ngModel)]="referencia"></ion-input>
+			</ion-col>
+			<ion-col size-sm="5" size="9">
+				<ion-input
+					type="text"
+					name="descr"
+					placeholder="Descricao"
+					[(ngModel)]="descricao"></ion-input>
+			</ion-col>
+			<ion-col size-sm="1" size="3">
+				<ion-button fill="clear" (click)="buscarProduto()">
+				<ion-icon name="search-outline"></ion-icon>
+				</ion-button>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+<div *ngFor="let prod of produtos">
+<div class="item" >
+	<!--<ion-label >{{prod?.codigo}}</ion-label>-->
+
+	<ion-label >{{prod.rotulo}}</ion-label>
+
+	
+</div>
+
+
+	<div class="arquivo" *ngFor="let link of prod.links" (click)="abrirDocumento(link.link, link.codigo)">
+
+<!-- 		<ion-img class="icone-img" [src]="getIcone(link.rotulo)"></ion-img>
+ -->		<ion-badge style="margin: 5px;">{{link.extensao}}</ion-badge>
+		<ion-label>{{link.rotulo}}</ion-label>
+	</div>
+</div>
+</ion-content>

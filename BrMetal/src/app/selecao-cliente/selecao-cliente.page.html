@@ -1,0 +1,76 @@
+<!-- <app-sel></app-sel>  -->
+
+<ion-header>
+    <ion-toolbar>
+      <ion-title>Cliente</ion-title>
+      <ion-buttons slot="start">
+        <ion-button (click)="cancela()">
+          <ion-icon
+            color="secondary"
+            slot="icon-only"
+            name="arrow-back-outline"
+          ></ion-icon>
+        </ion-button>
+      </ion-buttons> 
+      <ion-buttons slot="start">
+        <ion-button (click)="novoCliente()">
+          <ion-icon
+            slot="icon-only"
+            name="add"
+          ></ion-icon>
+        </ion-button>
+      </ion-buttons> 
+      <ion-buttons slot="end">
+        <ion-button (click)="carrega()">
+          <ion-icon
+            slot="icon-only"
+            name="refresh-outline"
+          ></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+    <ion-item class="itemSemBorda">
+    <ion-searchbar
+    style="border-top: 5px"
+    placeholder="Buscar Cliente"
+    (ionChange)="busca($event)"
+  ></ion-searchbar>
+  <ion-badge *ngIf="this.clientes" slot="end">
+    {{this.clientes.length}}
+  </ion-badge>
+  </ion-item>
+  
+  </ion-header>
+  
+  <ion-content fullscreen>
+  
+  <!--  <ion-refresher slot="fixed" id="refresher" (ionRefresh)="carrega($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>-->
+<!--     <ion-list>
+      <ion-item *ngFor="let cli of clientes" (click)="seleciona(cli)">
+        <ion-label class="ion-text-wrap">{{cli.nome}}</ion-label>
+      </ion-item>
+    </ion-list> -->
+    <ion-list>
+      <!--       <ion-item *ngIf="this.clientes.length == 0">Nenhum item encontrado</ion-item>
+   -->
+    
+        <table widht="100%" fixed>
+          <tr  *ngFor="let cli of clientes; let i = index" [class]="i % 2 == 0?'rowdif':'row'"  (click)="seleciona(cli)" >
+            <td width="20%">
+              {{cli.cnpjcpf}}
+            </td>
+            <td width="50%" >
+              <ion-label  >{{cli.nome}}</ion-label>
+            </td>
+            <td width="30%">
+              <ion-label  >{{cli.nomeFantasia}}</ion-label>
+            </td>
+  
+          </tr>
+        </table>
+  
+    </ion-list>
+  </ion-content>
+  

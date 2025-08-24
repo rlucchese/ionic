@@ -1,0 +1,11 @@
+{
+  "name": "Grape Factory",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+
+  "hooks": {
+    "sync:after": "node ./scripts/post-sync.js"
+  }
+}

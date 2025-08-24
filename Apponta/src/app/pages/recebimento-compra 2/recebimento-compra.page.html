@@ -1,0 +1,134 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title color="primary">Recebimento Compra</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="campos " fixed>
+    <ion-row>
+      <ion-col size-sm="11" size="11">
+        
+        <ion-input (keyup.enter)="buscarNotas()" type="text" name="filtro" placeholder="Buscar Nota"
+          [(ngModel)]="filtro"></ion-input>
+      </ion-col>
+      <ion-col size-sm="1" size="1">
+        <ion-button fill="clear" (click)="buscarNotas()">
+          <ion-icon name="search-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+<ion-item *ngIf="!this.documentoFiscal && this.msg" class="ion-align-itens-center">
+{{this.msg}}</ion-item>
+  <ion-grid class="cabecalho" *ngIf="this.documentoFiscal">
+    <ion-row>
+      <ion-col  sizeMd="3" sizeXs="6">
+        <div class="ion-no-padding custom-input2">
+          <ion-label class="floating-label">Nota Fiscal</ion-label>
+          <ion-input class="cabecalho" readonly="true" [value]="this.documentoFiscal.numero" type="text"></ion-input>
+        </div>
+
+
+      </ion-col>
+      <ion-col sizeMd="3" sizeXs="6">
+        <div class="ion-no-padding custom-input2">
+          <ion-label class="floating-label">Emissão</ion-label>
+          <ion-input class="cabecalho" readonly="true" [value]="this.documentoFiscal.emissao | date:'shortDate' " type="text"></ion-input>
+        </div>
+
+      </ion-col>
+
+      <ion-col sizeMd="6" sizeXs="12">
+        <div class="ion-no-padding custom-input2 ">
+          <ion-label class="floating-label">Fornecedor</ion-label>
+          <ion-input   readonly="true" [value]="this.documentoFiscal.fornecedor" type="text"></ion-input>
+        </div>
+        
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid  *ngIf="this.documentoFiscal?.itens">
+    <ion-row [style]="'background-color:'+item.cor" class="borda" *ngFor="let item of this.documentoFiscal.itens">
+      <ion-col sizeMd="1" sizeXs="2">
+
+        <div class="ion-no-padding custom-input2 ">
+          <ion-label class="floating-label">Item</ion-label>
+          <p [class.read]="true" readonly="true"  type="text">{{item.notaItem}}</p>
+        </div>
+      </ion-col>
+      <ion-col  sizeMd="7" sizeXs="6">
+        <div  class="ion-no-padding custom-input2 " >
+          <ion-label class="floating-label">Produto</ion-label>
+          <p [class.read]="true" readonly="true" type="text">{{item.notaProduto}}</p>
+        </div>
+      </ion-col>
+
+      <ion-col sizeMd="2" sizeXs="2">
+        <div lines="none" class="ion-no-padding custom-input2">
+          <ion-label class="floating-label">Qt NF</ion-label>
+          <p [class.read]="true" readonly="true" type="text">{{item.notaQuantidade + ' ' + item.notaUnidade}}</p>
+        </div>
+      </ion-col>
+      <ion-col   sizeMd="2"sizeXs="2">
+        <div class="ion-no-padding custom-input2">
+          <ion-label class="floating-label">Qt Pedido</ion-label>
+          <p [class.read]="true" readonly="true" type="text">{{item.pedidoQuantidade + ' ' + item.pedidoUnidade}}</p>
+        </div>
+      </ion-col>
+      <ion-col   sizeMd="1"sizeXs="3">
+        <div class="ion-no-padding custom-input2">
+          <ion-label class="floating-label">Pedido </ion-label>
+          <ion-input class="fundo"  (keyup.enter)="selecaoPedido(item, this.documentoFiscal.cnpj )"  [(ngModel)]="item.notaPedidoNumero" type="text"></ion-input>
+          <ion-icon class="floating-icon"  slot="start" name="search" (click)="selecaoPedido(item, this.documentoFiscal.cnpj)"></ion-icon>
+
+        </div>
+      </ion-col>
+      <ion-col   sizeMd="1"sizeXs="3">
+        <div class="ion-no-padding custom-input2">
+          <ion-label class="floating-label">Item </ion-label>
+          <ion-input class="fundo" (keyup.enter)="selecaoPedido(item, this.documentoFiscal.cnpj)" [(ngModel)]="item.notaPedidoItem" type="text"></ion-input>
+          <ion-icon class="floating-icon"  slot="start" name="search" (click)="selecaoPedido(item, this.documentoFiscal.cnpj)"></ion-icon>
+
+        </div>
+      </ion-col>
+     
+      <ion-col   sizeMd="7"sizeXs="12">
+        <div class="ion-no-padding custom-input2">
+          <ion-label class="floating-label">Descrição</ion-label>
+          <p class="fundo" (click)="selecaoProduto(item)"> {{item.entradaReferencia + ' -  ' + item.entradaDescricao}}</p>
+          <ion-icon class="floating-icon"  slot="start" name="search" ></ion-icon>
+
+        </div>
+      </ion-col>
+      <ion-col   sizeMd="2"sizeXs="3">
+        <div class="ion-no-padding custom-input2">
+          <ion-label class="floating-label">Qt Entrada</ion-label>
+          <ion-input class="fundo" [(ngModel)]="item.entradaQuantidade" type="number" (ionBlur)="validaQuantidade(item)"></ion-input>
+        </div>
+      </ion-col>
+      <ion-col   sizeMd="1"sizeXs="3">
+        <div class="ion-no-padding custom-input2">
+          <ion-label class="floating-label">Unidade</ion-label>
+          <p class="fundo"  type="text">{{item.entradaUnidade}}</p>
+        </div>
+      </ion-col>
+      <ion-col   sizeMd="12"sizeXs="12">
+        <div class="ion-no-padding custom-input2">
+          <ion-label class="floating-label">Observação
+          </ion-label>
+          <ion-input class="fundo" clearInput="true" [(ngModel)]="item.observacao" type="text"></ion-input>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid> 
+<ion-button  *ngIf="this.documentoFiscal?.itens" (click)="finalizar()" expand="block" color="secondary"  shape="round">
+Finalizar
+</ion-button>
+  
+
+</ion-content>

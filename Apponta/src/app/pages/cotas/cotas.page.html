@@ -1,0 +1,114 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title color="primary">Cotas</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="campos">
+    <ion-row>
+      <ion-col size-sm="8" size="12">
+        <div class="input-icon-wrapper">
+          <button type="button" class="input-icon-btn" (click)="buscarOrdem()">
+            <ion-icon name="search-outline"></ion-icon>
+          </button>
+          <ion-input (keyup.enter)="buscarOrdem()" type="text" name="filtro" placeholder="Buscar OF"
+            [(ngModel)]="filtro"></ion-input>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-item *ngIf="msg">{{msg}}</ion-item>
+  <ion-item *ngIf="ordem && ordem.numero" class="select-item">
+    <ion-label>Ordem de Fabricação: {{ordem.numero}} - {{ordem.descricao}}</ion-label>
+  </ion-item>
+
+  <ion-item *ngIf="ordem && ordem.pecas" class="select-item">
+    <ion-select [(ngModel)]="pecaSelecionada" placeholder="Escolha a peça" class="select" interface="alert"
+      (ionChange)="aoMudarPeca()">
+      <ion-select-option *ngFor="let peca of ordem.pecas" [value]="peca">
+        <span class="select-text">{{peca.codigo}} - {{peca.descricao}} ({{peca.referencia}})</span>
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item *ngIf="pecaSelecionada && pecaSelecionada.cotas && pecaSelecionada.cotas.length > 0" class="select-item">
+    <ion-select [(ngModel)]="cotaSelecionada" placeholder="Escolha a cota" style="flex:1" class="select"
+      interface="alert" (ionChange)="aoMudarCota()">
+      <ion-select-option *ngFor="let cota of pecaSelecionada.cotas; let i = index" [value]="cota">
+        <span class="select-text">Cota {{cota.codigo}} - {{cota.descricao || 'Sem descrição'}}</span>
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+
+
+  <div *ngIf="cotaSelecionada">
+    <ion-item>
+      <ion-label>Instrumento</ion-label>
+      <ion-select [disabled]="true" [(ngModel)]="cotaSelecionada.instrumento" [compareWith]="comparaInstrumentos"
+        placeholder="Escolha o instrumento">
+        <ion-select-option *ngFor="let instrumento of instrumentos" [value]="instrumento" [disabled]="true">
+          {{instrumento.descricao}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Medida Mínima - {{cotaSelecionada.medidaMinima}}</ion-label>
+      <ion-label>Medida Máxima - {{cotaSelecionada.medidaMaxima}}</ion-label>
+    </ion-item>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="2"></ion-col>
+        <ion-col size="8"><b>Medida</b></ion-col>
+        <ion-col size="2"></ion-col>
+      </ion-row>
+      <ion-row *ngFor="let resultado of cotaSelecionada.resultados; let i = index">
+        <ion-col size="2" class="ion-text-right maior"><b>{{i+1}}</b></ion-col>
+        <ion-col size="6">
+          <ion-input type="number" [(ngModel)]="cotaSelecionada.resultados[i].medida" placeholder="Informe a medida"
+            [ngClass]="{
+            'medida-verde':cotaSelecionada.resultados[i].medida != 0 &&  cotaSelecionada.resultados[i].medida >= cotaSelecionada.medidaMinima && cotaSelecionada.resultados[i].medida <= cotaSelecionada.medidaMaxima,
+            'medida-vermelha': cotaSelecionada.resultados[i].medida !=  0 && cotaSelecionada.resultados[i].medida < cotaSelecionada.medidaMinima || cotaSelecionada.resultados[i].medida > cotaSelecionada.medidaMaxima
+          }" (ionBlur)="setOrdem()"></ion-input>
+        </ion-col>
+        <ion-col size="4">
+          <ion-button color="danger" (click)="removerMedida(i)" size="small" fill="clear">
+            <ion-icon name="trash"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+      <div *ngIf="cotaSelecionada"
+        style="display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6" class="ion-text-left">
+              <ion-button expand="block" (click)="navegarCota(-1)"
+                [disabled]="!cotaSelecionada || pecaSelecionada.cotas.length < 2">
+                Cota Anterior
+              </ion-button>
+            </ion-col>
+            <ion-col size="6" class="ion-text-right">
+              <ion-button expand="block" (click)="navegarCota(1)"
+                [disabled]="!cotaSelecionada || pecaSelecionada.cotas.length < 2">
+                Próxima Cota </ion-button>
+            </ion-col>
+          </ion-row>
+
+        </ion-grid>
+
+      </div>
+
+      <!--     <ion-row>
+      <ion-col size="12">
+        <ion-button expand="block" (click)="adicionarMedida()">Adicionar Medida</ion-button>
+      </ion-col>
+    </ion-row> -->
+
+</ion-grid>
+</div>
+</ion-content>

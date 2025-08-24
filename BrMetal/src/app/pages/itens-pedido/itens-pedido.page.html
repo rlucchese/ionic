@@ -1,0 +1,293 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>itensPedido</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button *ngIf="selectedItens > 0" (click)="excluiItens()" color="danger">
+      <ion-badge color="danger">{{selectedItens}}</ion-badge>
+      <ion-icon name="close"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button (click)="adicionaItem()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+
+  </ion-fab>
+
+  <ion-list>
+    <ion-item *ngFor="let item of this.ped.itensPedido;  let i = index">
+
+
+      <div class="container">
+        <div class="row lin1">
+          <div class="col ref">
+            <div class="colPq">
+              <ion-toolbar>
+                <ion-checkbox slot="start" (click)="checkItem(i)" name="checkBox1" color="danger"></ion-checkbox>
+                <ion-label>Referência</ion-label>
+                <ion-buttons slot="end">
+
+                  <ion-button id="produto" slot="end" fill="clear" slot="start"
+                    (click)="buscaProduto(item.referencia, item.descricao, i)" shape="round">
+                    <ion-icon name="search" class="iconeObrig"></ion-icon>
+                  </ion-button>
+                </ion-buttons>
+              </ion-toolbar>
+              <ion-input id="referencia" (keypress)="enterKeyProduto($event,  item.referencia, item.descricao, i)" clearInput type="text" [(ngModel)]="item.referencia" name="referencia"></ion-input>
+            </div>
+          </div>
+          <div class="col dsc">
+            <div class="colPq">
+              <ion-toolbar>
+                <ion-label>Descrição</ion-label>
+                <ion-buttons slot="end">
+                  <ion-button   fill="clear" slot="start"
+                  (click)="clearContents(i)" shape="round">
+                  <ion-icon name="close" class="iconeObrig"></ion-icon>
+                </ion-button>
+                  <ion-button id="descricao" slot="end" fill="clear" slot="start"
+                    (click)="buscaProduto(item.referencia, item.descricao, i)" shape="round">
+                    <ion-icon name="search" class="iconeObrig"></ion-icon>
+                  </ion-button>
+                </ion-buttons>
+              </ion-toolbar>
+              <div class="cmpModal" >
+                <ion-textarea (keypress)="enterKeyDescricao($event, item.referencia, item.descricao, i)" id="descricao-texto"
+                 clearOnEdit="true" [(ngModel)]="item.descricao" name="descricao"></ion-textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row lin2">
+
+          <div class="col vlr" (click)="quantidadeModal(i)">
+            <div class="colPq">
+              <ion-toolbar>
+                <ion-label>Quantidade</ion-label>
+              </ion-toolbar>
+              <div class="cmpModal"  [class]="temEstoque(item)">{{this.gen.formataCampoSaida(this.ped.itensPedido[i].quantidade,'number','0')}}</div>
+            </div>
+          </div>
+          <div class="col vlr">
+            <div class="colPq">
+              <ion-toolbar>
+                <ion-label>Unidade</ion-label>
+              </ion-toolbar>
+              <div>{{item.unidade}}</div>
+            </div>
+          </div>
+          <div class="col vlr" (click)="valorUnitarioModal(i)">
+            <div class="colPq">
+              <ion-toolbar>
+                <ion-label>Valor Unitário</ion-label>
+              </ion-toolbar>
+              <div class="cmpModal">
+                {{this.gen.formataCampoSaida(this.ped.itensPedido[i].valorUnitario,'number','2')}}
+              </div>
+            </div>
+          </div>
+          <div class="col vlr" (click)="valorTotalModal(i)">
+            <div class="colPq">
+              <ion-toolbar>
+                <ion-label>Valor Total</ion-label>
+              </ion-toolbar>
+              <div class="cmpModal">
+                {{this.gen.formataCampoSaida(this.ped.itensPedido[i].valorTotal,'number','2')}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row lin3">
+          <div class="col obs">
+            <div class="colPq">
+              <span class="msgEstoque" *ngIf="this.ped.itensPedido[i].quantidade > this.ped.itensPedido[i].estoqueDisponivel">
+                A quantidade informada esta acima da quantidade disponivel em estoque:<b> {{item.estoqueDisponivel}} </b>
+                </span>
+              <ion-toolbar>
+                <ion-label>Observação</ion-label>
+              </ion-toolbar>
+              <div class="cmpModal">
+                <ion-input clearInput [disabled]="!(item.codigo > 0)" type="text" [(ngModel)]="item.observacao"
+                  name="observacao"></ion-input>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--<div class="container">
+        <div class="row">
+          <div class="col-sm">
+          <table>
+            <tr>
+              <td class="rotModal">
+                Referência
+              </td>
+            </tr>
+            <tr>
+              <td class="cmpModal">
+                <ion-input clearInput type="text" [(ngModel)]="item.referencia" name="referencia">
+                </ion-input>
+              </td>
+            </tr>
+          </table>
+          </div>
+          <div class="col-md">
+            <table>
+              <tr>
+                <td class="rotModal">
+                  Descrição
+                </td>
+              </tr>
+              <tr>
+                <td class="cmpModal">
+                  <ion-input clearInput type="text" [(ngModel)]="item.descricao" name="descricao">
+                  </ion-input>
+                </td>
+              </tr>
+            </table>
+        </div>
+        </div>
+      </div>-->
+
+      <!--
+      <ion-grid>
+        <form>
+          <ion-row [class]="temEstoque(item)">
+            <ion-col size=3>
+              <table>
+                <tr>
+                  <td class="rotModal">
+                    Referência
+                  </td>
+                  <td style="text-align: right">
+                      <ion-button slot="end" fill="clear" slot="start" (click)="buscaProduto(item.referencia, item.descricao, i)"
+                      shape="round">
+                      <ion-icon name="search" class="iconeObrig"></ion-icon>
+                      </ion-button>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="cmpModal" colspan="2">
+                    <ion-input clearInput type="text" [(ngModel)]="item.referencia" name="referencia">
+                    </ion-input>
+                  </td>
+                </tr>
+              </table>
+            </ion-col>
+            <ion-col size=9>
+              <table>
+                <tr>
+                  <td class="rotModal">
+                    Descrição
+                  </td>
+                  <td style="text-align: right">
+                    <ion-button slot="end" fill="clear" slot="start" (click)="buscaProduto(item.referencia, item.descricao, i)"
+                    shape="round">
+                    <ion-icon name="search" class="iconeObrig"></ion-icon>
+                    </ion-button>
+                </td>
+              </tr>
+                <tr>
+                  <td class="cmpModal" colspan="2">
+                    <ion-input clearInput type="text" [(ngModel)]="item.descricao" name="descricao">
+                    </ion-input>
+                  </td>
+                </tr>
+              </table>
+            </ion-col>
+          </ion-row>
+          <ion-row [class]="temEstoque(item)">
+            <ion-col (click)="quantidadeModal(i)">
+              <table>
+                <tr>
+                  <td class="rotModal">
+                    Quantidade
+                  </td>
+                </tr>
+                <tr>
+                  <td class="cmpModal">
+                    {{this.gen.formataCampoSaida(this.ped.itensPedido[i].quantidade,'number','0')}}
+                  </td>
+                </tr>
+              </table>
+            </ion-col>
+            <ion-col>
+              <table>
+                <tr>
+                  <td class="rotModal">
+                    Unid.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="cmpModal">
+                    {{item.unidade}}
+                  </td>
+                </tr>
+              </table>
+
+            </ion-col>
+            <ion-col (click)="valorUnitarioModal(i)">
+              <table>
+                <tr>
+                  <td class="rotModal">
+                    Valor Unitário
+                  </td>
+                </tr>
+                <tr>
+                  <td class="cmpModal" wdith="">
+                    {{this.gen.formataCampoSaida(this.ped.itensPedido[i].valorUnitario,'number','2')}}
+                  </td>
+                </tr>
+              </table>
+
+            </ion-col>
+            <ion-col (click)="valorTotalModal(i)">
+              <table>
+                <tr>
+                  <td class="rotModal">
+                    Valor Total
+                  </td>
+                </tr>
+                <tr>
+                  <td class="cmpModal">
+                    {{this.gen.formataCampoSaida(this.ped.itensPedido[i].valorTotal,'number','2')}}
+                  </td>
+                </tr>
+              </table>
+            </ion-col>
+          </ion-row>
+          <ion-row [class]="temEstoque(item)">
+            <ion-col>
+              <table>
+                <tr>
+                  <td class="rotModal">
+                    Observação
+                  </td>
+                </tr>
+                <tr>
+                  <td class="cmpModal">
+                    <ion-input clearInput [disabled]="!(item.codigo > 0)" type="text" [(ngModel)]="item.observacao"
+                      name="observacao"></ion-input>
+                  </td>
+                </tr>
+              </table>
+            </ion-col>
+          </ion-row>
+        </form>
+      </ion-grid>
+  -->
+    </ion-item>
+  </ion-list>
+
+
+
+
+
+
+
+
+</ion-content>

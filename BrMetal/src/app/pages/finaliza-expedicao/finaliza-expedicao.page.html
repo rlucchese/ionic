@@ -1,0 +1,95 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>FINALIZAR EXPEDIÇÃO</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form>
+    <ion-item no-lines class="form-group">
+
+      <ion-label position="floating" class="ion-text-wrap">
+        Pedido
+      </ion-label>
+      <ion-input class="form-control" name="idpedido" [(ngModel)]="idPedido" type="none">
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <table width="100%" >
+      <tr >
+        <td width="70%" >
+          <ion-label position="floating">
+            Volumes
+          </ion-label>
+          <ion-input class="form-control" name="volumes" [(ngModel)]="volumes" type="text">
+          </ion-input>
+        </td>
+        <td width="30%" >
+          <ion-label position="floating" >
+            Itens Pedido
+          </ion-label>
+          <ion-input class="form-control" name="itensPed" [(ngModel)]="itensPed" type="text">
+          </ion-input>
+        </td>
+
+      </tr>
+    </table>
+    </ion-item>
+    <ion-item>
+      <table width="100%" >
+      <tr >
+        <td width="35%" >
+          <ion-label position="floating" class="ion-text-wrap">
+            Peso Liquido
+          </ion-label>
+          <ion-input class="form-control" name="pesoLiq" [(ngModel)]="pesoLiq" type="text">
+          </ion-input>
+        </td>
+        <td width="35%" >
+
+          <ion-label position="floating" class="ion-text-wrap">
+            Peso Bruto
+          </ion-label>
+          <ion-input class="form-control" name="pesoBruto" [(ngModel)]="pesoBruto" type="text">
+          </ion-input>
+        </td>
+        <td width="30%" >
+          <ion-label position="floating" class="ion-text-wrap">
+            Itens Exped
+          </ion-label>
+          <ion-input class="form-control" name="itensExped" [(ngModel)]="itensExped" type="text">
+          </ion-input>
+        </td>
+
+      </tr>
+    </table>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" class="ion-text-wrap">
+        Observações
+      </ion-label>
+      <ion-textarea class="form-control" name="obs" [(ngModel)]="obs" type="textarea">
+      </ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-checkbox class="form-control" name="fatura" [(ngModel)]="fatura" type="text">
+      </ion-checkbox>
+      <ion-label  class="ion-text-wrap">
+        Libera Faturamento
+      </ion-label>
+    </ion-item>
+
+  </form>
+</ion-content>
+<ion-footer class="ion-text-center">
+
+
+  <ion-button [routerLink]="['/expedicao']" >
+    <ion-icon slot="icon-only" name="add"></ion-icon>
+    Itens
+  </ion-button>
+  <ion-button (click)="finalizar()" >
+    <ion-icon slot="icon-only" name="ok"></ion-icon>
+    Finalizar
+  </ion-button>
+</ion-footer>

@@ -1,0 +1,137 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="secondary">
+      <ion-button (click)="carregaMsg()">
+        <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+      </ion-button>
+      <ion-button class="alturamenor" (click)="this.db.Abre('apontamento')">
+        <ion-icon slot="icon-only" name="play"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Mensagens</ion-title>
+  </ion-toolbar>
+
+  <!--   <ion-toolbar>
+    <ion-grid>
+      <ion-row class="barraFiltro">
+        <ion-col style="width: 30%;">
+          <ion-item>
+            <ion-label position="floating" class="fonteSmall fim"> Status </ion-label>
+
+            <ion-select class="fonteSmall" (ionChange)="carregaMsg()" [(ngModel)]="idLidas" okText="Ok"
+              cancelText="Cancelar">
+              <ion-select-option [value]="1">Lidas</ion-select-option>
+              <ion-select-option [value]="2">Não Lidas</ion-select-option>
+              <ion-select-option [value]="3">Todas</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+        </ion-col>
+        <ion-col style="width: 70%;">
+
+
+
+          <ion-item>
+            <ion-label position="floating">Equipamento</ion-label>
+            <ionic-selectable #selecEquip [(ngModel)]="equipamento" name="equipamento" itemValueField="id"
+              itemTextField="descricao" [items]="equipamentos" [canSearch]="equipamentos?.length > 5"
+              (onChange)="this.idEquipamento = equipamento.id ; carregaMsg()"
+              searchPlaceholder="Localizar Equipamentos">
+              <ng-template ionicSelectableSearchFailTemplate>
+                <ion-item>Nenhum item encontrado</ion-item>
+              </ng-template>
+              <ng-template ionicSelectableHeaderTemplate>
+                <ion-toolbar>
+                  <ion-title color="primary">Equipamentos</ion-title>
+                </ion-toolbar>
+              </ng-template>
+
+              <ng-template ionicSelectableFooterTemplate>
+                <ion-toolbar>
+                  <ion-buttons slot="end">
+                    <ion-button color="primary" slot="end" (click)="selecEquip.close()">
+                      Cancelar
+                    </ion-button>
+                    <ion-button color="primary" slot="end" (click)="selecEquip.confirm();selecEquip.close();">
+                      Ok
+                    </ion-button>
+                  </ion-buttons>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+
+          </ion-item>
+
+
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+
+  </ion-toolbar> -->
+
+  <ion-item class="itemSemBorda">
+    <ion-searchbar style="border-top: 5px" placeholder="Buscar " (ionChange)="busca($event)"></ion-searchbar>
+    <ion-badge slot="end">
+      {{this.contatoMsg?.length}}
+    </ion-badge>
+  </ion-item>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-item *ngFor="let msg of contatoMsg"  (click)="abreConversa(msg.idContato, msg.contato)">
+       <ion-label>
+         <h1>{{msg.contato}}</h1>
+         <div>
+           <h2>{{msg.ultimaMensagem}}</h2>
+         </div>
+        </ion-label>
+        <div slot='end' class="ion-text-center">
+          <ion-label>{{msg.dhUltimaMensagemStr}}</ion-label>
+          <ion-badge color="primary" mode="ios" class="ion-text-right">{{msg.naoLidas}}</ion-badge>
+        </div>
+      
+      
+        
+
+<!--      <ion-card (click)="abreConversa(msg.idContato, msg.contato)">
+        <ion-card-header>
+          <ion-card-title>{{msg.contato}}</ion-card-title>
+          <ion-card-subtitle>{{msg.ultimaMensagem}}</ion-card-subtitle>
+          <ion-card-subtitle class="ion-text-right">{{msg.dhUltimaMensagem}}</ion-card-subtitle>
+          <ion-grid fixed>
+            <ion-row>
+              <ion-col size="5">
+              </ion-col>
+              <ion-col size="5" >
+                {{msg.dhUltimaMensagem}}
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="8">
+              </ion-col>
+
+              <ion-col size=2>
+                <ion-badge color="primary" mode="ios" class="ion-text-right">{{msg.naoLidas}}</ion-badge>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+        </ion-card-header>
+
+      </ion-card>-->
+      <!--       {{ cmp.title }} -  {{ cmp.ativo?cmp.ativo:null}} 
+ -->
+    </ion-item>
+
+  </ion-list>
+
+  <!--<ion-fab vertical="bottom" horizontal="end" slot="fixed" slot="fixed">
+    <ion-fab-button (click)="novaMensagem()">+</ion-fab-button>
+  </ion-fab>-->
+</ion-content>

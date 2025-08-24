@@ -1,0 +1,255 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>identificacaoPedido</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+
+<!--   <form (ngSubmit)="this.ped.navItensPedido()" #form="ngForm">
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        <ion-icon name="star" class="iconeObrig"></ion-icon>
+        Nome
+      </ion-label>
+      <ion-input [required]="true" [attr.maxLength]="50" type="text" [(ngModel)]="this.ped.Form.nome" name="nome">
+      </ion-input>
+      <ion-buttons slot="end">
+        <ion-button (click)="selecionaCliente()" fill="clear" shape="round">
+          <ion-icon name="search" class="iconeObrig"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        Nome Fantasia
+      </ion-label>
+      <ion-input [attr.maxLength]="50" type="text" [(ngModel)]="this.ped.Form.nomeFantasia" name="nomeFantasia">
+      </ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        <ion-icon name="star" class="iconeObrig"></ion-icon>
+        CNPJ/CPF
+      </ion-label>
+      <ion-input id="cpfCnpj" [class.ion-invalid]="this.pedidoInvalido" (ionFocus)="this.ped.Form.cnpjcpf =this.gen.removeCaracteres(this.ped.Form.cnpjcpf)" id="cpfcnpj" (ionBlur)="mascaraCPFCNPJ(this.ped.Form.cnpjcpf);valida(this.ped.Form.cnpjcpf)" 
+        [attr.maxLength]="18" type="tel" [(ngModel)]="this.ped.Form.cnpjcpf" name="cnpjcpf"
+        clearInput=true (focus)="!valida(this.ped.Form.cnpjcpf)" (ionBlur)="onBlur($event)">
+      </ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        Inscrição Estadual
+      </ion-label>
+      <ion-input [attr.maxLength]="50" type="text" [(ngModel)]="this.ped.Form.inscricaoEstadual"
+        name="inscricaoEstadual">
+      </ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        <ion-icon name="star" class="iconeObrig"></ion-icon>
+        Cidade
+      </ion-label>
+      <ion-input [required]="true" [attr.maxLength]="50" type="text" [(ngModel)]="this.ped.Form.cidade" name="cidade">
+      </ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        <ion-icon name="star" class="iconeObrig"></ion-icon>
+        Estado
+      </ion-label>
+      <ion-input [required]="true" [attr.maxLength]="50" type="text" [(ngModel)]="this.ped.Form.uf" name="uf">
+      </ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        <ion-icon name="star" class="iconeObrig"></ion-icon>
+        CEP
+      </ion-label>
+      <ion-input [required]="true" [attr.maxLength]="50" type="text" [(ngModel)]="this.ped.Form.cep" name="cep">
+      </ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        <ion-icon name="star" class="iconeObrig"></ion-icon>
+        Endereco
+      </ion-label>
+      <ion-input [required]="true" [attr.maxLength]="50" type="text" [(ngModel)]="this.ped.Form.endereco"
+        name="endereco">
+      </ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        <ion-icon name="star" class="iconeObrig"></ion-icon>
+
+        Bairro
+      </ion-label>
+      <ion-input [required]="true" [attr.maxLength]="50" type="text" [(ngModel)]="this.ped.Form.bairro" name="bairro">
+      </ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        <ion-icon name="star" class="iconeObrig"></ion-icon>
+
+        Email
+      </ion-label>
+      <ion-input [required]="true" [attr.maxLength]="50" type="text" [(ngModel)]="this.ped.Form.enderecosEletronicos"
+        name="enderecosEletronicos">
+      </ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        <ion-icon name="star" class="iconeObrig"></ion-icon>
+
+        Telefone
+      </ion-label>
+      <ion-input [required]="true" [attr.maxLength]="50" type="text" [(ngModel)]="this.ped.Form.telefone"
+        name="telefone">
+      </ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        <ion-icon name="star" class="iconeObrig"></ion-icon>
+
+        Observação
+      </ion-label>
+      <ion-input [required]="true" [attr.maxLength]="50" type="text" [(ngModel)]="this.ped.Form.observacao"
+        name="observacao">
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-buttons slot="end">
+        <ion-button class="btnEntrar" size="large" color="primary" type="submit" [disabled]="form.invalid">
+          <ion-icon name="arrow-forward" class="iconeObrig"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </form> -->
+
+
+  <form (ngSubmit)="this.ped.navItensPedido()" [formGroup]="this.ped.identificacaoForm">
+    <div class="form-group">
+    <ion-item no-lines class="form-group">
+      <ion-label position="floating" class="ion-text-wrap">
+        <ion-icon name="star" class="iconeObrig"></ion-icon>
+        Nome
+      </ion-label>
+      <ion-input class="form-control" formControlName="nome" type="text">
+      </ion-input>
+      <ion-buttons slot="end">
+        <ion-button (click)="selecionaCliente()" fill="clear" shape="round">
+          <ion-icon name="search" class="iconeObrig"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        Nome Fantasia
+      </ion-label>
+      <ion-input  class="form-control" formControlName="nomeFantasia" type="text">
+      </ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        <ion-icon name="star" class="iconeObrig"></ion-icon>
+        CNPJ/CPF
+      </ion-label>
+      <ion-input id="cpfCnpj"(ionFocus)="this.ped.identificacaoForm.patchValue({cnpjcpf: this.gen.removeCaracteres(this.ped.identificacaoForm.get('cnpjcpf').value)})" id="cpfcnpj" (ionBlur)="mascaraCPFCNPJ(this.ped.identificacaoForm.get('cnpjcpf').value)" 
+        [attr.maxLength]="18" type="tel"  class="form-control" formControlName="cnpjcpf" 
+        clearInput=true >
+      </ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        Inscrição Estadual
+      </ion-label>
+      <ion-input  class="form-control" formControlName="inscricaoEstadual"  type="text">
+      </ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        <ion-icon name="star" class="iconeObrig"></ion-icon>
+        Cidade
+      </ion-label>
+      <ion-input [required]="true" [attr.maxLength]="50" class="form-control" formControlName="cidade" 
+      clearInput=true >
+      </ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        <ion-icon name="star" class="iconeObrig"></ion-icon>
+        Estado
+      </ion-label>
+      <ion-input [required]="true" [attr.maxLength]="50" class="form-control" formControlName="uf" type="text"
+      clearInput=true >
+      </ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        <ion-icon name="star" class="iconeObrig"></ion-icon>
+        CEP
+      </ion-label>
+      <ion-input [required]="true" [attr.maxLength]="50" class="form-control" formControlName="cep" type="text"
+      clearInput=true >
+      </ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        <ion-icon name="star" class="iconeObrig"></ion-icon>
+        Endereco
+      </ion-label>
+      <ion-input [required]="true" [attr.maxLength]="50" class="form-control" formControlName="endereco" type="text"
+      clearInput=true >
+      </ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        <ion-icon name="star" class="iconeObrig"></ion-icon>
+
+        Bairro
+      </ion-label>
+      <ion-input [required]="true" [attr.maxLength]="50" class="form-control" formControlName="bairro" type="text"
+      clearInput=true >
+      </ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        <ion-icon name="star" class="iconeObrig"></ion-icon>
+
+        Email
+      </ion-label>
+      <ion-input [required]="true" [attr.maxLength]="50" class="form-control" formControlName="enderecosEletronicos" type="text"
+      clearInput=true >
+      </ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label position="floating" class="ion-text-wrap">
+        <ion-icon name="star" class="iconeObrig"></ion-icon>
+
+        Telefone
+      </ion-label>
+      <ion-input [required]="true" [attr.maxLength]="50" class="form-control" formControlName="telefone" type="text"
+      clearInput=true >
+      </ion-input>
+    </ion-item>
+<!--     <ion-item no-lines>  
+      <ion-label position="floating" class="ion-text-wrap">
+
+        Observação
+      </ion-label>
+      <ion-input  class="form-control" formControlName="observacao" type="text"
+        clearInput=true >
+      </ion-input>
+    </ion-item> -->
+   
+  </div>
+  <ion-item>
+    <ion-buttons slot="end">
+      <ion-button size="large" color="primary" type="submit" [disabled]="this.ped.identificacaoForm.invalid" class="btn btn-success">
+        <ion-icon name="arrow-forward" class="iconeObrig"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
+  </form>
+</ion-content>

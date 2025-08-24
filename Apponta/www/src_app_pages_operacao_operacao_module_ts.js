@@ -1,0 +1,71 @@
+"use strict";
+(self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["src_app_pages_operacao_operacao_module_ts"],{
+
+/***/ 4029:
+/*!***********************************************************!*\
+  !*** ./src/app/pages/operacao/operacao-routing.module.ts ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   OperacaoPageRoutingModule: () => (/* binding */ OperacaoPageRoutingModule)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ 4398);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 7580);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ 5072);
+/* harmony import */ var _operacao_page__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./operacao.page */ 3551);
+
+
+
+
+const routes = [{
+  path: '',
+  component: _operacao_page__WEBPACK_IMPORTED_MODULE_0__.OperacaoPage
+}];
+let OperacaoPageRoutingModule = class OperacaoPageRoutingModule {};
+OperacaoPageRoutingModule = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.NgModule)({
+  imports: [_angular_router__WEBPACK_IMPORTED_MODULE_3__.RouterModule.forChild(routes)],
+  exports: [_angular_router__WEBPACK_IMPORTED_MODULE_3__.RouterModule]
+})], OperacaoPageRoutingModule);
+
+
+/***/ }),
+
+/***/ 5044:
+/*!***************************************************!*\
+  !*** ./src/app/pages/operacao/operacao.module.ts ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   OperacaoPageModule: () => (/* binding */ OperacaoPageModule)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ 4398);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 7580);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ 316);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ 4456);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ionic/angular */ 1507);
+/* harmony import */ var _operacao_routing_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./operacao-routing.module */ 4029);
+/* harmony import */ var _operacao_page__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./operacao.page */ 3551);
+/* harmony import */ var src_app_componentes_components_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/componentes/components.module */ 3656);
+
+
+
+
+
+
+
+
+let OperacaoPageModule = class OperacaoPageModule {};
+OperacaoPageModule = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([(0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.NgModule)({
+  imports: [_angular_common__WEBPACK_IMPORTED_MODULE_5__.CommonModule, _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormsModule, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonicModule, _operacao_routing_module__WEBPACK_IMPORTED_MODULE_0__.OperacaoPageRoutingModule, src_app_componentes_components_module__WEBPACK_IMPORTED_MODULE_2__.ComponentModule],
+  declarations: [_operacao_page__WEBPACK_IMPORTED_MODULE_1__.OperacaoPage]
+})], OperacaoPageModule);
+
+
+/***/ })
+
+}]);
+//# sourceMappingURL=src_app_pages_operacao_operacao_module_ts.js.map

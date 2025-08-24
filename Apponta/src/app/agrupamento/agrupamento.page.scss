@@ -1,0 +1,38 @@
+ion-list-header {
+    ion-title {
+        font-size: 120%;
+        font-weight: bold;
+        text-align: center;
+    }
+}
+
+.itDados {
+    ion-label {
+        color: var(--ion-color-primary);
+        text-align: center;
+    }
+    div, ion-input {
+        font-weight: bold;
+        text-align: center;
+    }
+    ion-input {
+        border: 1px solid var(--ion-icon-primary);
+        color: var(--ion-color-warning);
+    }
+}
+
+.botoes {
+    .btn {
+        width: 80%;
+        max-width: 600px;
+        min-width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    ion-icon {
+        --ionicon-stroke-width: 16px;
+        font-size: 1024px;
+    }
+}

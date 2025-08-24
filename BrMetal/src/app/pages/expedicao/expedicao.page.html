@@ -1,0 +1,147 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Expedicao</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-item *ngIf="this.obj?.dadosAuxiliares.numero" >
+    <ion-label>
+      Pedido: {{this.obj?.dadosAuxiliares.numero}} 
+    </ion-label>
+    <ion-label>
+     Cliente: {{this.obj?.cliente.nomeCadastro}}
+    </ion-label>
+    <ion-label>
+     Itens: {{this.obj?.itens.length}}
+
+    </ion-label>
+
+  </ion-item>
+  <form>
+
+    
+      <ion-item no-lines class="form-group">
+        <ion-button slot="end" *ngIf="this.keyboard" color="success" (click)="this.keyboard = !this.keyboard"><ion-icon name="keypad"></ion-icon>
+        </ion-button> 
+        <ion-button slot="end"  *ngIf="!this.keyboard" color="warning" (click)="this.keyboard = !this.keyboard"><ion-icon name="keypad"></ion-icon>
+        </ion-button> 
+
+     
+        <ion-label position="floating" class="ion-text-wrap">
+          Pedido
+        </ion-label>
+        <ion-input #inputPedido *ngIf="!this.keyboard" debounce="100" (ionChange)="this.confirmaPedido()" class="form-control" name="numeroPedido" [(ngModel)]="numeroPedido"
+          type="none" [inputmode]="this.keyboard?'decimal':'none'"  clearInput="true">
+        </ion-input>
+        <ion-input #inputPedido *ngIf="this.keyboard"  (ionBlur)="this.confirmaPedido()" class="form-control" name="numeroPedido" [(ngModel)]="numeroPedido"
+        type="none" [inputmode]="this.keyboard?'decimal':'none'" clearInput="true">
+      </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-button slot="end" *ngIf="this.inputDireto" color="success" (click)="this.inputDireto = !this.inputDireto"><ion-icon name="play"></ion-icon>
+        </ion-button> 
+        <ion-button slot="end"  *ngIf="!this.inputDireto" color="warning" (click)="this.inputDireto = !this.inputDireto"><ion-icon name="pause"></ion-icon>
+        </ion-button> 
+        <ion-label position="floating" class="ion-text-wrap">
+          Item
+        </ion-label>
+        <ion-input #inputcodigo *ngIf="!this.keyboard" debounce="100" (ionChange)="this.ValidaItem();this.qtEmbalagem = 0"   class="form-control" name="codigo"
+        [(ngModel)]="codigo" type="none" [inputmode]="this.keyboard?'decimal':'none'" clearInput="true">
+      </ion-input>
+        <ion-input #inputcodigo *ngIf="this.keyboard" (ionChange)="this.qtEmbalagem = 0" (keypress)="this.enterKeyProduto($event)" (ionBlur)="this.ValidaItem()"  class="form-control" name="codigo"
+          [(ngModel)]="codigo" type="none" [inputmode]="this.keyboard?'decimal':'none'" clearInput="true">
+        </ion-input>
+     
+        </ion-item>
+      <ion-item>
+        <ion-label>
+          Qtd
+        </ion-label>
+        <ion-input #inputqt class="form-control" name="qt"  inputmode="decimal" (keypress)="this.enterKeyQt($event)" [(ngModel)]="qt" type="nome">
+        </ion-input>
+        <ion-label>
+          Qtd Emb
+        </ion-label>
+        <ion-button *ngIf="this.qtEmbalagem > 0" slot="end" (click)="this.insereItem()"><ion-icon name="checkmark"></ion-icon></ion-button>
+        <ion-input #inputQtEmbalagem  inputmode="decimal" class="form-control"
+          name="qtEmbalagem" [(ngModel)]="qtEmbalagem" type="none">
+        </ion-input>
+      </ion-item>
+  </form>
+  <ion-grid *ngIf="this.obj"   class="naoSeparado">
+  <ion-row style="font-weight: bold;">
+    <ion-col>
+      Item
+    </ion-col>
+    <ion-col>
+      Qtd
+    </ion-col>
+    <ion-col>
+     Unidade
+    </ion-col>
+    <ion-col>
+      Referencia
+    </ion-col>
+    <ion-col>
+Qtd Lida    </ion-col>
+  </ion-row>
+
+
+  <ion-row>
+    <ion-col  >
+    Descriçao
+  </ion-col>
+  </ion-row>
+</ion-grid>
+
+  <ion-grid [class]="this.setaCor(item.quantidade,item.itensLidos?this.calculaTotalArray(item.itensLidos):0)"
+    *ngFor="let item of this.obj?.itens; let i = index ">
+    <ion-row   >
+      <ion-col >
+        {{i + 1}}
+      </ion-col>
+      <ion-col>
+        {{+item.quantidade}}
+      </ion-col>
+      <ion-col>
+        {{item.unidade}}
+      </ion-col>
+      <ion-col>
+        {{item.referencia}}
+      </ion-col>
+      <ion-col>
+        {{item.itensLidos?this.calculaTotalArray(item.itensLidos):0}}
+      </ion-col>
+    </ion-row>
+
+
+    <ion-row >
+      <ion-col style="font-weight: bold;">
+      {{item.descricao}}
+    </ion-col>
+    </ion-row>
+    <ion-row >
+      <ion-chip (click)="remove(i,f)" *ngFor="let item of item.itensLidos; let f = index" >{{item[0] + " x " + item[1]}}</ion-chip>
+
+    </ion-row>
+  </ion-grid>
+
+  <ion-item>
+    <ion-buttons>
+
+
+    </ion-buttons>
+  </ion-item>
+</ion-content>
+<ion-footer class="ion-text-center">
+
+
+<ion-button (click)="this.finalizar()">
+  <ion-icon slot="icon-only" name="checkmark-done"></ion-icon>
+</ion-button>
+</ion-footer>

@@ -1,0 +1,56 @@
+<!-- <app-sel></app-sel>  -->
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Produtos</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancela()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="carrega()">
+        <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-item class="itemSemBorda">
+    <ion-searchbar [(ngModel)]="filtroBusca" style="border-top: 5px" placeholder="Buscar Produto"
+      (ionChange)="busca($event)"></ion-searchbar>
+    <ion-badge *ngIf="this.itens" slot="end">
+      {{this.itens.length}}
+    </ion-badge>
+  </ion-item>
+
+</ion-header>
+
+<ion-content fullscreen>
+
+  <!--  <ion-refresher slot="fixed" id="refresher" (ionRefresh)="carrega($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>-->
+  <ion-list>
+    <!--       <ion-item *ngIf="this.clientes.length == 0">Nenhum item encontrado</ion-item>
+ -->
+
+      <table widht="100%" fixed>
+        <tr  *ngFor="let item of itens; let i = index" [class]="i % 2 == 0?'rowdif':'row'"  (click)="seleciona(item)" >
+          <td width="20%">
+            {{item.referencia}}
+          </td>
+          <td width="70%" >
+            <ion-label  >{{item.descricao}}</ion-label>
+          </td>
+          <td >
+            <ion-label width="10%" >{{item.unidade}}</ion-label>
+          </td>
+          <td class="ion-text-right">
+            <ion-label width="20%" [class]="item.quantidadeEstoque <= 0?'menorquezero':''">{{item.quantidadeEstoque | number}}</ion-label>
+          </td>
+
+        </tr>
+      </table>
+
+  </ion-list>
+</ion-content>

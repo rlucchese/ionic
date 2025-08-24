@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">{{obj?.labelPlur}}</ion-title>
+    <ion-buttons class="alturamenor" slot="start">
+      <ion-menu-button class="alturamenor"></ion-menu-button>
+      <ion-button (click)="cancela()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+<!--     <ion-buttons slot="end">
+      <ion-toggle [(ngModel)]="this.db.grid"></ion-toggle>
+    </ion-buttons> -->
+  </ion-toolbar>
+  <!--   <ion-item class="itemSemBorda">
+    <ion-searchbar style="border-top: 5px" placeholder="Buscar " (ionChange)="busca($event)" [(ngModel)]="filtro">
+    </ion-searchbar>
+    <ion-badge slot="end">
+      {{this.grape?.length}}
+    </ion-badge>
+  </ion-item> -->
+
+
+  <ion-grid *ngIf="!this.db.grid">
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-label class="fonteSmall">Header:<br></ion-label>
+        <ion-chip>
+          <ion-select class="fonteSmall" (ionChange)="_headerFilter($event)" okText="Ok" cancelText="Cancelar"
+            placeholder="Selecione o Header" [(ngModel)]="header" [value]="idHeaderDefault">
+            <ion-select-option *ngFor="let head of headers" [value]="head.id">{{head.label}}</ion-select-option>
+          </ion-select>
+        </ion-chip>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-header>
+<!--  <ion-content id="content">
+ -->
+
+  <!--   <ion-item *ngIf="!grid">
+    <div *ngFor="let item of this.db.grapeDb">
+      <app-lista-objeto-grid [objeto]="item.headers"></app-lista-objeto-grid>
+    </div>
+  </ion-item> -->
+  <!--     <ion-list  *ngIf="acao !== 'definition'">
+    <ion-item *ngFor="let cmp of grape" (click)="objetoCadastro('_get',cmp.codigo);">   
+       
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>{{cmp.title}}</ion-card-title>
+
+    <ion-card-subtitle>{{cmp.subTitle}}</ion-card-subtitle>
+  </ion-card-header>
+
+</ion-card>        
+  </ion-item>
+
+    </ion-list>  -->
+  <div *ngIf="!this.db.grid">
+    <app-grape-header *ngIf="this.header" [objeto]="this._PAGINA" [header]="this.header" [keyHeader]=""
+      [headerFilter]="filtro"></app-grape-header>
+  </div>
+  <div class="divgrid" *ngIf="this.db.grid">
+    <app-grape-grid [objeto]="this._PAGINA" [definition]="this.definition" [callbackFunction]="seleciona.bind(this)"  [filterDefault]="filtroPadrao" >
+    </app-grape-grid>
+  </div>
+  <!-- <ion-virtual-scroll [items]="grapeHeader"> -->
+  <!--   <ion-item *virtualItem="let cmp" (click)="objetoCadastro('_get',cmp.codigo);">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{cmp.title}}</ion-card-title>
+    
+        <ion-card-subtitle>{{cmp.subTitle}}</ion-card-subtitle>
+      </ion-card-header>
+
+    </ion-card>        
+  </ion-item> -->
+  <!--   <ion-label></ion-label>
+  <ion-list *ngFor="let cmp of grapes" >
+    <ion-list-header (click)="objeto('_list',cmp,'paisEstado', grapes.indexOf(cmp))">
+      <ion-label >{{cmp.headerFilter}} </ion-label>
+    </ion-list-header>
+    <ion-list-header>
+      <ion-label>Nivel 2</ion-label>
+    </ion-list-header>
+    <ion-list >
+    <ion-item *ngFor="let item of cmp" (click)="objetoCadastro('_get',cmp.codigo);" >
+      <ion-label>{{item.descricao}}</ion-label>
+    </ion-item>
+  </ion-list>
+  </ion-list> -->
+  <!-- </ion-virtual-scroll> -->
+
+  <ion-list *ngIf="acao=='_definition'">
+    {{ this.getConteudo(obj) }}
+  </ion-list>
+  {{obj?.action}}
+  <!--   <ion-fab vertical="bottom" horizontal="end" slot="fixed" slot="fixed">
+    <ion-fab-button *ngFor="let act of obj?.actions" (click)="objeto(act.id); this.acao=act.id">{{act.label}}
+    </ion-fab-button>
+  </ion-fab> -->
+<!-- </ion-content>  -->
