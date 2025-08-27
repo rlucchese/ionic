@@ -1,0 +1,30 @@
+.obs{
+    font-size: 0.8em;
+
+}
+.linha2 {
+    font-size: 1em;
+width: 100%
+
+}
+
+.my-checkbox {
+    display: flex;
+    align-items: center;
+}
+.checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before {
+    background: red !important; 
+    border-color: red !important;
+  }
+
+  .wrap {
+	overflow: hidden !important;
+	//text-wrap: nowrap !important;
+	text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    width: 100%;
+}
+
+.sc-ion-buttons-md-s ion-button{
+    height: 20px;
+}

@@ -1,0 +1,146 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title color="primary">
+      {{ colaborador }}
+    </ion-title>
+    <ion-title color="primary">
+      {{ cliente }}
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancela()">
+        <ion-icon color="primary" slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="carrega()">
+        <ion-icon color="primary" slot="icon-only" name="refresh-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="!this.db.EhAplicativo" (click)="imprime()" size="large">
+        <ion-icon name="print" color="primary"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row class="barraFiltro"> 
+        <ion-col style="width: 30%;">
+
+      <ion-label class="fonteSmall fim" > Situacao
+      <ion-select 
+           (ionChange)="busca()"
+           [(ngModel)]="idStatus"
+           okText="Ok" cancelText="Cancelar" value ="1"
+          >
+        <ion-select-option value="1">Ativo</ion-select-option>
+        <ion-select-option value="2">Inativo</ion-select-option>
+        <ion-select-option value="3">Todos</ion-select-option>
+
+      </ion-select>
+      </ion-label>
+        </ion-col>
+        <ion-col style="width: 70%;">
+          <ion-item class="itemSemBorda">
+            <ion-button slot="end" fill="clear" (click)="mostraBusca = !mostraBusca" class="fim">
+              <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+            </ion-button>
+            </ion-item>
+            </ion-col>
+    </ion-row>
+  </ion-grid>
+
+      <ion-grid>
+        <ion-row *ngIf="mostraBusca" class="barraFiltro" > 
+          <ion-col style="width:100%">
+      <ion-item>
+      <ion-searchbar
+        style="border-top: 5px"
+        placeholder="Localizar Log"
+        (value)="buscaDoc"
+        [(ngModel)]="buscaDoc"
+        (ionChange)="busca()"></ion-searchbar>
+        <ion-badge *ngIf="this.documentos" slot="end">
+        {{this.documentos.length}}
+      </ion-badge>
+    </ion-item>
+    </ion-col>
+    </ion-row>
+    </ion-grid>
+
+  
+  </ion-toolbar>
+  
+</ion-header>
+
+<ion-content>
+
+    <ion-item button class="itemSemBorda itemCard" *ngFor="let doc of documentos">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-label class="titulo">
+              {{ doc.nome }} 
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <div class="vencimento" *ngIf="doc.dataPublicacaoStr != ''">
+              Publicado em: {{ doc.dataPublicacaoStr }}
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <div class="vencimento" *ngIf="doc.ultimoAcessoStr != ''">
+              Último acesso: {{ doc.ultimoAcessoStr }}
+            </div>
+            <div class="vencimento" *ngIf="doc.ultimoAcessoStr == ''">
+              Não acessado
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="doc.outrosAcessos.length > 0">
+          <ion-col>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  Outros acessos:
+                </ion-col>
+              </ion-row>
+              <ion-row *ngFor="let o of doc.outrosAcessos">
+                <ion-col>
+                  <div class="outros">{{ o }}</div>
+
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <div style="display: none;" *ngIf="!this.db.EhAplicativo">
+      <div id="tabelaImprimir">
+        <table border=1 style="border-collapse: collapse; width: 100%"  *ngFor="let doc of documentos">
+          <tr>
+            <td align="center">Nome</td>
+            <td align="center">Data Publicação</td>
+            <td align="center">Data Ultimo Acesso</td>
+          </tr>
+          <tr >
+            <td align="justify">{{ doc.nome }}</td>
+            <td align="right">{{doc.dataPublicacaoStr}}</td>
+            <td align="right">{{doc.ultimoAcessoStr}}</td>
+
+  
+          </tr>
+          <table border=1 style="border-collapse: collapse; width: 100%" >
+          <tr *ngFor="let o of doc.outrosAcessos">
+            <td>
+              <div class="outros">{{ o }}</div>
+            </td>
+          </tr>
+          </table>
+        </table>
+      </div>
+      </div>
+</ion-content>

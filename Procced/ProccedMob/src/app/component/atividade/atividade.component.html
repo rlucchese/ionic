@@ -1,0 +1,93 @@
+<ion-item
+	lines="none"
+	class="container">
+	<ion-grid
+		fixed
+		class="ion-no-padding"
+		(click)="check(this.atividade)">
+		<ion-row>
+			<ion-col
+				size-md="8"
+				size-sm="12"
+				size-xs="12"
+				class="wrap">
+				<ion-label
+					class="wrap"
+					[class]="'classe'+ getNivel(this.atividade.classificacao)">
+					<input
+						type="checkbox"
+						[disabled]="this.atividade.checkList==2?true:false"
+						[(ngModel)]="this.atividade.checked" 
+						(change)="processaArvore(atividade)"
+						/>
+					<!--    <ion-checkbox size="1"
+                        (click)="checkAtividade(atividade)"> </ion-checkbox> -->
+
+					{{atividade.classificacao}} - {{atividade.descricao}}
+				</ion-label>
+			</ion-col>
+
+			<ion-col
+			class="classe-recurso{{getNivel(this.atividade.classificacao)}}"
+				size-md="2"
+				size-sm="6" 
+				size-xs="12">
+				<ion-label>{{atividade.recurso}}</ion-label>
+			</ion-col>
+			<ion-col class="classe-recurso{{getNivel(this.atividade.classificacao)}}"
+				size-md="2"
+				size-sm="6"
+				size-xs="12">
+				<ion-label>{{atividade.dataAgenda | date : "dd/MM/yy" }}</ion-label>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<ion-button
+		size="small"
+		fill="clear"
+		(click)="mostraDetalhes = !mostraDetalhes"
+		slot="end">
+		<ion-icon name="caret-down"></ion-icon>
+	</ion-button>
+</ion-item>
+<ion-item
+	lines="none"
+	*ngIf="mostraDetalhes"
+	class="container classe{{getNivel(this.atividade.classificacao)}}">
+	<ion-grid
+		fixed
+		class="ion-no-padding">
+		<ion-row>
+			<ion-col
+				size="8"
+				[class]="'classe'+ getNivel(this.atividade.classificacao) + ' linhaDetalhe'">
+				{{atividade.descricao}}</ion-col
+			>
+		</ion-row>
+		<ion-row>
+			<ion-col
+				size="8"
+				[class]="'classe'+ getNivel(this.atividade.classificacao) + ' linhaDetalhe'">
+				{{atividade.txtExpl}}</ion-col
+			>
+		</ion-row>
+	</ion-grid>
+</ion-item>
+<!--     <ion-grid  fixed slot="end"> 
+        <ion-row>
+            <ion-col size="2" class="wrap">{{atividade.idRecurso}}</ion-col>
+
+            <ion-col size="2"> 
+
+            </ion-col>
+        </ion-row>
+        </ion-grid> -->
+
+<div *ngIf="atividade.atividades">
+	<app-atividade
+		[atividade]="atividade"
+		*ngFor="let atividade of atividade.atividades"></app-atividade>
+</div>
+<div
+	*ngIf="!atividade.atividades"
+	style="padding-left:15px"></div>

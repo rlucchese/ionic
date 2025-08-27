@@ -1,0 +1,210 @@
+<ion-header #head>
+	<ion-toolbar
+		class="alturamenor"
+		color="primary">
+		<ion-buttons
+			class="alturamenor"
+			collapse="true"
+			slot="start">
+			<ion-menu-button class="alturamenor"></ion-menu-button>
+			<ion-button (click)="volta()">
+				<ion-icon
+					slot="icon-only"
+					name="arrow-back-outline"></ion-icon>
+			</ion-button>
+		</ion-buttons>
+		<ion-buttons
+			class="alturamenor"
+			slot="end">
+			<ion-chip
+				class="sessao"
+				*ngIf="this.db.timer <= this.db.minMostraTimer"
+				(click)="this.db.revalidaToken(this.db.app.token)">
+				Saindo em {{ this.db.timer }} min
+			</ion-chip>
+			<ion-button (click)="this.db.sendWhats()">
+				<ion-icon
+					slot="start"
+					name="logo-whatsapp"></ion-icon>
+			</ion-button>
+			<ion-button class="alturamenor">
+				<ion-icon
+					slot="icon-only"
+					name="notifications-outline">
+				</ion-icon>
+				<ion-badge
+					*ngIf="this.db.qtdNotificacoes > 0"
+					top
+					color="danger"
+					>{{ this.db.qtdNotificacoes }}</ion-badge
+				>
+			</ion-button>
+		</ion-buttons>
+		<ion-title>{{rotuloPlural}}</ion-title>
+	</ion-toolbar>
+	<ion-toolbar>
+		<ion-item lines="none">
+			<ion-label slot="start">{{os?.cliente}}</ion-label>
+			<ion-label>{{os?.codigoCliente}}</ion-label>
+			<ion-label slot="end">{{os?.id}}</ion-label>
+			<ion-button
+				fill="clear"
+				slot="end"
+				(click)="mostraDetalhes = !mostraDetalhes">
+				<ion-icon
+					slot="icon-only"
+					name="caret-down"></ion-icon>
+			</ion-button>
+			<ion-button
+				fill="clear"
+				slot="end"
+				(click)="mostraInfoBaixa(os)">
+				<ion-icon
+					slot="icon-only"
+					name="checkmark-done-outline"></ion-icon>
+			</ion-button>
+		</ion-item>
+		<ion-toolbar>
+			<ion-grid fixed>
+				<ion-row>
+	
+					<ion-col size="6">
+            <ion-select
+            multiple="false"
+            placeholder="Baixado/NaoBaixado"
+            [(ngModel)]="baixado"
+            (ionChange)="filtra()">
+            <ion-select-option  value="AMBOS">AMBOS</ion-select-option>
+            <ion-select-option  value="BAIXADO">BAIXADO</ion-select-option>
+            <ion-select-option  value="NAO BAIXADO">NAO BAIXADO</ion-select-option>
+
+          </ion-select>
+					</ion-col>
+					<ion-col size="6">
+						<ion-select
+							multiple="true"
+							placeholder="Selecione a Agenda"
+              [(ngModel)]="agendaSelecionada"
+              (ionChange)="filtra()">
+              <ion-select-option  value="TODOS">TODOS</ion-select-option>
+
+							<ion-select-option *ngFor="let recurso of recursos" [value]="recurso">{{recurso}}</ion-select-option>
+
+						</ion-select>
+					</ion-col>
+				</ion-row>
+			</ion-grid>
+		</ion-toolbar>
+	</ion-toolbar>
+	<div
+		class="container"
+		*ngIf="mostraDetalhes">
+		<ion-grid>
+			<ion-row>
+				<ion-col size="6"><p class="linha2">{{os?.servico}}</p></ion-col>
+				<ion-col size="6"
+					><grp-input
+						label="Observacao"
+						name="observacao"
+						[(ngModel)]="this.os.observacao"></grp-input>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+	</div>
+</ion-header>
+<ion-content>
+	<div *ngIf="atividades">
+		<div
+			class="camposAux"
+			*ngFor="let atividade of atividades">
+			<app-atividade [atividade]="atividade"></app-atividade>
+		</div>
+	</div>
+</ion-content>
+<ion-footer>
+	<ion-grid *ngIf="this.os">
+		<ion-row>
+			<ion-col>
+				<ion-label
+					class="label"
+					position="relative">
+					Observacao da Baixa
+				</ion-label>
+				<ion-textarea
+					class="input"
+					name="observacaoBaixa"
+					[(ngModel)]="this.os.observacaoBaixa"></ion-textarea>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col
+				size-md="2"
+				size-sm="6"
+				size-xs="12">
+				<grp-input
+					label="Data Baixa"
+					name="dataBaixa"
+					type="date"
+					[(ngModel)]="this.os.dataBaixa"></grp-input>
+			</ion-col>
+			<ion-col
+				size-md="2"
+				size-sm="6"
+				size-xs="12">
+				<grp-input
+					debounce="500"
+					(ionChange)="calculaTotalHoras()"
+					type="time"
+					label="Hora Inicio"
+					name="horaIni"
+					[(ngModel)]="this.os.horaIni"></grp-input>
+			</ion-col>
+			<ion-col
+				size-md="2"
+				size-sm="6"
+				size-xs="12">
+				<grp-input
+					debounce="500"
+					(ionChange)="calculaTotalHoras()"
+					type="time"
+					label="Hora Término"
+					name="horaFim"
+					[(ngModel)]="this.os.horaFim"></grp-input>
+			</ion-col>
+
+			<ion-col
+				size-md="2"
+				size-sm="6"
+				size-xs="12">
+				<grp-input
+					debounce="500"
+					(ionChange)="calculaTotalHoras()"
+					type="time"
+					label="Intervalo"
+					name="intervalo"
+					[(ngModel)]="this.os.intervalo"></grp-input>
+			</ion-col>
+			<ion-col
+				size-md="2"
+				size-sm="6"
+				size-xs="12">
+				<grp-input
+					label="Total de Hora"
+					type="text"
+					name="totalHoras"
+					[(ngModel)]="this.os.totalHoras"></grp-input>
+			</ion-col>
+			<ion-col
+				size-md="2"
+				size-sm="6"
+				size-xs="12">
+				<ion-button
+					(click)="baixa()"
+					expand="block"
+					shape="round">
+					Baixar
+				</ion-button>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-footer>

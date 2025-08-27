@@ -1,0 +1,12 @@
+<ion-label  class="label" position="relative">
+  {{ label }}
+  <ion-icon *ngIf="required === 'true'" [name]="iconRequired"></ion-icon>
+</ion-label>
+<ion-input
+  class="input"
+  [placeholder]=""
+  [name]="name"
+  [type]="type"
+  [(ngModel)]="value"
+  (ngModelChange)="onChange($event)"
+  (ionBlur)="onBlur($event)"></ion-input>

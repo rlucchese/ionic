@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-img [src]="db._URL_LOGO" style="margin: auto; max-width: 150px">
+    </ion-img>
+    <ion-buttons slot="end">
+      <ion-button class="btnEntrar" size="large" color="primary" type="submit" expand="block" (click)="entrar()">
+        <ion-label>Entrar</ion-label>
+        <ion-icon name="log-in"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-button id="setup" (click)="setup()">
+        <ion-icon name="settings" color="primary"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+  <div style="width: 80%; margin: auto; margin-top: 15px;">
+    <ion-button *ngIf="!consulta" (click)="toogleConsulta()" size="small" color="primary" expand="block">Faça uma
+      Consulta
+    </ion-button>
+    <form *ngIf="consulta" ngmodel #frmConsulta="ngForm" (ngSubmit)="enviaConsulta(frmConsulta)"
+      style="padding: 5px; border: 1px solid var(--ion-color-primary)">
+      <ion-item class="itemSemBorda">
+        <ion-label position="floating" class="ion-text-wrap">E-mail</ion-label>
+        <ion-input style="margin: auto" name="email" type="email" required [(ngModel)]="email"></ion-input>
+      </ion-item>
+      <ion-item class="itemSemBorda">
+        <ion-label position="floating" class="ion-text-wrap">Mensagem</ion-label>
+        <ion-textarea style="min-height: 100px;" name="mensagem" [(ngModel)]="mensagem"></ion-textarea>
+      </ion-item>
+      <ion-item class="itemSemBorda" >
+        <ion-checkbox color="primary"></ion-checkbox>
+        <ion-label>&nbsp;Receber notícias por e-mail</ion-label>
+      </ion-item>
+      <ion-item class="itemSemBorda" >
+        <ion-button class="btnEnviar" size="meddium" color="primary" (click)="toogleConsulta()" type="button"
+          expand="block">Fechar
+        </ion-button>
+        <ion-button class="btnEnviar" slot="end" size="meddium" color="primary" type="submit" [disabled]="frmConsulta.invalid"
+          expand="block">Enviar
+        </ion-button>
+      </ion-item>
+    </form>
+  </div>
+    <app-noticias-cmp></app-noticias-cmp>
+</ion-content>

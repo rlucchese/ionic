@@ -1,0 +1,222 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title small color="primary"> Notificações </ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancela()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="arrow-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="carrega(true,1)">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="refresh-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-item class="itemSemBorda">
+    <ion-searchbar
+      #search 
+      style="border-top: 5px"
+      placeholder="Localizar notificacao"
+      (value)="(buscaNot)"
+      (ionChange)="busca($event)"></ion-searchbar>
+<!--      <ion-button slot="start" fill="clear" (click)="mostrandoFiltro = !mostrandoFiltro;">
+        <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+        </ion-button>-->
+      <ion-badge *ngIf="this.documentos.length > 0 || this.solicitacoes.length > 0" slot="end">
+      {{this.documentos.length + this.solicitacoes.length}}
+    </ion-badge>
+  </ion-item>
+</ion-header>
+
+<ion-content fullscreen>
+<!--  <ion-list>
+    <ion-item
+      button
+      class="itemSemBorda itemCard"
+      *ngFor="let not of this.notificacoes"
+      (click)="seleciona(not)"
+    >
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <div class="titulo">
+              {{ not.cliente }}
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label class="notificacao">
+              {{ not.notificacao }}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col *ngIf="not.vencimento" class="vencimento">
+            Vencimento: {{ not.vencimento }}
+          </ion-col>
+          <ion-col class="ion-text-right ultimoAcesso">
+            {{ not.dataHora | date: "dd/MM/y HH:ss" }}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+-->
+
+
+  <ion-item *ngIf="this.documentos.length == 0 && this.solicitacoes.length == 0">Nenhum item encontrado</ion-item>
+
+  <!-- DOCUMENTOS -->
+  <ion-list *ngIf="this.documentos.length > 0">
+    <ion-list-header color="primary">
+      <ion-title *ngIf="this.documentos.length == 1">{{documentos.length}} Documento</ion-title>
+      <ion-title *ngIf="this.documentos.length > 1">{{documentos.length}} Documentos</ion-title>
+    </ion-list-header>
+    <ion-item
+      button
+      class="itemSemBorda itemCard"
+      *ngFor="let doc of this.documentos"
+      (click)="selecionaDoc(doc)">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <div class="titulo">
+              {{ doc.cliente }}
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label class="notificacao">
+              Documento: {{ doc.sequencial }} - {{ doc.tituloDoc }}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="this.db.app.tipoUsuario != 3" class="ion-align-items-center">
+          <ion-col *ngIf="doc.vctoApp" class="vencimento">
+              Vencimento: {{ doc.vctoApp | date :  "dd/MM/y" }}
+            </ion-col>
+           <ion-col class="ion-text-right ultimoAcesso">
+            {{ fmtDataHora(doc.dataHora) }} 
+          </ion-col> 
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+
+  <!-- SOLICITAÇÕES -->
+  <ion-list *ngIf="this.solicitacoes.length > 0">
+    <ion-list-header color="primary">
+      <ion-title *ngIf="this.solicitacoes.length == 1">{{solicitacoes.length}} Solicitação</ion-title>
+      <ion-title *ngIf="this.solicitacoes.length > 1">{{solicitacoes.length}} Solicitações</ion-title>
+    </ion-list-header>
+
+    <ion-item class="itemSemBorda itemCard itemOS" 
+              *ngFor="let os of this.solicitacoes" (click)="expandeCampo(os,!os.mostraCamposAuxiliares)">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <div class="titulo">
+              {{ os.cliente }}
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label class="titulo"> {{ os.descricao }} </ion-label>
+          </ion-col>
+          <ion-col size="2" style="text-align: right;">
+              <ion-icon class="medio" *ngIf="os.qtdDocumentos > 0" name="attach-outline"></ion-icon>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label *ngIf="os.dataAgenda " class="vencimento">
+                {{ os.statusOS }}
+            </ion-label>
+          </ion-col>
+          <ion-col size="2" style="text-align: right;">
+              <ion-icon class="medio" *ngIf="os.qtdCamposAuxiliares > 0 && !os.mostraCamposAuxiliares" name="caret-down-outline"></ion-icon>
+              <ion-icon class="medio" *ngIf="os.qtdCamposAuxiliares > 0 && os.mostraCamposAuxiliares" name="caret-up-outline"></ion-icon>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="os.mostraDocumentos">
+          <!--          <ion-label class='titulo'>Documentos</ion-label> -->
+          <ion-chip
+            outline
+            *ngFor="let doc of this.os.documentos"
+            (click)="seleciona(doc.id,$event);">
+            <ion-icon name="document-outline"></ion-icon>
+            <ion-label>{{doc.nome}}</ion-label>
+          </ion-chip>
+        </ion-row>
+        <ion-row *ngIf="os.mostraCamposAuxiliares">
+          <ion-grid>
+            <ion-row *ngFor="let ca of this.os.camposAuxiliares">
+              <ion-col *ngIf="ca.tipo == 0">
+                <ion-label innerHtml="{{ca.rotulo}}"></ion-label>
+              </ion-col>
+              <ion-col *ngIf="ca.tipo != 0" size='4' class="cmpAuxRotulo">
+                <ion-label>{{ca.rotulo}}:</ion-label>
+              </ion-col>
+              <ion-col *ngIf="ca.tipo != 0" size='6'>
+                <div class="camposAux" *ngIf="ca.tipo == 1">
+                   <b>{{ca.conteudo}}</b>
+                </div>
+                <div class="camposAux" *ngIf="ca.tipo == 2">
+                  <b>{{ca.conteudo}}</b>
+                </div>
+                <div class="camposAux" *ngIf="ca.tipo == 3">
+                  <b>{{ca.conteudo | date : "dd/MM/yy"}}</b>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+
+
+<!--
+
+    <ion-item
+      button
+      class="itemSemBorda itemCard"
+      *ngFor="let sol of this.solicitacoes"
+      (click)="selecionaSol(sol)">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <div class="titulo">
+              {{ sol.cliente }}
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label class="notificacao">
+              Solicitação: {{ sol.descricao }}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col class="ion-text-right ultimoAcesso">
+            {{ sol.data }}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    -->
+  </ion-list>
+
+</ion-content>

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Provver</string>
+    <string name="title_activity_main">Provver</string>
+    <string name="package_name">br.com.provver</string>
+    <string name="custom_url_scheme">br.com.provver</string>
+</resources>

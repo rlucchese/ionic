@@ -1,0 +1,207 @@
+<!-- <ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="this.selNot.selecionaNotificacao()">
+        <ion-icon slot="icon-only" name="notifications-outline"> </ion-icon>
+        <ion-badge *ngIf="this.db.qtdNotificacoes > 0" top color="danger"
+          >{{ this.db.qtdNotificacoes }}</ion-badge
+        >
+      </ion-button>
+      <ion-button (click)="incluiOS()">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Solicitações</ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar (click)="selecionaCliente()">
+    <ion-title *ngIf="!this.db.cliente">Selecione a empresa</ion-title>
+    <ion-title *ngIf="this.db.cliente">{{ this.db.cliente.nome }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+<ion-item class="itemSemBorda">
+    <ion-button
+      slot="start"
+      fill="clear"
+      (click)="mostrandoFiltro = !mostrandoFiltro;"
+    >
+      <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+    </ion-button>
+
+    <ion-button
+      slot="end"  
+      *ngIf="ordens && ordens.length > 0 && this.mostraTodosCamposAuxiliares"
+      fill="clear"
+      (click)="expandeCampos(ordens, true);">
+      <ion-icon class="medio" name="caret-down-outline"></ion-icon>
+    </ion-button>
+    <ion-button 
+      slot="end"
+      *ngIf="ordens && ordens.length > 0 && !this.mostraTodosCamposAuxiliares"
+      fill="clear"
+      (click)="expandeCampos(ordens, false);">
+      <ion-icon class="medio" name="caret-up-outline"></ion-icon>
+    </ion-button>
+  </ion-item>
+  <ion-item *ngIf="mostrandoFiltro" class="itemSemBorda">
+    <ion-label> Status </ion-label>
+    <ion-select (ionChange)="carrega()" [(ngModel)]="status">
+      <ion-select-option value="1">Não Baixadas</ion-select-option>
+      <ion-select-option value="2">Baixadas</ion-select-option>
+      <ion-select-option value="3">Todas</ion-select-option>
+    </ion-select>
+  </ion-item>
+</ion-header>
+-->
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="this.selNot.selecionaNotificacao()">
+        <ion-icon slot="icon-only" name="notifications-outline"> </ion-icon>
+        <ion-badge *ngIf="this.db.qtdNotificacoes > 0" top color="danger"
+          >{{ this.db.qtdNotificacoes }}</ion-badge
+        >
+      </ion-button>
+      <ion-button (click)="incluiOS()">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Solicitações</ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar (click)="selecionaCliente()">
+    <ion-title *ngIf="!this.db.cliente">Selecione a empresa</ion-title>
+    <ion-title *ngIf="this.db.cliente">{{ this.db.cliente.nome }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-item class="itemSemBorda">
+    <ion-button
+      slot="start"
+      fill="clear"
+      (click)="mostrandoFiltro = !mostrandoFiltro;"
+    >
+      <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+    </ion-button>
+    <ion-searchbar
+      style="border-top: 5px"
+      placeholder="Localizar solicitações"
+      value={{buscaOrd}}
+      (ionChange)="busca($event.detail.value)"
+    ></ion-searchbar>
+    <ion-badge *ngIf="ordens && ordens.length > 0" slot="end">
+      {{ordens.length}}
+    </ion-badge>
+    <ion-button
+      slot="end"  
+      *ngIf="ordens && ordens.length > 0 && this.mostraTodosCamposAuxiliares"
+      fill="clear"
+      (click)="expandeCampos(ordens, true);">
+      <ion-icon class="medio" name="caret-down-outline"></ion-icon>
+    </ion-button>
+    <ion-button 
+      slot="end"
+      *ngIf="ordens && ordens.length > 0 && !this.mostraTodosCamposAuxiliares"
+      fill="clear"
+      (click)="expandeCampos(ordens, false);">
+      <ion-icon class="medio" name="caret-up-outline"></ion-icon>
+    </ion-button>
+  </ion-item>
+  <ion-item *ngIf="mostrandoFiltro" class="itemSemBorda">
+    <ion-label> Status </ion-label>
+    <ion-select (ionChange)="carrega()" [(ngModel)]="status">
+      <ion-select-option value="1">Não Baixadas</ion-select-option>
+      <ion-select-option value="2">Baixadas</ion-select-option>
+      <ion-select-option value="3">Todas</ion-select-option>
+    </ion-select>
+  </ion-item>
+</ion-header>
+ 
+ 
+<ion-content [fullscreen]="true">
+  <ion-header>
+    <ion-searchbar
+    style="border-top: 5px"
+    placeholder="Localizar solicitação"
+    value={{buscaOrd}}
+    (ionChange)="busca($event.detail.value)"
+  >    </ion-searchbar>
+  </ion-header>
+  <ion-list>
+    <ion-item *ngIf="ordens && ordens.length == 0"
+      >Nenhum item encontrado</ion-item>
+    <ion-item class="itemSemBorda itemCard itemOS" 
+              *ngFor="let os of ordens" (click)="expandeCampo(os,!os.mostraCamposAuxiliares)">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-label class="titulo"> {{ os.descricao }} </ion-label>
+          </ion-col>
+          <ion-col size="2" style="text-align: right;">
+              <ion-icon class="medio" *ngIf="os.qtdDocumentos > 0" name="attach-outline"></ion-icon>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label *ngIf="os.dataAgenda " class="vencimento">
+<!--               Data: {{ os.dataAgenda | date :  "dd/MM/yy" }}  -->
+                {{ os.statusOS }}
+            </ion-label>
+          </ion-col>
+          <ion-col size="2" style="text-align: right;">
+              <ion-icon class="medio" *ngIf="os.qtdCamposAuxiliares > 0 && !os.mostraCamposAuxiliares" name="caret-down-outline"></ion-icon>
+              <ion-icon class="medio" *ngIf="os.qtdCamposAuxiliares > 0 && os.mostraCamposAuxiliares" name="caret-up-outline"></ion-icon>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="os.mostraDocumentos">
+          <ion-chip
+            outline
+            *ngFor="let doc of this.os.documentos"
+            (click)="seleciona(doc.id,$event);">
+            <ion-icon name="document-outline"></ion-icon>
+            <ion-label>{{doc.nome}}</ion-label>
+          </ion-chip>
+        </ion-row>
+        <ion-row *ngIf="os.mostraCamposAuxiliares">
+          <ion-grid>
+            <ion-row *ngFor="let ca of this.os.camposAuxiliares">
+              <ion-col *ngIf="ca.tipo == 0">
+                <ion-label innerHtml="{{ca.rotulo}}"></ion-label>
+              </ion-col>
+              <ion-col *ngIf="ca.tipo != 0" size='4' class="cmpAuxRotulo">
+                <ion-label>{{ca.rotulo}}:</ion-label>
+              </ion-col>
+              <ion-col *ngIf="ca.tipo != 0" size='6'>
+                <div class="camposAux" *ngIf="ca.tipo == 1">
+                   <b>{{ca.conteudo}}</b>
+                </div>
+                <div class="camposAux" *ngIf="ca.tipo == 2">
+                  <b>{{ca.conteudo}}</b>
+                </div>
+                <div class="camposAux" *ngIf="ca.tipo == 3">
+                  <b>{{ca.conteudo | date : "dd/MM/yy"}}</b>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+</ion-content>

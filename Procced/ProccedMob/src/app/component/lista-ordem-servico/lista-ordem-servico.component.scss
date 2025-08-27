@@ -1,0 +1,26 @@
+ion-chip {
+    color: var(--ion-color-primary);
+    border-color: var(--ion-color-primary);
+    ion-icon {
+      color: var(--ion-color-primary);
+    }
+  }
+  
+  //ion-button {
+    //background-color: blue;
+  //}
+  .itemOS {
+    cursor: pointer;
+  }
+  
+  .medio {
+    font-size: x-large;
+    color: var(--ion-color-primary);
+  }
+  
+  .cmpAuxRotulo {
+    ion-label {
+      font-size: small;
+    }
+  }
+  

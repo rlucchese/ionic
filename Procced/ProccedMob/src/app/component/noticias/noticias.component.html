@@ -1,0 +1,15 @@
+<div style="text-align: center; padding-top: 15px;">
+  Últimas Notícias
+</div>
+<div class="noticias">
+  <ion-card (click)="abreFechaNoticia(not)" *ngFor="let not of this.noticias">
+    <ion-img [class]="not.mostra?'exibe':'naoExibe'" [src]="not.urlImagem" style="margin: auto;"></ion-img>
+    <ion-card-header>
+      <ion-card-subtitle >{{not.dataHoraStr}}</ion-card-subtitle>
+      <ion-card-title  style='text-align: justify'>{{not.titulo}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content [class]="not.mostra?'exibe':'naoExibe'" >
+      <div style='text-align: justify' innerHtml="{{ not.texto }}"></div>
+    </ion-card-content>
+  </ion-card>
+</div>

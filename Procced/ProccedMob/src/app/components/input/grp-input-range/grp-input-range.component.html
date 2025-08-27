@@ -1,0 +1,13 @@
+<section class="conteiner">
+  <ion-label> {{label}} </ion-label>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <grp-input [type]="type" [(ngModel)]="value1" (ngModelChange)="onchange1($event)" label="de"> </grp-input>
+      </ion-col>
+      <ion-col>
+        <grp-input [type]="type" [(ngModel)]="value2" (ngModelChange)="onchange2($event)" label="ate"> </grp-input>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</section>

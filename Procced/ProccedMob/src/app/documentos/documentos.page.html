@@ -1,0 +1,86 @@
+
+<ion-header>
+  <ion-toolbar class="alturamenor"  color="primary">
+    <ion-buttons  class="alturamenor" slot="start">
+      <ion-menu-button class="alturamenor"></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-chip class="sessao"  *ngIf="this.db.timer <= this.db.minMostraTimer" (click)='this.db.revalidaToken(this.db.app.token)'>
+        Saindo em {{ this.db.timer }} min
+      </ion-chip>
+      <ion-button (click)="this.db.sendWhats()">
+        <ion-icon slot="start" name="logo-whatsapp"></ion-icon>
+      </ion-button>
+      <ion-button class="alturamenor" (click)='abreNotificacao()'>
+        <ion-icon slot="icon-only" name="notifications-outline">
+        </ion-icon>
+        <ion-badge *ngIf="this.db.qtdNotificacoes > 0" top color="danger">{{ this.db.qtdNotificacoes }}</ion-badge>
+      </ion-button>
+    </ion-buttons>
+    <!--    <ion-buttons slot='start'>
+        <img [src]="logo" class="logo" />
+    </ion-buttons>-->
+    <ion-title>Documentos</ion-title>
+<!--    <ion-title size="small">Logidados Informática Ltda</ion-title>  -->
+  </ion-toolbar>
+  <ion-toolbar class="alturamenor" (click)='selecionaCliente()'>
+    <ion-title *ngIf="!this.db.cliente">Selecione a empresa</ion-title>
+    <ion-title *ngIf="this.db.cliente">{{ this.db.cliente.nome }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<!--<ion-header>
+      <img [src]="logo" class="logo" />
+  <ion-toolbar color="primary">
+    <ion-buttons slot="primary">
+      <ion-back-button></ion-back-button>
+      <ion-button>
+        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title><img [src]='logo'>
+{{ logo }}</ion-title>
+  </ion-toolbar>
+</ion-header>-->
+<ion-content fullScreen>
+  <!--
+    <ion-header>
+    <ion-toolbar (click)='selecionaCliente()'>
+      <ion-title *ngIf="!this.db.cliente">Selecione a empresa</ion-title>
+      <ion-title *ngIf="this.db.cliente">{{ this.db.cliente.nome }}</ion-title>
+      <ion-buttons slot="end">
+        <ion-button>
+          <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+-->
+<ion-list *ngIf="this.db.cliente && this.db.classificacoesCliente">
+  <ion-list-header *ngIf="this.db.cliente && this.db.classificacoesCliente">
+    <ion-title>Visualização cliente</ion-title>
+  </ion-list-header>
+  <ion-item button *ngFor="let clas of this.db.classificacoesCliente" (click)="selecionaClassificacao(clas)">
+    {{clas.classificacao}} - {{clas.descricao}}
+    <ion-badge slot="end">{{clas.qtdDoc}}</ion-badge>
+  </ion-item>
+</ion-list>
+<ion-list *ngIf="this.db.cliente && this.db.classificacoes">
+    <ion-list-header *ngIf="this.db.cliente && this.db.classificacoesCliente">
+      <ion-title>Visualização interna</ion-title>
+    </ion-list-header>
+    <ion-item *ngFor="let clas of this.db.classificacoes" (click)="selecionaClassificacao(clas)">
+      <div [style.padding-left]="(clas.nivel - 1) * 30 + 'px'">
+         {{clas.classificacao}} - {{clas.descricao}}
+      </div>
+      <ion-badge slot="end">{{clas.qtdDoc}}</ion-badge>
+    </ion-item>
+  </ion-list>
+</ion-content>

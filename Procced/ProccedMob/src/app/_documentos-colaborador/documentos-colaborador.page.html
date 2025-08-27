@@ -1,0 +1,178 @@
+<ion-header *ngIf="this.db.app.tipoUsuario!=3">
+  <ion-toolbar>
+    <ion-title small color="primary" *ngIf="this.cpf">
+      {{ getTitulo() }}
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancela()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="arrow-back-outline"
+        ></ion-icon>
+      </ion-button>
+  
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="this.db.sendWhats()">
+        <ion-icon color="primary" name="logo-whatsapp"></ion-icon>
+      </ion-button>
+        <ion-button (click)="carrega()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="refresh-outline"
+        ></ion-icon>
+
+      </ion-button>
+    
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-header *ngIf="this.db.app.tipoUsuario==3">
+  <ion-toolbar class="alturamenor" color="primary">
+    <ion-buttons class="alturamenor" collapse="true" slot="start">
+      <ion-button (click)="this.db.logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>  
+      <ion-chip class="sessao"  *ngIf="this.db.timer <= this.db.minMostraTimer" (click)='this.db.revalidaTokenColaborador(this.db.app.token)'>
+        Saindo em {{ this.db.timer }} min
+      </ion-chip>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button class="alturamenor" (click)='abreNotificacao()'>
+        <ion-icon slot="icon-only" name="notifications-outline">
+        </ion-icon>
+        <ion-badge *ngIf="this.db.qtdNotificacoes > 0" top color="danger">{{ this.db.qtdNotificacoes }}</ion-badge>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ getTitulo() }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <ion-item *ngIf="clientes && clientes.length == 0">Nenhum Documento Cadastrado, entre em contato com o RH</ion-item>
+
+  <ion-list *ngFor="let cli of clientes">
+    <ion-list-header color="primary">
+      <ion-title> {{ cli.nome }} </ion-title>
+      <ion-badge slot="end">{{ cli.quantidadeDocumentos}}</ion-badge>
+    </ion-list-header>
+    <ion-item class="itemSemBorda" *ngFor="let doc of cli.documentos">
+      <ion-list>
+        <ion-label class='titDoc'> {{ doc.documento }} </ion-label>
+<!--         <ion-item *ngFor="let arq of doc.arquivos" class="itemSemBorda arquivo" (click)="abreDocumento(arq.token)">
+        <ion-card>
+          <ion-card-content>
+            {{ arq.nome }}
+          </ion-card-content> 
+        </ion-card>
+        </ion-item> -->
+
+        <ion-item
+        button
+        class="itemSemBorda itemCard"
+        *ngFor="let doc of doc.arquivos"
+        (click)="seleciona(doc)">
+        <ion-grid>
+          <ion-row class="ion-align-items-center">
+            <ion-col size='10'>
+              <ion-grid>
+                <ion-row>
+                  <ion-col>
+                    <ion-label class="titulo">
+                      <span >{{ doc.nome }}  </span>
+                    </ion-label>
+                  </ion-col>
+                </ion-row>
+                <ion-row *ngIf="doc.dataHoraUltimoAcesso">
+                  <ion-col class="ultimoAcesso">
+                    Último acesso: {{ doc.dataHoraUltimoAcesso }}
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+                  </ion-col>
+            <ion-col size="1" class="ion-text-end">
+              <!--            <ion-badge *ngIf="doc.lido == 0">Não lido</ion-badge> -->
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-button *ngIf="EhDesktop" fill='clear' item-end>
+          <ion-icon name="eye-outline"></ion-icon>
+        </ion-button>
+        <ion-button *ngIf="EhDesktop" fill='clear' item-end (click)='download(doc,$event)'>
+          <ion-icon name="cloud-download-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill='clear' *ngIf="!doc.dataHoraUltimoAcesso && doc.lido == 0" item-end>
+          <ion-icon color="primary" name="star"></ion-icon>
+        </ion-button>
+        <ion-button fill='clear' *ngIf="doc.dataHoraUltimoAcesso && doc.lido == 0" item-end>
+          <ion-icon color="primary" name="notifications-circle-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill='clear' *ngIf="doc.lido == 1" (click)='setNaoLidoCliente(doc,$event)' item-end>
+          <ion-icon color="light" name="notifications-off-circle-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill='clear' item-right  (click)="removeAcessoCliente(doc,$event)">
+          <ion-icon name="close-circle"></ion-icon>
+        </ion-button>
+      </ion-item>
+  
+      </ion-list>
+    </ion-item>
+  </ion-list>
+  <!--
+    <ion-
+    <ion-item
+      button
+      class="itemSemBorda itemCard"
+      *ngFor="let doc of this.documentos"
+      (click)="seleciona(doc)">
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+          <ion-col size='10'>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-label class="titulo">
+                    <span *ngIf="doc.sequencial > 0">{{ doc.sequencial }} - </span>{{ doc.tituloDoc }}
+                  </ion-label>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <div *ngIf="doc.vctoApp"  class="vencimento">
+                    Vencimento: {{ doc.vctoApp | date :  "dd/MM/y" }}
+                  </div>
+                </ion-col>
+              </ion-row>
+              <ion-row *ngIf="doc.usuarioUltimoAcesso">
+                <ion-col class="ultimoAcesso">
+                  Último acesso: {{ doc.usuarioUltimoAcesso }}
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+                </ion-col>
+          <ion-col size="1" class="ion-text-end">
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-button fill='clear' *ngIf="!doc.usuarioUltimoAcesso && doc.lido == 0" item-end>
+        <ion-icon color="primary" name="star"></ion-icon>
+      </ion-button>
+      <ion-button fill='clear' *ngIf="doc.usuarioUltimoAcesso && doc.lido == 0" item-end>
+        <ion-icon color="primary" name="notifications-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button fill='clear' *ngIf="doc.lido == 1" (click)='setNaoLidoCliente(doc,$event)' item-end>
+        <ion-icon color="light" name="notifications-off-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button fill='clear' item-right *ngIf="classificacao.idClassificacao < 0" (click)="removeAcessoCliente(doc,$event)">
+        <ion-icon name="close-circle"></ion-icon>
+      </ion-button>
+    </ion-item>
+
+    <ion-item *ngIf="this.documentos?.length == 0 ">Nenhum item encontrado</ion-item>
+
+  </ion-list>
+
+-->
+</ion-content>

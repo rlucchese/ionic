@@ -1,0 +1,43 @@
+ion-content{
+    border: 1px solid black;
+}
+.container{
+    display: flex;
+    align-items: center;
+    padding-bottom: 10px;
+  
+  }
+  .linha2 {
+    font-size: 80%;
+
+
+}
+
+
+
+.input {
+  border: solid 0.5px var(--ion-color-primary);;
+  border-radius: 10px;
+  margin-bottom: 5px;
+}
+
+ion-input{
+  border: solid  1px;
+  border-radius: 10px;
+}
+
+
+
+.input {
+  border: solid 0.5px var(--ion-color-primary);;
+  border-radius: 10px;
+  margin-bottom: 5px;
+}
+
+@media (max-width:800px) {
+  ion-footer {
+    max-height: 200px ;
+    overflow: overlay
+  }
+
+}

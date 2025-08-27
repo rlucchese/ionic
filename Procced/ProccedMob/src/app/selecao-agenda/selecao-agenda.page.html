@@ -1,0 +1,52 @@
+
+
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title small color="primary">Agendas</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancela()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="arrow-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="carrega()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="refresh-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-item class="itemSemBorda">
+  <ion-searchbar
+  style="border-top: 5px"
+  placeholder="Buscar serviço"
+  (ionChange)="busca($event)"
+></ion-searchbar>
+<ion-badge *ngIf="this.db.agendas" slot="end">
+  {{this.db.agendas.length}}
+</ion-badge>
+</ion-item>
+
+</ion-header>
+
+<ion-content fullscreen>
+<!--  <ion-refresher slot="fixed" id="refresher" (ionRefresh)="carrega($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>-->
+  <ion-list >
+    <ion-item  [style]="'--background:#'+agenda.cFundo +'; color:#'+agenda.cFonte"
+    *ngFor="let agenda of this.db.agendas" (click)="seleciona(agenda)">
+      <ion-label  class="ion-text-wrap">{{agenda.descricao}}</ion-label>
+    </ion-item>
+    <ion-item *ngIf="this.db.agendas?.length == 0 ">Nenhum item encontrado</ion-item>
+
+  </ion-list>
+</ion-content>
+

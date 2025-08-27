@@ -1,0 +1,24 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+import { IonicModule } from '@ionic/angular';
+
+import { AgendaPageRoutingModule } from './agenda-routing.module';
+
+import { AgendaPage } from './agenda.page';
+import { ComponentModule } from '../component/components.module';
+import { ComponentsModule } from '../components/components.module';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    AgendaPageRoutingModule,
+    ComponentModule,ComponentsModule
+    
+  ],
+  declarations: [AgendaPage]
+})
+export class AgendaPageModule {}

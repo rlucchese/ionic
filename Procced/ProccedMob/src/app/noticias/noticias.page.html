@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar class="alturamenor"  color="primary">
+    <ion-buttons  class="alturamenor" slot="start">
+      <ion-menu-button class="alturamenor"></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons class="alturamenor" slot="end">
+      <ion-button class="alturamenor" (click)='abreNotificacao()'>
+        <ion-icon slot="icon-only" name="notifications-outline">
+        </ion-icon>
+        <ion-badge *ngIf="this.db.qtdNotificacoes > 0" top color="danger">{{ this.db.qtdNotificacoes }}</ion-badge>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Notícias</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <app-noticias-cmp></app-noticias-cmp>
+</ion-content>

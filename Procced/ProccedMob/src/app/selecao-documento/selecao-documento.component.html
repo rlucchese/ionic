@@ -1,0 +1,147 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title small color="primary" *ngIf="this.classificacao">
+      {{ this.classificacao.descricao }}
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancela()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="arrow-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="carrega(true)">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="refresh-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-item class="itemSemBorda">
+    <ion-searchbar
+      style="border-top: 5px"
+      placeholder="Localizar documento"
+      (value)="buscaDoc"
+      (ionChange)="busca($event)"></ion-searchbar>
+      <ion-badge *ngIf="this.documentos" slot="end">
+      {{this.documentos.length}}
+    </ion-badge>
+</ion-item>
+</ion-header>
+<!--         
+      target="self"
+      href="{{doc.link}}"
+--> 
+
+
+  
+<ion-content fullscreen>
+
+  <ion-list>
+
+    <ion-item
+      button
+      class="itemSemBorda itemCard"
+      *ngFor="let doc of this.documentos"
+      (click)="seleciona(doc)">
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+          <ion-col size='10'>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-label class="titulo">
+                    <span *ngIf="doc.sequencial > '0'">{{ doc.sequencial }} - </span>{{ doc.tituloDoc }}
+                  </ion-label>
+                </ion-col>
+              </ion-row>
+              <ion-row *ngIf="doc.vctoApp" >
+                <ion-col>
+                  <div class="vencimento">
+                    Vencimento: {{ doc.vctoApp | date :  "dd/MM/y" }}
+                  </div>
+                </ion-col>
+              </ion-row>
+              <ion-row *ngIf="this.classificacao.idClassificacao == -9999999">
+                <ion-col class="ultimoAcesso">
+                   {{ doc.usuarioUltimoAcesso }}
+                </ion-col>
+              </ion-row>
+              <ion-row *ngIf="this.classificacao.idClassificacao != -9999999 && doc.usuarioUltimoAcesso">
+                <ion-col class="ultimoAcesso">
+                  Último acesso: {{ doc.usuarioUltimoAcesso }}
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+                </ion-col>
+          <ion-col size="1" class="ion-text-end">
+            <!--            <ion-badge *ngIf="doc.lido == 0">Não lido</ion-badge> -->
+          </ion-col>
+        </ion-row> 
+        <ion-row *ngIf="doc.anexo1 !== '' || doc.anexo2 !== '' || doc.anexo3 !== '' || doc.anexo4 !== ''">
+          <ion-col>
+            <ion-badge class="anexo" *ngIf="doc.anexo1 !== ''" (click)="abreAnexo(doc,1)">{{ doc.anexo1 }}</ion-badge>
+            <ion-badge class="anexo" *ngIf="doc.anexo2 !== ''" (click)="abreAnexo(doc,2)">{{ doc.anexo2 }}</ion-badge>
+            <ion-badge class="anexo" *ngIf="doc.anexo3 !== ''" (click)="abreAnexo(doc,3)">{{ doc.anexo3 }}</ion-badge>
+            <ion-badge class="anexo" *ngIf="doc.anexo4 !== ''" (click)="abreAnexo(doc,4)">{{ doc.anexo4 }}</ion-badge>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-button  fill='clear'  *ngIf="(classificacao.idClassificacao > -9999999)" item-right (click)="logDocumentos(doc, $event)">
+        <ion-icon  name="list-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="EhDesktop" fill='clear' item-end>
+        <ion-icon name="eye-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="EhDesktop" fill='clear' item-end (click)='download(doc,$event)'>
+        <ion-icon name="cloud-download-outline"></ion-icon>
+      </ion-button>
+      <ion-button fill='clear' *ngIf="!doc.usuarioUltimoAcesso && doc.lido == 0" item-end>
+        <ion-icon color="primary" name="star"></ion-icon>
+      </ion-button>
+      <ion-button fill='clear' *ngIf="doc.usuarioUltimoAcesso && doc.lido == 0" item-end>
+        <ion-icon color="primary" name="notifications-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button fill='clear' *ngIf="doc.lido == 1" (click)='setNaoLidoCliente(doc,$event);' item-end>
+        <ion-icon color="light" name="notifications-off-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button fill='clear' item-right *ngIf="(classificacao.idClassificacao < 0) && (classificacao.idClassificacao > -9999999)" (click)="removeAcessoCliente(doc,$event)">
+        <ion-icon name="close-circle"></ion-icon>
+      </ion-button>
+    </ion-item>
+
+    <ion-item *ngIf="this.documentos?.length == 0 ">Nenhum item encontrado</ion-item>
+
+  </ion-list>
+<!--
+      <ion-list>
+    <ion-item class="itemSemBorda" *ngFor="let doc of this.documentos">
+      <ion-card (click)="seleciona(doc)">
+        <ion-card-header>
+          <ion-card-title>
+            {{ doc.sequencial }} - {{ doc.tituloDoc }}
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-grid> 
+            <ion-row>
+              <ion-col size='9'>
+                <small [innerHtml]="doc.vencimento"></small>
+              </ion-col>
+              <ion-col size='1'>
+                <ion-badge *ngIf="doc.lido == 0">Não lido</ion-badge>
+              </ion-col>
+            </ion-row>
+            </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+  </ion-list>
+-->
+
+</ion-content>

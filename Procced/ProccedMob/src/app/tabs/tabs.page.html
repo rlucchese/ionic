@@ -1,0 +1,40 @@
+<!--  
+<ion-toolbar color='primary'>
+  <ion-buttons slot="start">
+    <ion-button>
+      <ion-icon slot="icon-only" name="llipsis-vertical"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <ion-buttons slot="secondary">
+    <ion-button>
+      <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <ion-title>Documentos</ion-title>
+</ion-toolbar>-->
+
+
+<ion-tabs >
+  <ion-tab-bar slot="bottom" color="primary" >
+    <ion-tab-button tab="documentos" [hidden]="!this.achaTabs('Documentos')">
+      <ion-icon name="document-outline"></ion-icon>
+      <ion-label>Documentos</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="solicitacoes"  [hidden]="!this.achaTabs('Solicitações')">
+      <ion-icon name="chatbubbles-outline"></ion-icon>
+      <ion-label>Solicitações</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="protocolos" [hidden]="!this.achaTabs('Protocolos')">
+      <ion-icon name="bookmark-outline"></ion-icon>
+      <ion-label>Protocolos</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="colaboradores" [hidden]="!this.achaTabs('Colaboradores') || this.db.liberacaoColaborador != 'true'">
+      <ion-icon name="people-outline"></ion-icon>
+      <ion-label>Colaboradores   </ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+
+</ion-tabs>

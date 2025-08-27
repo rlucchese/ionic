@@ -1,0 +1,311 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title small color="primary"
+      >Inclusão de {{ this.strTipo}} - {{this.db.cliente.nome}}</ion-title
+    >
+    <ion-buttons slot="start">
+      <ion-button (click)="cancela()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="arrow-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="buscarArquivos()" *ngIf="servico && tipoMob!==3">
+        <ion-badge *ngIf="anexos.length > 0">{{anexos.length}}</ion-badge>
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="attach-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <!--  <ion-toolbar>
+    <ion-title>{{ this.db.cliente.nome }}</ion-title>
+  </ion-toolbar>-->
+  <ion-toolbar (click)="selecionaServico()">
+    <ion-title *ngIf="!this.servico">Selecione o serviço</ion-title>
+    <ion-title *ngIf="this.servico">{{ this.servico.descricao }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form #form="ngForm" (ngSubmit)="inclui(form)" *ngIf="servico"> 
+    <ion-list no-lines>
+      <ion-list-header *ngIf="camposAuxiliares">
+        <!--				<ion-icon name='star' *ngIf="ValidaDependencia('18','=','Sim')"></ion-icon> -->
+        <ion-title>Campos</ion-title>
+      </ion-list-header>
+
+      <div *ngFor="let item of camposAuxiliares; let i = index">
+        <ion-item no-lines *ngIf="item.tipo == 0">
+          <ion-label
+            class="ion-text-wrap apenasRotulo"
+            style="
+              margin-top: -2px;
+              margin-bottom: 22px;
+              padding-left: 10px;
+              font-size: 12px;
+            "
+            innerHtml="{{item.rotulo}}"
+          ></ion-label>
+        </ion-item>
+        <ion-item no-lines *ngIf="item.tipo > 0 && item.tipo != 3">
+          <ion-label position="floating" class="ion-text-wrap">
+            <ion-icon
+              *ngIf="item.obrigatorio"
+              name="star"
+              class="iconeObrig"
+            ></ion-icon>
+            {{item.rotulo}}
+          </ion-label>
+          <ion-input
+            [required]="item.obrigatorio"
+            *ngIf="item.objLeitura == 1 && item.tipo == 1 && !item.mascara"
+            [attr.maxLength]="item.tamanho"
+            type="text"
+            [(ngModel)]="Form.campos_aux[item.id]"
+            [name]="'cmp_aux_' + item.id"
+            (ionBlur)="this.limpaTexto(item.id)"
+          ></ion-input>
+          <ion-input
+            [required]="item.obrigatorio"
+            *ngIf="item.objLeitura == 1 && item.tipo == 1 && item.mascara"
+            [attr.maxLength]="item.tamanho"
+            type="text"
+            [(ngModel)]="Form.campos_aux[item.id]"
+            [name]="'cmp_aux_' + item.id"
+            [mask]='getMask(item.mascara)'
+
+          ></ion-input>
+          <ion-input
+            [required]="item.obrigatorio"
+            *ngIf="item.objLeitura == 1 && item.tipo == 2"
+            [attr.maxLength]="item.tamanho"
+            inputmode="decimal"
+            [(ngModel)]="Form.campos_aux[item.id]"
+            [name]="'cmp_aux_' + item.id"
+            (ionBlur)="this.limpaTexto(item.id)"
+
+          ></ion-input>
+          <ion-textarea
+            [required]="item.obrigatorio"
+            *ngIf="item.objLeitura == 2"
+            [(ngModel)]="Form.campos_aux[item.id]"
+            [name]="'cmp_aux_' + item.id"
+          ></ion-textarea>
+          <ionic-selectable
+            #itOpcoes
+            *ngIf="item.objLeitura == 3"
+            [(ngModel)]="Form.campos_aux[item.id]"
+            [name]="'cmp_aux_' + item.id"
+            [items]="item.itens"
+            [canSearch]="item.itens.length > 5"
+            [searchPlaceholder]="'Localizar ' + item.rotulo"
+            (onSearch)="buscaItem($event,item.itens)"
+            [required]="item.obrigatorio"
+            >
+            <ng-template ionicSelectableSearchFailTemplate>
+              <ion-item>Nenhum item encontrado</ion-item>
+            </ng-template>
+            <ng-template ionicSelectableHeaderTemplate>
+              <ion-toolbar>
+                <ion-title color="primary">{{item.rotulo}}</ion-title>
+              </ion-toolbar>
+            </ng-template>
+
+            <ng-template ionicSelectableFooterTemplate>
+              <ion-toolbar>
+                <ion-buttons slot="end">
+                  <ion-button
+                    color="primary"
+                    slot="end"
+                    (click)="itOpcoes.close()"
+                  >
+                    Cancelar
+                  </ion-button>
+                  <ion-button
+                    color="primary"
+                    slot="end"
+                    (click)="itOpcoes.confirm();itOpcoes.close()"
+                  >
+                    Ok
+                  </ion-button>
+                </ion-buttons>
+              </ion-toolbar>
+            </ng-template>
+          </ionic-selectable>
+
+          <ionic-selectable
+          #itOpcoes
+          *ngIf="item.objLeitura == 6"
+          [(ngModel)]="Form.campos_aux[item.id]"
+          [name]="'cmp_aux_' + item.id"
+          [items]="item.itens"
+          [canSearch]="item.itens.length > 5"
+          [searchPlaceholder]="'Localizar ' + item.rotulo"
+          (onSearch)="buscaItem($event,item.itens)"
+          [required]="item.obrigatorio"
+           [isMultiple]="true"
+
+          >
+          <ng-template ionicSelectableSearchFailTemplate>
+            <ion-item>Nenhum item encontrado</ion-item>
+          </ng-template>
+          <ng-template ionicSelectableHeaderTemplate>
+            <ion-toolbar>
+              <ion-title color="primary">{{item.rotulo}}</ion-title>
+            </ion-toolbar>
+          </ng-template>
+
+          <ng-template ionicSelectableFooterTemplate>
+            <ion-toolbar>
+              <ion-buttons slot="end">
+                <ion-button
+                  color="primary"
+                  slot="end"
+                  (click)="itOpcoes.close()"
+                >
+                  Cancelar
+                </ion-button>
+                <ion-button
+                  color="primary"
+                  slot="end"
+                  (click)="itOpcoes.confirm();itOpcoes.close()"
+                >
+                  Ok
+                </ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ng-template>
+        </ionic-selectable>
+
+          <!-- 		 <ion-select  [required]="item.obrigatorio" *ngIf="item.objLeitura == 3" ok-text="OK" cancelText="Cancelar"
+		     [(ngModel)]="Form.campos_aux[item.id]" [name]="'cmp_aux_' + item.id">
+			  <ion-select-option class="ion-text-wrap" *ngFor="let op of item.itens">{{op}}</ion-select-option>
+		  </ion-select>
+
+	 -->
+        </ion-item>
+        <ion-item no-lines *ngIf="item.tipo == 3">
+          <ion-label position="stacked" class="ion-text-wrap">
+            <ion-icon
+              *ngIf="item.obrigatorio"
+              name="star"
+              class="iconeObrig"
+            ></ion-icon>
+            {{item.rotulo}}
+          </ion-label>
+          <ion-input
+            *ngIf="item.objLeitura == 1 && item.tipo == 3"
+            type="date"
+            [attr.maxLength]="10"
+            [(ngModel)]="Form.campos_aux[item.id]"
+            [name]="'cmp_aux_' + item.id"
+            value="0"
+          ></ion-input>
+        </ion-item>
+
+        <!--
+
+				<ion-item no-lines *ngIf="item.tipo == '1' && item.objLeitura == '1' && item.mascara"
+					[class.invalid-input]="item.invalid">
+					<ion-label floating>{{item.rotulo}} <span *ngIf="item.obrigatorio == 'true'">*</span></ion-label>
+					<ion-input [brmasker]="getMaskCampo(item)" [attr.maxLength]="item.tamanho" type="text"
+						formControlName="{{item.id}}" [(ngModel)]="Form.campos_aux[item.id]"
+						(ngModelChange)="changeCampoAux($event, i)"></ion-input>
+				</ion-item>
+
+				<ion-item no-lines *ngIf="item.tipo == '1' && item.objLeitura == '1' && !item.mascara"
+					[class.invalid-input]="item.invalid">
+					<ion-label floating>{{item.rotulo}} <span *ngIf="item.obrigatorio == 'true'">*</span></ion-label>
+					<ion-input [attr.maxLength]="item.tamanho" type="text" formControlName="{{item.id}}"
+						[(ngModel)]="Form.campos_aux[item.id]" (ngModelChange)="changeCampoAux($event, i)"></ion-input>
+				</ion-item>
+
+				<ion-item no-lines *ngIf="item.tipo == '2' && item.objLeitura == '1'"
+					[class.invalid-input]="item.invalid">
+					<ion-label floating>{{item.rotulo}} <span *ngIf="item.obrigatorio == 'true'">*</span></ion-label>
+					<ion-input [attr.maxLength]="item.tamanho" type="text"
+						[brmasker]="item.masker" formControlName="{{item.id}}"
+						[(ngModel)]="Form.campos_aux[item.id]" (ngModelChange)="changeCampoAux($event, i)"></ion-input>
+				</ion-item>
+
+				<ion-item no-lines *ngIf="item.objLeitura == '3'" [class.invalid-input]="item.invalid">
+					<ion-label floating>{{item.rotulo}} <span *ngIf="item.obrigatorio == 'true'">*</span></ion-label>
+
+          <ionic-selectable searchFailText="Nenhum item encontrado" 
+						item-content 
+						formControlName="{{item.id}}"
+						[(ngModel)]="Form.campos_aux[item.id]" 
+						[items]="item.itens" 
+						[canSearch]="true" 
+						closeButtonText="Voltar" 
+						searchPlaceholder="Buscar">
+					</ionic-selectable>
+			</ion-item>
+				<ion-item no-lines *ngIf="item.tipo == '3'" [class.invalid-input]="item.invalid">
+					<ion-label floating>{{item.rotulo}} <span *ngIf="item.obrigatorio == 'true'">*</span></ion-label>
+					<ion-input [brmasker]="{mask: 'DD/MM/YYYY', len: 10}" [attr.maxLength]="item.tamanho" type="text"
+						formControlName="{{item.id}}" [(ngModel)]="Form.campos_aux[item.id]"
+						(ngModelChange)="changeCampoAux($event, i)"></ion-input>
+				</ion-item>
+      --></div>
+    </ion-list>
+
+    <ion-item no-lines>
+      <ion-label class="ion-text-wrap" position="floating"
+        >Observações</ion-label
+      >
+      <ion-textarea [(ngModel)]="observacao" name="observacao"></ion-textarea>
+    </ion-item>
+
+    <ion-list *ngIf="anexos.length > 0">
+      <ion-list-header>
+        <ion-title *ngIf="anexos.length == 1"
+          >{{ anexos.length }} Anexo</ion-title
+        >
+        <ion-title *ngIf="anexos.length !== 1"
+          >{{ anexos.length }} Anexos</ion-title
+        >
+      </ion-list-header>
+      <ion-item *ngFor="let arq of anexos">
+        <ion-label>{{ arq.name }}</ion-label>
+        <ion-button fill="clear" (click)="excluiAnexo(arq)">
+          <ion-icon name="close-circle-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+    <ion-grid>
+      <ion-row justify-content-center>
+        <ion-col align-self-center>
+          <ion-button
+            class="btnEntrar"
+            size="large"
+            color="primary"
+            type="submit"
+                      expand="block"
+            >Incluir
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+  <input
+    type="file"
+    #files
+    name="files"
+    id="files"
+    (change)="onChangeInputFiles($event)"
+    multiple
+    style="position: absolute; left: 0; opacity: 0; pointer-events: none"
+  />
+</ion-content>

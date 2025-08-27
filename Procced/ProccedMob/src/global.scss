@@ -1,0 +1,181 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import "~@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+:root {
+  .popover-content {
+    left: 0 !important;
+    width: 100%;
+  }
+  --ion-color-primary: #748930;
+  --ion-color-secondary: #b3c37b;
+//  --ion-color-primary: #596589;
+//  --ion-color-secondary: #727375;
+  --ion-color-tertiary: #342028;
+  --ion-color-light: black;
+
+  .sc-ion-alert-md-h {
+//    --background: red;
+    --width: 90% !important;
+    --min-width: 250px;
+    --max-width: 800px;
+  }
+
+  .alert-radio-label.sc-ion-alert-md {
+    white-space: normal;
+  }
+
+  ion-toolbar {
+    border-bottom: 1px solid var(--ion-color-primary);
+    
+  }
+  @supports not (-webkit-touch-callout: none) {
+    /* CSS for other than iOS devices */ 
+    .alturamenor {
+      height: 40px;
+      --min-height: 40px!important;
+    }
+ }
+
+
+  .alturamenor2{
+    height: 40px;
+    --min-height: 40px!important;
+  }
+  .barraFiltro{
+    height: 55px;
+  }
+  .fonteSmall {
+    font-size: small;
+  }
+
+  .itemSemBorda {
+    --border-color: white;
+  
+  }
+  
+
+  #custom-search input.searchbar-input.sc-ion-searchbar-md{
+
+    padding-top: 0!important;
+
+    padding-bottom: 0!important;
+  
+  }
+  ion-title {
+    font-size: small;
+  }
+
+  ion-card {
+    background-color: #f0e6d9;
+    margin: 2px;
+    width: 100%;
+    border-radius: 15px;
+  }
+
+  ion-card-title {
+    font-size: large;
+  }
+
+  ion-loading {
+    color: var(--ion-color-tertiary);
+  }
+
+  .itemCard {
+    --background: #f0e6d9;
+    margin: 2px;
+    width: 100%;
+    border-radius: 15px;
+  }
+
+  .itemCard .titulo {
+    font: large;
+    font-weight: 700;
+    text-overflow: unset;
+    overflow: visible;
+    white-space: unset;
+    color: var(--ion-color-primary);
+  }
+
+  .itemCard ion-label {
+    text-overflow: unset;
+    overflow: visible;
+    white-space: unset;
+  }
+
+  .vencimento {
+    font-size: small;
+    font-weight: 700;
+  }
+  .ultimoAcesso {
+    font-size: x-small;
+  }
+  .notificacao {
+    font-size: medium;
+  }
+  .camposAux {
+    font-size: small;
+  }
+
+  ion-button {
+    ion-badge {
+      position: absolute;
+      right: 0;
+      top: 0;
+      background-color: var(--ion-color-tertiary);
+      font-size: 60%;
+
+    }
+  }
+  
+  .tab-selected {
+    font-size: 95%;
+    font-weight: 600;
+  }
+  
+  .fim {
+    margin-inline-start: 2px;
+    margin-inline-end: 2px;
+    
+  }
+  .inicio {
+    margin-inline-start: -1px;
+    margin-inline-end: -1px;
+    
+  }
+}
+@media only screen and (min-width: 768px) and (min-height: 600px)  {
+  .modal-css {
+   --width: 90%  ;
+   --height: 90% ;
+   
+       }
+}
+.sessao {
+  font-size: smaller;
+  color: white !important;
+  text-transform: none;
+}

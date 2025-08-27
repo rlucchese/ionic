@@ -1,0 +1,267 @@
+<ion-header #head>
+  <ion-toolbar class="alturamenor" color="primary">
+    <ion-buttons class="alturamenor" collapse="true" slot="start">
+      <ion-menu-button class="alturamenor"></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons class="alturamenor" slot="end">
+      <ion-chip
+        class="sessao"
+        *ngIf="this.db.timer <= this.db.minMostraTimer"
+        (click)="this.db.revalidaToken(this.db.app.token)"
+      >
+        Saindo em {{ this.db.timer }} min
+      </ion-chip>
+      <ion-button (click)="this.db.sendWhats()">
+        <ion-icon slot="start" name="logo-whatsapp"></ion-icon>
+      </ion-button>
+      <ion-button
+        class="alturamenor"
+        (click)="this.selNot.selecionaNotificacao()"
+      >
+        <ion-icon slot="icon-only" name="notifications-outline"> </ion-icon>
+        <ion-badge *ngIf="this.db.qtdNotificacoes > 0" top color="danger"
+          >{{ this.db.qtdNotificacoes }}</ion-badge
+        >
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{rotuloPlural}}</ion-title>
+  </ion-toolbar>
+
+  <!-- <ion-toolbar class="itemSemBorda barraFiltro"> -->
+  <ion-item
+    (click)="this.selecionaAgenda(this.db.agendas[this.id]);"
+    *ngIf="this.db.agendas && this.db.agendas[this.id]?.descricao"
+    [style]="'--background:#'+this.db.agendas[this.id]?.cFundo +'; color:#'+this.db.agendas[this.id]?.cFonte"
+  >
+    <ion-label class="ion-text-wrap"
+      >{{this.db.agendas && this.db.agendas[this.id]?.descricao }}</ion-label
+    >
+    <ion-buttons class="alturamenor" slot="end">
+      <ion-button
+      *ngIf="!mostraBusca"
+        slot="end"
+        fill="clear"
+        (click)="mostraBusca = !mostraBusca; $event.stopPropagation()"
+        class="fim"
+      >
+        <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+      </ion-button>
+      <ion-button
+      *ngIf="mostraBusca"
+      slot="end"
+      fill="clear"
+      (click)="mostraBusca = !mostraBusca; $event.stopPropagation()"
+      class="fim"
+    >
+      <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+    </ion-button>
+      <ion-badge
+        *ngIf="this.db.agendas && this.db.agendas[this.id]?.ordens?.length > 0"
+        top
+        color="danger"
+        >{{ this.db.agendas[this.id]?.ordens?.length }}</ion-badge
+      >
+    </ion-buttons>
+  </ion-item>
+
+  <ion-toolbar *ngIf="mostraBusca">
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="consulta()" class="fim">
+        <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-grid  fixed>
+      <ion-row>
+        <ion-col size-md="2" size-sm="6" size-xs="12">
+          <grp-input
+            label="Cliente"
+            name="cliente"
+            [(ngModel)]="this.cliente"
+          ></grp-input>
+        </ion-col>
+        <ion-col size-md="2" size-sm="6" size-xs="12">
+          <grp-input
+            label="Servico"
+            name="servico"
+            [(ngModel)]="this.servico"
+          ></grp-input>
+        </ion-col>
+        <ion-col size-md="2" size-sm="6" size-xs="12">
+          <grp-input
+            label="Data Baixa"
+            name="dataBaixa"
+            type="date"
+            [(ngModel)]="this.dataBaixa"
+          ></grp-input>
+        </ion-col>
+        <ion-col size-md="2" size-sm="6" size-xs="12">
+          <grp-input
+            label="Ordem"
+            name="ordem"
+            [(ngModel)]="this.ordem"
+          ></grp-input>
+        </ion-col>
+
+        <ion-col size-md="2" size-sm="6" size-xs="12">
+          <grp-input
+            label="Observacao"
+            name="observacao"
+            [(ngModel)]="this.observacao"
+          ></grp-input>
+        </ion-col>
+        <ion-col size-md="2" size-sm="6" size-xs="12">
+          <grp-input label="Tag" name="tag" [(ngModel)]="this.tag"></grp-input>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <grp-input-range
+            label="Periodo"
+            name="periodo"
+            type="date"
+            [(ngModel)]="this.periodo"
+          ></grp-input-range>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="mostraBusca">
+        <ion-col size="3">
+  
+          <div  class="item item-checkbox my-checkbox-class">
+            <label class="checkbox checkbox-balanced">
+              <input type="checkbox" [(ngModel)]="this.baixados"/>
+              Baixado
+            </label>
+            
+          </div>
+          </ion-col>
+          <ion-col size="3">
+          <div class="item item-checkbox my-checkbox-class">
+        
+            <input  type="checkbox" name="aguardando" [(ngModel)]="this.aguardando" />
+            <label for="aguardando" class="checkbox checkbox-balanced">
+              Aguardando
+            </label>
+          
+          </div>
+        </ion-col>
+
+        <ion-col size="6">
+          <ion-select
+            multiple="false"
+            placeholder="Status"
+            [(ngModel)]="idStatus"
+          >
+          <ion-select-option  [value]=""
+          >TODOS</ion-select-option
+        >
+            <ion-select-option *ngFor="let stat of status" [value]="stat.codigo"
+              >{{stat.descricao}}</ion-select-option
+            >
+          </ion-select>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div></div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #content [scrollEvents]="true" fullscreen   (ionScroll)="handleScroll($any($event))"> 
+  <!--</ion-content> [appHideHeader]="head"> -->
+  <ion-refresher slot="fixed" (ionRefresh)="carrega($event)">
+    <ion-refresher-content> </ion-refresher-content>
+  </ion-refresher>
+<div *ngIf="this.db.agendas">
+    <ion-item *ngIf=" this.db.agendas[this.id]?.ordens?.length == 0"
+      >Nenhum item encontrado</ion-item
+    >
+
+      <ion-grid  fixed class="linha2" >
+        <ion-row  [style]="'border: 1px solid lightgray; background:#'+os.corFundo +';color:#'+ os.corFonte "
+       
+        *ngFor="let os of this.db.agendas[this.id]?.ordens"
+        (click)="this.get(os)"
+      class="ion-align-items-center">
+          <ion-col class="obs" size="12">
+            <ion-row>
+              <ion-col style="padding-top: 0px;" size-md="0,5" size-sm="1" size-xs="1">
+                <input type="checkbox" [(ngModel)]="os.checked" (change)="checkOrdens(os, $event)" (click)="stop($event)">
+              </ion-col>
+              <ion-col class="ion-no-padding" size-md="1" size-sm="4" size-xs="11">
+                <ion-label> {{ os.inicio | date : "dd/MM/yy"}} </ion-label>
+              </ion-col>
+              <ion-col class="ion-no-padding" size-md="2" size-sm="3" size-xs="10">
+                <ion-label> {{ os.cliente }} </ion-label>
+              </ion-col>
+              <ion-col  class="ion-no-padding" size-md="4" size-sm="5" size-xs="11">
+                <ion-label> {{ os.servico }}</ion-label>
+              </ion-col>
+              <ion-col class="ion-no-padding" size-md="1" size-sm="3" size-xs="11">
+                <ion-label> {{ os.id }} </ion-label>
+              </ion-col>
+              <ion-col class="ion-no-padding" size-md="1" size-sm="5" size-xs="11">
+                <ion-label> {{ os.dias }} </ion-label>
+              </ion-col>
+        <!--       <ion-col class="ion-no-padding" size-md="1" size-sm="5" size-xs="11">
+                <ion-label> {{ os.termino | date : "dd/MM/yy"}} </ion-label>
+              </ion-col> -->
+              <ion-col class="ion-no-padding" size-md="2" size-sm="5" size-xs="11">
+                <ion-label> {{ os.status }} </ion-label>
+              </ion-col>
+              <ion-col size-md="0" size-sm="5" size-xs="11" class="ion-no-padding">
+     <ion-buttons class="ion-no-padding">
+                  <ion-button size="x-small" class="ion-no-padding"
+                  fill="clear"
+                  *ngIf="this.db.agendas[this.id]?.podeExcluir"
+                  (click)="mostraDetalhe($event, os)"
+          slot="end"
+                >
+                  <ion-icon
+                    size="x-small"
+                    color="dark"
+                    name="caret-down"
+          
+                  ></ion-icon>
+                </ion-button>
+              </ion-buttons>
+              </ion-col>
+<!--               <ion-col class="ion-no-padding" size="1">
+ -->                <!--         <ion-button
+                          fill="clear"
+                          *ngIf="this.db.agendas[this.id]?.podeExcluir"
+                          item-end
+                        >
+                          <ion-icon
+                            size="medium"
+                            color="dark"
+                            name="close-circle-outline"
+                          ></ion-icon>
+                        </ion-button> -->
+         
+<!--                       </ion-col>
+ -->            </ion-row>
+            <ion-row *ngIf="os.mostraDetalhes" >
+              <ion-col class=" wrap  ">
+                <ion-label class="obs" > {{ os.observacao }} </ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="os.mostraDetalhes">
+              <ion-col size-md="11" size-sm="11" size-xs="11">
+                <ion-label class=" obs wrap !important"> {{ os.aguardando }} </ion-label>
+              </ion-col>
+            </ion-row>
+
+          </ion-col>
+           
+        </ion-row>
+      </ion-grid>
+    
+  </div>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="this.checkedOrdens.length>0">
+    <ion-fab-button (click)="excluiOrdem()">
+      <ion-badge color="primary" mode="ios" position="floating">{{this.checkedOrdens.length}}</ion-badge>
+      <ion-icon name="close-circle-outline">
+      </ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

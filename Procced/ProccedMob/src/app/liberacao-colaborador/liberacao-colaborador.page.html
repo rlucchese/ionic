@@ -1,0 +1,167 @@
+<ion-header #head>
+  <ion-toolbar class="alturamenor" color="primary">
+    <ion-buttons class="alturamenor" collapse="true" slot="start">
+      <ion-menu-button class="alturamenor"></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons class="alturamenor" slot="end">
+      <ion-chip class="sessao"  *ngIf="this.db.timer <= this.db.minMostraTimer" (click)='this.db.revalidaToken(this.db.app.token)'>
+        Saindo em {{ this.db.timer }} min
+      </ion-chip>
+      <ion-button (click)="this.db.sendWhats()">
+        <ion-icon slot="start" name="logo-whatsapp"></ion-icon>
+      </ion-button>
+      <ion-button class="alturamenor" (click)="this.selNot.selecionaNotificacao()">
+        <ion-icon  slot="icon-only" name="notifications-outline"> </ion-icon>
+        <ion-badge *ngIf="this.db.qtdNotificacoes > 0" top color="danger">{{ this.db.qtdNotificacoes }}</ion-badge>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Liberação de Colaboradores</ion-title>
+
+  </ion-toolbar>
+  <ion-toolbar class="alturamenor" (click)="selecionaCliente()">
+    <ion-title *ngIf="!this.db.cliente">Selecione a empresa</ion-title>
+    <ion-title *ngIf="this.db.cliente">{{ this.db.cliente.nome }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <!-- <ion-toolbar class="itemSemBorda barraFiltro"> -->
+<ion-toolbar>
+  <ion-grid>
+  <ion-row class="barraFiltro" > 
+    <ion-col style="width:100%">
+    <ion-item style="height: 49px;" class="itemSemBorda">
+      <ion-searchbar  placeholder="Localizar Colaboradores" value={{buscaCol}}
+        (ionChange)="busca($event.detail.value)">
+      </ion-searchbar>
+      <ion-badge *ngIf="this.colaboradores" slot="end" class="fim">
+        {{this.colaboradores.length}}
+      </ion-badge> 
+     </ion-item> 
+  </ion-col>
+
+ 
+  </ion-row>
+</ion-grid>
+</ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="carrega($event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher> 
+  <ion-list>
+    <ion-item *ngIf="colaboradores && colaboradores.length == 0">Nenhum item encontrado</ion-item>
+    <ion-item class="itemSemBorda itemCard itemOS" *ngFor="let colab of colaboradores" [class]="(colab.Liberado=='1'?'liberado':'naoLiberado')">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-label class="titulo"> {{ colab.Nome }} ({{ this.db.formataCPF(colab.CPF) }})</ion-label>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-label *ngIf="colab.PossuiSenha=='1'" class="medio"> Senha cadastrada</ion-label>
+                  <ion-label *ngIf="colab.PossuiSenha!=='1' && colab.PossuiSenhaProvisoria!=='1'" class="medio"> Não possui senha provisória</ion-label>
+                  <ion-label *ngIf="colab.PossuiSenha!=='1' && colab.PossuiSenhaProvisoria=='1'" class="medio"> Possui senha provisória</ion-label>
+                </ion-col>
+                 <ion-col>
+                  <ion-label *ngIf="colab.UltimoAcesso > '1899-12-31'" class="medio"> Acessado em: {{ colab.ultimoAcessoStr  }} </ion-label>
+                  <ion-label *ngIf="colab.UltimoAcesso < '1899-12-31'" class="medio"> Nunca acessado </ion-label>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-label class="medio"> Admissão: {{ colab.admissaoStr }} </ion-label>
+                </ion-col>
+                <ion-col>
+                  <ion-label class="medio"> Nascimento: {{ colab.nascimentoStr}} </ion-label>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-label class="medio"> E-mail: {{ colab.email }} </ion-label>
+                </ion-col>
+                <ion-col>
+                  <ion-label class="medio"> Celular: {{ colab.celular }} </ion-label>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+                </ion-col>
+        </ion-row>
+        <ion-row class="btnApp">
+          <ion-col>
+            <ion-button size='large' fill='clear' [disabled]="colab.quantidadeDocumentos == 0" item-right
+              (click)="documentosColaborador(colab)">
+              <ion-icon *ngIf="colab.quantidadeDocumentos==0" name=""></ion-icon>
+              <ion-icon *ngIf="colab.quantidadeDocumentos > 0" name="documents-outline"></ion-icon>
+              <ion-badge *ngIf="colab.quantidadeDocumentosNaoLidos > 0">{{ colab.quantidadeDocumentosNaoLidos }}</ion-badge>
+              <ion-label class="ttLbl" *ngIf="colab.quantidadeDocumentos > 0">Documentos</ion-label>
+
+            </ion-button>
+
+            <ion-button size='large' fill='clear'  [disabled]="colab.quantidadeDocumentos == 0" item-right (click)="logAcessos(colab)">
+              <ion-icon *ngIf="colab.quantidadeDocumentos > 0" name="list-outline"></ion-icon>
+              <ion-label *ngIf="colab.quantidadeDocumentos > 0" class="ttLbl">Log</ion-label>
+            </ion-button>
+    
+            <ion-button class="tooltip" size='large' fill='clear' item-right (click)="senhaColaborador(colab)">
+              <ion-icon name="create-outline"></ion-icon>
+              <ion-label class="ttLbl">Alterar</ion-label>
+
+            </ion-button>
+                <ion-button class="tooltip" size='large' *ngIf="colab.Liberado=='1'" fill='clear' item-right
+              (click)="libera(colab , false)">
+              <ion-icon color='danger' name="close-circle-outline"></ion-icon>
+              <ion-label class="ttLbl" color="danger">Bloquear</ion-label>
+            </ion-button>
+            <ion-button class="tooltip" size='large' *ngIf="colab.Liberado!=='1'" fill='clear' item-right
+              (click)="libera(colab , true) ">
+              <ion-icon color='success' name="checkmark-circle-outline"></ion-icon>
+              <ion-label class="ttLbl" color="success">Liberar</ion-label>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <div class="btnBrowser">
+        <ion-button size='large' fill='clear' [disabled]="colab.quantidadeDocumentos == 0" item-right
+          (click)="documentosColaborador(colab)">
+          <ion-icon *ngIf="colab.quantidadeDocumentos==0" name=""></ion-icon>
+          <ion-icon *ngIf="colab.quantidadeDocumentos > 0" name="documents-outline"></ion-icon>
+          <ion-badge *ngIf="colab.quantidadeDocumentosNaoLidos > 0">{{ colab.quantidadeDocumentosNaoLidos }}</ion-badge>
+          <ion-label class="ttLbl" *ngIf="colab.quantidadeDocumentos > 0">Documentos</ion-label>
+
+        </ion-button>
+
+        <ion-button size='large' fill='clear' [disabled]="colab.quantidadeDocumentos == 0" item-right (click)="logAcessos(colab)">
+          <ion-icon *ngIf="colab.quantidadeDocumentos > 0" name="list-outline"></ion-icon>
+          <ion-label *ngIf="colab.quantidadeDocumentos > 0" class="ttLbl">Log</ion-label>
+        </ion-button>
+
+        <ion-button size='large' fill='clear' item-right (click)="senhaColaborador(colab)">
+          <ion-icon name="create-outline"></ion-icon>
+          <ion-label class="ttLbl">Alterar</ion-label>
+        </ion-button>
+        <ion-button size='large' *ngIf="colab.Liberado=='1'" fill='clear' item-right
+          (click)="libera(colab , false)"> 
+          <ion-icon color='danger' name="close-circle-outline"></ion-icon>  
+          <ion-label class="ttLbl" color="danger">Bloquear</ion-label>
+        </ion-button>
+
+     
+        <ion-button size='large' *ngIf="colab.Liberado!=='1'" fill='clear' item-right
+          (click)="libera(colab , true) ">
+          <ion-icon color='success' name="checkmark-circle-outline"></ion-icon>
+          <ion-label class="ttLbl" color="success">Liberar</ion-label>
+        </ion-button>
+      </div>
+        </ion-item>
+  </ion-list>
+</ion-content>

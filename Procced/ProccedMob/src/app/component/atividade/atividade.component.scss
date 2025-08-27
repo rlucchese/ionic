@@ -1,0 +1,57 @@
+.container {
+	display: flex;
+	align-items: center;
+	//  padding-bottom: 10px;
+}
+
+.wrap {
+	overflow: hidden;
+	text-wrap: nowrap;
+	text-overflow: ellipsis;
+}
+
+input .checkbox input:checked:before,
+.checkbox input:checked + .checkbox-icon:before {
+	background: red !important;
+	border-color: red !important;
+}
+
+.classe0{
+
+    padding-left: 0px;
+}
+
+.classe1{
+
+    padding-left: 30px;
+}
+.classe2{
+
+    padding-left: 60px;
+}
+
+@media only screen and (min-width: 540px)  {
+
+.classe-recurso {
+	padding-left: 0px;
+}
+}
+@media only screen and (max-width: 768px) {
+
+.classe-recurso0{
+		padding-left: 30px;
+		}
+		.classe-recurso1{
+			padding-left: 60px;
+			}
+			.classe-recurso2{
+				padding-left: 90px;
+				}
+}
+.linhaDetalhe{
+
+	font-size: 80%;
+}
+ion-item:hover {
+	--background: lightgray;
+  }

@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title color="primary">Empresas</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancela()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="arrow-back-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="carrega()">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="refresh-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-item class="itemSemBorda">
+  <ion-searchbar
+  style="border-top: 5px"
+  placeholder="Buscar empresa"
+  (ionChange)="busca($event)"
+></ion-searchbar>
+<ion-badge *ngIf="this.clientes" slot="end">
+  {{this.clientes.length}}
+</ion-badge>
+</ion-item>
+
+</ion-header>
+
+<ion-content fullscreen>
+
+<!--  <ion-refresher slot="fixed" id="refresher" (ionRefresh)="carrega($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>-->
+  <ion-list>
+    <ion-item *ngIf="this.clientes.length == 0">Nenhum item encontrado</ion-item>
+    <ion-item *ngFor="let cli of clientes" (click)="seleciona(cli)">
+      <ion-label class="ion-text-wrap">{{cli.nome}}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

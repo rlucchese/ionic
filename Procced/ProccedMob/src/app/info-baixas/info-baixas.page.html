@@ -1,0 +1,106 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title small color="primary" *ngIf="this.os.codigoCliente">
+      {{ this.os.cliente }}
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancela()">
+        <ion-icon color="primary" slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="carrega(true)">
+        <ion-icon color="primary" slot="icon-only" name="refresh-outline"></ion-icon>
+      </ion-button>
+      <!--  <ion-button (click)="buscarArquivos()" >
+        <ion-badge *ngIf="this.os.documentos && this.os.documentos.length > 0">{{this.os.documentos.length}}</ion-badge>
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="attach-outline"
+        ></ion-icon>
+      </ion-button> -->
+    </ion-buttons>
+    <ion-badge *ngIf="this.os.documentos" slot="end">
+      {{this.os.documentos.length}}
+    </ion-badge>
+  </ion-toolbar>
+
+</ion-header>
+<!--         
+      target="self"
+      href="{{doc.link}}"
+-->
+
+<ion-content *ngIf="this.camposAuxiliares">
+  <ion-item *ngIf="this.os.baixas">Campos Auxiliares</ion-item>
+  <div *ngIf="this.camposAuxiliares">
+    <ion-item *ngFor="let cmp of this.camposAuxiliares">
+      <ion-label>{{ cmp.rotulo }}</ion-label>
+      <ion-label>{{ cmp.conteudo }}</ion-label>
+    </ion-item>
+  </div>
+  <input type="file" #files name="files" id="files" (change)="onChangeInputFiles($event)" multiple
+    style="position: absolute; left: 0; opacity: 0; pointer-events: none" />
+</ion-content>
+
+
+<ion-content *ngIf="this.os.documentos">
+  <ion-item *ngIf="!this.os.documentos"> Não há documentos </ion-item>
+  <div *ngIf="this.os.documentos">
+    <ion-item *ngFor="let arq of this.os?.documentos" (click)="abreDocumento(arq)">
+      <ion-label>{{ arq.nome }}</ion-label>
+      <ion-button fill="clear" (click)="excluiAnexo(arq)">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </div>
+  <input type="file" #files name="files" id="files" (change)="onChangeInputFiles($event)" multiple
+    style="position: absolute; left: 0; opacity: 0; pointer-events: none" />
+</ion-content>
+
+<ion-content *ngIf="this.os.baixas">
+  <ion-item *ngIf="!this.os.baixas"> Não há baixas Realizadas </ion-item>
+  <div *ngIf="this.os.baixas">
+    <ion-item *ngIf="this.os.baixas">Baixas Realizadas </ion-item>
+
+    <ion-item color="primary" *ngFor="let baixa of this.os?.baixas">
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col size="4">
+            <ion-label>{{ baixa.dataHoraBaixaStr }}</ion-label>
+          </ion-col>
+          <ion-col size="4">
+            <ion-label>{{ baixa.recursoProdutivo }}</ion-label>
+          </ion-col>
+
+        </ion-row>
+        <ion-row *ngIf="baixa.observacaoBaixa">
+          <ion-col size="12">
+            <ion-label>{{ baixa.observacaoBaixa }}</ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="baixa.horaInicio || baixa.horaTermino ||  baixa.Intervalo ">
+          <ion-col size="3">
+            <ion-label>{{ baixa.horaInicio }}</ion-label>
+          </ion-col>
+          <ion-col size="3">
+            <ion-label>{{ baixa.horaTermino }}</ion-label>
+          </ion-col>
+          <ion-col size="3">
+            <ion-label>{{ baixa.Intervalo }}</ion-label>
+          </ion-col>
+          <ion-col size="3">
+            <ion-label>{{ baixa.tempoStr}}</ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+
+
+
+    </ion-item>
+  </div>
+  <input type="file" #files name="files" id="files" (change)="onChangeInputFiles($event)" multiple
+    style="position: absolute; left: 0; opacity: 0; pointer-events: none" />
+</ion-content>

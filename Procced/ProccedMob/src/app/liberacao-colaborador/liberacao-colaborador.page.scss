@@ -1,0 +1,38 @@
+.liberado {
+    --background: rgba(var(--ion-color-success-rgb),0.2);
+}
+.naoLiberado {
+    --background: rgba(var(--ion-color-danger-rgb),0.2);
+}
+
+.btnBrowser {
+    display: none;
+}
+
+.btnApp {
+    display: block;
+}
+
+@media only screen and (min-width: 768px)  {
+    .btnBrowser {
+        display: block;
+    }
+    .btnApp {
+        display: none;
+    }
+  }
+/* Tooltip container */
+//.tooltip {
+//    position: relative;
+//    display: inline-block;
+//  }
+
+
+  .ttLbl {
+      font-size: x-small;
+      text-transform: none;
+      position: absolute;
+      padding-top: 43px ;
+      letter-spacing: normal;
+    }
+

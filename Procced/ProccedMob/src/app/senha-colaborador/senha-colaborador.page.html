@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title small color="primary"> {{this.db.cliente.nome}} - {{this.nome}}</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancela()">
+        <ion-icon color="primary" slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form #form="ngForm" (ngSubmit)="liberaSenha()">
+    <ion-grid>
+      <ion-row justify-content-center>
+        <ion-col align-self-center>
+          <ion-item class="itemSemBorda" style="margin-top: 30px">
+            <div>
+              <ion-label position="floating" class="ion-text-wrap">e-mail</ion-label>
+              <ion-input [(ngModel)]="email" style="margin: auto" name="email" type="email" ngModel></ion-input>
+            </div>
+          </ion-item>
+          <ion-item class="itemSemBorda" style="margin-top: 30px">
+            <div>
+              <ion-label position="floating" class="ion-text-wrap">Celular</ion-label>
+              <ion-input [(ngModel)]="celular" style="margin: auto" name="celular" type="tel" ngModel></ion-input>
+            </div>
+          </ion-item>
+          <ion-item class="itemSemBorda ion-align-items-center" style="margin-top: 30px; width: 50%;  margin: auto; min-width: 250px;">
+
+            <ion-label >Senha Provisória</ion-label>
+            <ion-checkbox  [(ngModel)]="senhaProvisoria" name="senhaProvisoria" slot="start"></ion-checkbox>
+
+          </ion-item>
+          <ion-item *ngIf="senhaProvisoria" class="itemSemBorda" style="margin-top: 30px">
+
+            <div>
+              <ion-label position="floating" class="ion-text-wrap">Senha provisória</ion-label>
+              <ion-input required [(ngModel)]="password" style="margin: auto" name="password" ngModel></ion-input>
+            </div>
+          </ion-item>
+          <!--          <ion-item class="itemSemBorda" style="margin-bottom: 30px">
+            <div>
+              <ion-label position="floating" class="ion-text-wrap">Senha provisória</ion-label>
+              <ion-input [(ngModel)]='password'
+                style="margin: auto"
+                name="password"
+                ngModel></ion-input>
+            </div>
+          </ion-item> 
+-->
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <br><br>
+    <ion-button class="btnEntrar" size="large" color="primary" type="submit" [disabled]="form.invalid" expand="block">
+      Registrar
+    </ion-button>
+  </form>
+</ion-content>

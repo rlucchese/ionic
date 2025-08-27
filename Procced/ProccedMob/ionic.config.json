@@ -1,0 +1,7 @@
+{
+  "name": "Provver",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
